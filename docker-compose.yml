@@ -1,0 +1,91 @@
+version: '3'
+
+services:
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: "dockerize -wait tcp://mysql:3306 -timeout 20s /usr/deploy/scripts/start"
+    container_name: app
+    restart: unless-stopped
+    depends_on:
+      - mysql
+      - redis
+      - mailhog
+    environment:
+      - ENABLE_SCHEDULE=true
+      - ENABLE_WORKER=true
+      - ENABLE_HORIZON=false
+      - ENABLE_WEBSOCKETS=false
+      - ENABLE_SUPERVISOR_GUI=false
+      - SUPERVISORD_USER=admin
+      - SUPERVISORD_PASS=secret
+
+    env_file:
+      - .env
+
+    volumes:
+     - .:/var/www/html
+     - ./storage/app:/var/www/html/storage/app
+     - ./storage/debugbar:/var/www/html/storage/debugbar
+     - ./storage/framework:/var/www/html/storage/framework
+     - ./storage/logs:/var/www/html/storage/logs
+    ports:
+      - "8080:80"
+    networks:
+      - roadmap
+
+  mysql:
+    image: mysql:5.7
+    container_name: mysql
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=${DB_DATABASE}
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    volumes:
+      - ./docker/storage/mysql:/var/lib/mysql
+    networks:
+      - roadmap
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    restart: unless-stopped
+    command: --appendonly yes --requirepass ${REDIS_PASSWORD}
+    volumes:
+      - ./docker/storage/redis:/data
+    ports:
+      - "6379:6379"
+    environment:
+      REDIS_PORT: 6379
+    networks:
+      - roadmap
+
+  mailhog:
+    image: mailhog/mailhog
+    container_name: mailhog
+    restart: unless-stopped
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    networks:
+      - roadmap
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: phpmyadmin
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    environment:
+      PMA_ARBITRARY: 1
+    networks:
+      - roadmap
+
+networks:
+  roadmap:
+    driver: bridge

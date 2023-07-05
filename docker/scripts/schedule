@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -e
+
+while true; do
+	if [ -d "${APP_PATH}/vendor" ] ; then
+		printf "${COL_GREEN} -----> Info:${COL_RESET} Running scheduled tasks.\n"
+		php ${APP_PATH}/artisan schedule:run --verbose --no-interaction &
+	else
+		printf "${COL_MAGENTA} -----> Warning:${COL_RESET} Directory ${APP_PATH}/vendor does not yet exist.\n"
+	fi
+	sleep 60s
+done

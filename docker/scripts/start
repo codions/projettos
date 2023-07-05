@@ -1,0 +1,107 @@
+#!/bin/bash
+
+set -e
+
+printf "${COL_GREEN} -----> Info:${COL_RESET} Override php's default config...\n"
+if [ "$APP_ENV" = "production" ]; then
+    cp /usr/deploy/php/php.ini-production /etc/php/8.1/fpm/php.ini
+else
+    cp /usr/deploy/php/php.ini-development /etc/php/8.1/fpm/php.ini
+fi
+
+if [ -d "$APP_PATH/vendor" ] ; then
+  printf "${COL_GREEN} -----> Info:${COL_RESET} Caching configuration...\n"
+  php $APP_PATH/artisan config:cache
+  # php $APP_PATH/artisan view:cache
+
+  # TODO: Implement some way to test database connection before running migrations to avoid errors
+  php ${APP_PATH}/artisan migrate --force
+
+    if [ ! -d "$APP_PATH/public/storage" ] ; then
+        printf "${COL_GREEN} -----> Info:${COL_RESET} Creating storage link...\n"
+        php ${APP_PATH}/artisan storage:link
+    fi
+
+
+  # Enable Laravel Schedule
+  if [ "$ENABLE_SCHEDULE" = "true" ] ; then
+
+    printf "${COL_GREEN} -----> Info:${COL_RESET} Starting Schedule service...\n"
+    cp -f $SCHEDULE_CONF.default $SCHEDULE_CONF
+  else
+    rm -f $SCHEDULE_CONF
+  fi
+
+  # Enable Laravel Workers
+  if [ "$ENABLE_WORKER" = "true" ] ; then
+    printf "${COL_GREEN} -----> Info:${COL_RESET} Starting Worker service...\n"
+    cp -f $WORKER_CONF.default $WORKER_CONF
+  else
+    rm -f $WORKER_CONF
+  fi
+
+  # Enable Laravel Horizon
+  if [ "$ENABLE_HORIZON" = "true" ] ; then
+    printf "${COL_GREEN} -----> Info:${COL_RESET} Starting Horizon service...\n"
+    cp -f $HORIZON_CONF.default $HORIZON_CONF
+  else
+    rm -f $HORIZON_CONF
+  fi
+
+  # Enable Laravel WebSockets
+  if [ "$ENABLE_WEBSOCKETS" = "true" ] ; then
+    printf "${COL_GREEN} -----> Info:${COL_RESET} Starting WebSockets service...\n"
+    cp -f $WEBSOCKETS_CONF.default $WEBSOCKETS_CONF
+  else
+    rm -f $WEBSOCKETS_CONF
+  fi
+
+else
+    printf "${COL_MAGENTA} -----> Warning:${COL_RESET} Directory ${APP_PATH}/vendor does not yet exist.\n"
+fi
+
+# Enable Supervisor GUI
+if [ "$ENABLE_SUPERVISOR_GUI" = "true" ] ; then
+    printf "${COL_GREEN} -----> Info:${COL_RESET} Starting Supervisor GUI service...\n"
+    cp -f $SUPERVISOR_GUI_CONF.default $SUPERVISOR_GUI_CONF
+else
+    rm -f $SUPERVISOR_GUI_CONF
+fi
+
+# Enable PHP FPM
+if [ "$ENABLE_PHPFPM" = "true" ] ; then
+    printf "${COL_GREEN} -----> Info:${COL_RESET} Starting PHP FPM service...\n"
+    cp -f $PHPFPM_CONF.default $PHPFPM_CONF
+else
+    rm -f $PHPFPM_CONF
+fi
+
+# Enable NGINX
+if [ "$ENABLE_NGINX" = "true" ] ; then
+    printf "${COL_GREEN} -----> Info:${COL_RESET} Starting NGINX service...\n"
+    cp -f $NGINX_CONF.default $NGINX_CONF
+
+    printf "${COL_GREEN} -----> Info:${COL_RESET} Updating nginx to match worker_processes to no. of cpu's...\n"
+    procs=$(cat /proc/cpuinfo | grep processor | wc -l)
+    sed -i -e "s/worker_processes  1/worker_processes $procs/" /etc/nginx/nginx.conf
+
+    if [ -d "$APP_PATH/storage" ] ; then
+        printf "${COL_GREEN} -----> Info:${COL_RESET} Fixing permissions on the ${APP_PATH}/storage directory...\n"
+        chown -Rf nginx:nginx $APP_PATH/storage
+
+        # TODO: Find a better way to solve this problem
+        printf "${COL_GREEN} -----> Info:${COL_RESET} Fixing permissions on the ${APP_PATH}/storage/framework/cache directory...\n"
+        chmod -R 777 $APP_PATH/storage/framework/cache
+    fi
+
+    if [ -d "$APP_PATH/bootstrap/cache" ] ; then
+        printf "${COL_GREEN} -----> Info:${COL_RESET} Fixing permissions on the ${APP_PATH}/bootstrap/cache directory...\n"
+        chown -Rf nginx:nginx $APP_PATH/bootstrap/cache
+    fi
+
+else
+    rm -f $NGINX_CONF
+fi
+
+printf "${COL_GREEN} -----> Info:${COL_RESET} Launching supervisord...\n"
+/usr/local/bin/supervisord -n -c /etc/supervisord.conf

@@ -1,0 +1,21 @@
+.git
+.github
+.idea
+
+# .env
+.DS_Store
+.*ignore
+*.log
+*.pid
+# docker-compose.*
+phpunit.dusk.xml
+phpunit.xml
+# Dockerfile
+
+tests
+node_modules
+
+storage/framework/cache/**
+storage/framework/sessions/**
+storage/framework/views/**
+.docker/storage
