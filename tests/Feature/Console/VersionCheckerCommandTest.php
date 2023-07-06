@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\Admin\RoadmapVersionOutOfDate;
 
 beforeEach(function () {
-    GeneralSettings::fake(['send_notifications_to' => [['name' => 'Ploi.io', 'email' => 'info@ploi.io']]]);
+    GeneralSettings::fake(['send_notifications_to' => [['name' => 'codions.io', 'email' => 'info@codions.io']]]);
 });
 
 test('version command send emails if version is out of date', function () {

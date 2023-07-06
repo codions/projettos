@@ -12,8 +12,8 @@ test('install command works', function () {
         ->expectsConfirmation('Do you want to run the migrations to set up everything fresh? (php artisan migrate:fresh)')
         ->expectsOutput('Let\'s create a user.')
         ->expectsQuestion('Name', 'John Doe')
-        ->expectsQuestion('Email address', 'johndoe@ploi.io')
-        ->expectsQuestion('Password', 'ploiisawesome');
+        ->expectsQuestion('Email address', 'johndoe@codions.io')
+        ->expectsQuestion('Password', 'secret');
 
     if (!file_exists(public_path('storage'))) {
         $command->expectsConfirmation('Your storage does not seem to be linked, do you want me to do this?');
@@ -29,5 +29,5 @@ test('install command works', function () {
     $user = User::query()->first();
     assertSame(UserRole::Admin, $user->role, 'User should be an admin');
     assertSame('John Doe', $user->name);
-    assertSame('johndoe@ploi.io', $user->email);
+    assertSame('johndoe@codions.io', $user->email);
 });

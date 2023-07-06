@@ -3,7 +3,7 @@
 
 A new version of the roadmap software has been releases.
 
-@component('mail::button', ['url' => 'https://github.com/ploi-deploy/roadmap/releases'])
+@component('mail::button', ['url' => 'https://github.com/codions/roadmap/releases'])
 View releases at GitHub
 @endcomponent
 

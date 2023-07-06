@@ -114,10 +114,10 @@
 
             <div id="dropdown-cta" class="p-4 mt-6 bg-gray-100 rounded-lg" role="alert">
                 <p class="text-sm text-gray-500">
-                    <a href="https://github.com/ploi/roadmap" target="_blank"
+                    <a href="https://github.com/codions/roadmap" target="_blank"
                        class="font-semibold border-b border-dotted">Open-source</a>
                     roadmapping software by
-                    <a href="https://ploi.io/?ref=roadmap" target="_blank" class="font-semibold border-b border-dotted">ploi.io</a>
+                    <a href="https://codions.com/?ref=roadmap" target="_blank" class="font-semibold border-b border-dotted">codions.com</a>
                 </p>
             </div>
         </div>
