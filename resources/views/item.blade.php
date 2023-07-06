@@ -18,7 +18,7 @@
                         @if($user)
                             <div class="relative flex-shrink-0 w-10 h-10 rounded-full">
                                 <img class="absolute inset-0 object-cover rounded-full"
-                                     src="{{ $user->getGravatar() }}"
+                                     src="{{ $user->profile_picture }}"
                                      alt="{{ $user->name }}">
                             </div>
                         @endif

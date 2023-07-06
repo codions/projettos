@@ -11,7 +11,7 @@
             <div class="flex items-center space-x-3 overflow-hidden">
                 <div class="relative flex-shrink-0 w-10 h-10 rounded-full">
                     <img class="absolute inset-0 object-cover rounded-full"
-                         src="{{ $comment->user->getGravatar() }}"
+                         src="{{ $comment->user->profile_picture }}"
                          alt="{{ $comment->user->name }}">
                 </div>
 

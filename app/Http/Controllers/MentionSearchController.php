@@ -26,7 +26,7 @@ class MentionSearchController extends Controller
                 return [
                     'key' => $user->name,
                     'value' => $user->username,
-                    'avatar' => $user->getGravatar(),
+                    'avatar' => $user->profile_picture,
                 ];
             })
             ->toArray();

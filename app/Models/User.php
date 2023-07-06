@@ -50,7 +50,17 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, MustVerif
     public function profilePicture(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $value ?: '/images/users/avatar.png',
+            get: fn () => $this->getGravatar(),
+        );
+    }
+
+    public function getGravatar($size = 150): string
+    {
+        return sprintf(
+            '%s/%s?s=%d',
+            config('services.gravatar.base_url'),
+            md5(strtolower(trim(Arr::get($this->attributes, 'email')))),
+            (int) $size
         );
     }
 
@@ -69,19 +79,9 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, MustVerif
         return in_array($this->role, $roles);
     }
 
-    public function getGravatar($size = 150): string
-    {
-        return sprintf(
-            '%s/%s?s=%d',
-            config('services.gravatar.base_url'),
-            md5(strtolower(trim(Arr::get($this->attributes, 'email')))),
-            (int) $size
-        );
-    }
-
     public function getFilamentAvatarUrl(): ?string
     {
-        return $this->getGravatar();
+        return $this->profile_picture;
     }
 
     public function items()

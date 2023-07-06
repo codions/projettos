@@ -18,7 +18,7 @@ test('with query', function () {
     actingAs($user)
         ->get(route('mention-search', ['query' => $testUser->name]))
         ->assertExactJson([
-            ['key' => $testUser->name, 'value' => $testUser->username, 'avatar' => $testUser->getGravatar()],
+            ['key' => $testUser->name, 'value' => $testUser->username, 'avatar' => $testUser->profile_picture],
         ]);
 });
 

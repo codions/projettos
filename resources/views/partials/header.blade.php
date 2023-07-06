@@ -45,7 +45,7 @@
                                 <div class="absolute inset-0 bg-gray-200 rounded-full animate-pulse"></div>
 
                                 <img class="absolute inset-0 object-cover rounded-full"
-                                     src="{{ auth()->user()->getGravatar() }}"
+                                     src="{{ auth()->user()->profile_picture }}"
                                      alt="{{ auth()->user()->name }}">
                             </div>
                         </a>
