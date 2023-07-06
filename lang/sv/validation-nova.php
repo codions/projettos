@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => 'Denna :attribute är redan bifogad.',
+    'attached' => 'Denna :attribute är redan bifogad.',
     'relatable' => 'Denna :attribute kanske inte är associerad med den här resursen.',
 ];

@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => 'এই :attribute ইতিমধ্যে সংযুক্ত করা হয়.',
+    'attached' => 'এই :attribute ইতিমধ্যে সংযুক্ত করা হয়.',
     'relatable' => 'এই :attribute এই সম্পদ সঙ্গে যুক্ত হতে পারে না.',
 ];

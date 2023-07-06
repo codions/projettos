@@ -1,10 +1,10 @@
 <?php
 
 use App\Models\User;
-use Tests\CreatesApplication;
-use function Pest\Laravel\actingAs;
-use Illuminate\Foundation\Testing\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\TestCase;
+use function Pest\Laravel\actingAs;
+use Tests\CreatesApplication;
 
 uses(
     TestCase::class,
@@ -29,7 +29,7 @@ function createUser($attributes = [], $has = [])
 
 function createAndLoginUser($attributes = [], User $user = null)
 {
-    if (!$user) {
+    if (! $user) {
         $user = createUser($attributes);
     }
 

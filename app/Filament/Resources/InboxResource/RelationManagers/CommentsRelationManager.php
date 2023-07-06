@@ -3,11 +3,11 @@
 namespace App\Filament\Resources\InboxResource\RelationManagers;
 
 use Closure;
-use Filament\Tables;
 use Filament\Resources\Form;
-use Filament\Resources\Table;
-use Illuminate\Database\Eloquent\Model;
 use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Resources\Table;
+use Filament\Tables;
+use Illuminate\Database\Eloquent\Model;
 
 class CommentsRelationManager extends RelationManager
 {

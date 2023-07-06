@@ -12,6 +12,6 @@
 */
 
 return [
-    'next'     => 'Kitas &raquo;',
+    'next' => 'Kitas &raquo;',
     'previous' => '&laquo; Ankstesnis',
 ];

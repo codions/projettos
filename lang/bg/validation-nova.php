@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => 'Този номер :attribute вече е прикачен.',
+    'attached' => 'Този номер :attribute вече е прикачен.',
     'relatable' => 'Този :attribute може да не е свързан с този ресурс.',
 ];

@@ -1,12 +1,11 @@
 <?php
 
-use App\Models\Item;
-use App\Models\Board;
 use App\Enums\UserRole;
+use App\Models\Board;
+use App\Models\Item;
 use App\Models\Project;
-use function Pest\Laravel\get;
-
 use Illuminate\Database\Eloquent\Factories\Sequence;
+use function Pest\Laravel\get;
 
 it('renders the page', function () {
     $project = Project::factory()->create();
@@ -26,7 +25,7 @@ it('includes the items', function () {
     $project = Project::factory()
         ->has(
             Board::factory(5)
-            ->has(Item::factory(10))
+                ->has(Item::factory(10))
         )
         ->create();
 
@@ -37,7 +36,7 @@ it('includes votes for items', function () {
     $project = Project::factory()
         ->has(
             Board::factory(5)
-            ->has(Item::factory(10)->state(['total_votes' => 2]))
+                ->has(Item::factory(10)->state(['total_votes' => 2]))
         )
         ->create();
 
@@ -60,43 +59,43 @@ test('pinned items are at the top', function () {
     $project = Project::factory()
         ->has(
             Board::factory()
-            ->has(
-                Item::factory(2)->state(new Sequence(
-                    ['title' => 'item 1', 'pinned' => false, 'total_votes' => 10],
-                    ['title' => 'item 2', 'pinned' => true, 'total_votes' => 1]
-                ))
-            )
+                ->has(
+                    Item::factory(2)->state(new Sequence(
+                        ['title' => 'item 1', 'pinned' => false, 'total_votes' => 10],
+                        ['title' => 'item 2', 'pinned' => true, 'total_votes' => 1]
+                    ))
+                )
         )->create();
 
-    get(route('projects.show', $project))->assertSeeInOrder(['item 2' , 'item 1']);
+    get(route('projects.show', $project))->assertSeeInOrder(['item 2', 'item 1']);
 });
 
 test('items are sorted by vote count', function () {
     $project = Project::factory()
         ->has(
             Board::factory()
-            ->has(
-                Item::factory(2)->state(new Sequence(
-                    ['title' => 'item 1', 'total_votes' => 1],
-                    ['title' => 'item 2', 'total_votes' => 10]
-                ))
-            )
+                ->has(
+                    Item::factory(2)->state(new Sequence(
+                        ['title' => 'item 1', 'total_votes' => 1],
+                        ['title' => 'item 2', 'total_votes' => 10]
+                    ))
+                )
         )->create();
 
-    get(route('projects.show', $project))->assertSeeInOrder(['item 2' , 'item 1']);
+    get(route('projects.show', $project))->assertSeeInOrder(['item 2', 'item 1']);
 });
 
 test('private items are not visible for users', function (UserRole $userRole, bool $shouldBeVisible) {
     $project = Project::factory()
-                  ->has(
-                      Board::factory()
-                           ->has(
-                               Item::factory(2)->state(new Sequence(
-                                   ['title' => 'item 1', 'private' => false],
-                                   ['title' => 'item 2', 'private' => true]
-                               ))
-                           )
-                  )->create();
+        ->has(
+            Board::factory()
+                ->has(
+                    Item::factory(2)->state(new Sequence(
+                        ['title' => 'item 1', 'private' => false],
+                        ['title' => 'item 2', 'private' => true]
+                    ))
+                )
+        )->create();
 
     createAndLoginUser(['role' => $userRole]);
 

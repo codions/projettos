@@ -2,12 +2,12 @@
 
 namespace App\Notifications;
 
-use App\Models\User;
 use App\Models\Comment;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class MentionNotification extends Notification implements ShouldQueue
 {
@@ -24,11 +24,11 @@ class MentionNotification extends Notification implements ShouldQueue
             return [];
         }
 
-        if (!$notifiable->wantsNotification('receive_mention_notifications')) {
+        if (! $notifiable->wantsNotification('receive_mention_notifications')) {
             return [];
         }
 
-        if ($this->comment->private && !$notifiable->hasAdminAccess()) {
+        if ($this->comment->private && ! $notifiable->hasAdminAccess()) {
             return [];
         }
 

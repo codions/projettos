@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => 'Tämä kenttä on jo kiinnitetty.',
+    'attached' => 'Tämä kenttä on jo kiinnitetty.',
     'relatable' => 'Tämä kenttä ei välttämättä liity tähän resurssiin.',
 ];

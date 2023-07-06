@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => 'Aquest :attribute ja té.',
+    'attached' => 'Aquest :attribute ja té.',
     'relatable' => 'Aquesta :attribute no pot ser associada a aquest recurs.',
 ];

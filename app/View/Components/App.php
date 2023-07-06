@@ -4,18 +4,23 @@ namespace App\View\Components;
 
 use App\Models\Project;
 use App\Services\Tailwind;
-use Illuminate\Support\Str;
-use Illuminate\View\Component;
 use App\Settings\GeneralSettings;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Str;
+use Illuminate\View\Component;
 
 class App extends Component
 {
     public Collection $projects;
+
     public string $brandColors;
+
     public ?string $logo;
+
     public array $fontFamily;
+
     public bool $blockRobots = false;
+
     public bool $userNeedsToVerify = false;
 
     public function __construct(public array $breadcrumbs = [])
@@ -44,17 +49,17 @@ class App extends Component
 
         $this->brandColors = $tw->getCssFormat();
 
-        $fontFamily = app(\App\Settings\ColorSettings::class)->fontFamily ?? "Nunito";
+        $fontFamily = app(\App\Settings\ColorSettings::class)->fontFamily ?? 'Nunito';
         $this->fontFamily = [
             'cssValue' => $fontFamily,
-            'urlValue' => Str::snake($fontFamily, '-')
+            'urlValue' => Str::snake($fontFamily, '-'),
         ];
 
         $this->logo = app(\App\Settings\ColorSettings::class)->logo;
 
         $this->userNeedsToVerify = app(GeneralSettings::class)->users_must_verify_email &&
             auth()->check() &&
-            !auth()->user()->hasVerifiedEmail();
+            ! auth()->user()->hasVerifiedEmail();
 
         return view('components.app');
     }

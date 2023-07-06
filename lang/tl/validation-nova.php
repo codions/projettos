@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => ':attribute na ito ay nakalakip.',
+    'attached' => ':attribute na ito ay nakalakip.',
     'relatable' => 'Ito :attribute ay maaaring hindi nauugnay sa mapagkukunan na ito.',
 ];

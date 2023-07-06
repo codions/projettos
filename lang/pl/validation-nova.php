@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => 'Pole :attribute jest już dołączony.',
+    'attached' => 'Pole :attribute jest już dołączony.',
     'relatable' => 'Pole :attribute nie może być powiązany z tym zasobem.',
 ];

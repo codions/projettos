@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => 'Campo già associato.',
+    'attached' => 'Campo già associato.',
     'relatable' => 'Non puoi associarlo a questa risorsa.',
 ];

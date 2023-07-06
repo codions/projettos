@@ -1,7 +1,7 @@
 <?php
 
-use Spatie\LaravelSettings\Migrations\SettingsMigration;
 use App\Enums\InboxWorkflow;
+use Spatie\LaravelSettings\Migrations\SettingsMigration;
 
 class CreateGeneralSettings extends SettingsMigration
 {
@@ -12,8 +12,8 @@ class CreateGeneralSettings extends SettingsMigration
 
         foreach (['Under review', 'Planned', 'In progress', 'Live', 'Closed'] as $defaultBoard) {
             $defaultBoards[] = [
-                'title'         => $defaultBoard,
-                'visible'       => true,
+                'title' => $defaultBoard,
+                'visible' => true,
                 'sort_items_by' => 'popular',
             ];
         }
@@ -41,7 +41,7 @@ class CreateGeneralSettings extends SettingsMigration
         $this->migrator->add('general.show_changelog_related_items', true);
         $this->migrator->add('general.disable_file_uploads', false);
         $this->migrator->add('general.excluded_matching_search_words', [
-            'the', 'it', 'that', 'when', 'how', 'this', 'true', 'false', 'is', 'not', 'well', 'with', 'use', 'enable', 'of', 'for', 'to'
+            'the', 'it', 'that', 'when', 'how', 'this', 'true', 'false', 'is', 'not', 'well', 'with', 'use', 'enable', 'of', 'for', 'to',
         ]);
         $this->migrator->add('general.profanity_words', ['fuck', 'asshole', 'dick', 'screw you']);
         $this->migrator->add('general.show_github_link', false);
@@ -49,7 +49,7 @@ class CreateGeneralSettings extends SettingsMigration
 
         // Colors
         $this->migrator->add('colors.favicon', null);
-        $this->migrator->add('colors.fontFamily', "Nunito");
+        $this->migrator->add('colors.fontFamily', 'Nunito');
         $this->migrator->add('colors.logo', null);
         $this->migrator->add('colors.primary', '#2563EB');
     }

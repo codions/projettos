@@ -5,9 +5,11 @@ namespace App\Services;
 class SystemChecker
 {
     public $remoteVersion;
+
     public $currentVersion;
 
     public string $cacheKeyCurrent = 'roadmap-current-version';
+
     public string $cacheKeyRemote = 'roadmap-remote-version';
 
     public function getVersions(): self
@@ -29,6 +31,7 @@ class SystemChecker
     {
         return cache()->remember($this->cacheKeyRemote, now()->addDay(), function () {
             shell_exec('git fetch --tags');
+
             return shell_exec('git describe --tags $(git rev-list --tags --max-count=1)');
         });
     }

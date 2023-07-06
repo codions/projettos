@@ -2,40 +2,34 @@
 
 namespace App\Http\Livewire\Modals\Ticket;
 
-use Closure;
 use function app;
-use function auth;
-use function view;
-use function route;
-use App\Models\Item;
-use App\Models\User;
-use App\Models\Ticket;
-use function redirect;
 use App\Enums\UserRole;
-use App\Models\Project;
-use App\Rules\ProfanityCheck;
-use App\Settings\GeneralSettings;
-use Filament\Forms\Components\Group;
-use LivewireUI\Modal\ModalComponent;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Contracts\HasForms;
 use App\Filament\Resources\TicketResource;
 use App\Filament\Resources\UserResource;
-use Filament\Forms\Components\TextInput;
-use Filament\Notifications\Notification;
-use Filament\Notifications\Actions\Action;
-use Filament\Forms\Components\MarkdownEditor;
-use Filament\Http\Livewire\Concerns\CanNotify;
-use Filament\Forms\Concerns\InteractsWithForms;
+use App\Models\Ticket;
+use App\Models\User;
+use App\Notifications\TicketCreated;
+use App\Settings\GeneralSettings;
+use function auth;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Http\Livewire\Concerns\CanNotify;
+use Filament\Notifications\Actions\Action;
+use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Notification as FacadesNotification;
-use App\Notifications\TicketCreated;
+use LivewireUI\Modal\ModalComponent;
+use function redirect;
+use function route;
+use function view;
 
 class CreateTicketModal extends ModalComponent implements HasForms
 {
-    use InteractsWithForms, CanNotify;
+    use InteractsWithForms;
+    use CanNotify;
 
     public $state = [
         'attachments' => [],
@@ -75,12 +69,13 @@ class CreateTicketModal extends ModalComponent implements HasForms
 
     public function submit()
     {
-        if (!auth()->user()) {
+        if (! auth()->user()) {
             return redirect()->route('login');
         }
 
-        if (app(GeneralSettings::class)->users_must_verify_email && !auth()->user()->hasVerifiedEmail()) {
+        if (app(GeneralSettings::class)->users_must_verify_email && ! auth()->user()->hasVerifiedEmail()) {
             $this->notify('primary', 'Please verify your email before submitting items.');
+
             return redirect()->route('verification.notice');
         }
 
@@ -103,7 +98,6 @@ class CreateTicketModal extends ModalComponent implements HasForms
         if ($ticket) {
             $this->notify('success', trans('tickets.ticket_created'));
 
-
             User::query()->whereIn('role', [UserRole::Admin->value, UserRole::Employee->value])->each(function (User $user) use ($ticket) {
                 Notification::make()
                     ->title(trans('tickets.ticket_created'))
@@ -113,7 +107,6 @@ class CreateTicketModal extends ModalComponent implements HasForms
                         Action::make('view_user')->label(trans('notifications.view-user'))->url(UserResource::getUrl('edit', ['record' => auth()->user()])),
                     ])
                     ->sendToDatabase($user);
-
 
                 FacadesNotification::route('mail', $user->email)
                     ->notify(new TicketCreated($ticket));

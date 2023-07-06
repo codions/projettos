@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => 'මේ :attribute මේ වන විටත් අමුණා ඇත.',
+    'attached' => 'මේ :attribute මේ වන විටත් අමුණා ඇත.',
     'relatable' => 'මේ :attribute නොහැකි විය හැක, මෙම සමඟ සංෙයෝජිත ෙ කෙර් සම්පත්.',
 ];

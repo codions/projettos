@@ -4,10 +4,10 @@ namespace App\Http\Livewire;
 
 use Closure;
 use Filament\Tables;
-use Livewire\Component;
+use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Illuminate\Database\Eloquent\Builder;
-use Filament\Tables\Concerns\InteractsWithTable;
+use Livewire\Component;
 
 class RecentMentions extends Component implements HasTable
 {

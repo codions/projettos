@@ -1,11 +1,11 @@
 <?php
 
+use App\Enums\UserRole;
+use App\Models\Board;
 use App\Models\Item;
+use App\Models\Project;
 use App\Models\User;
 use App\Models\Vote;
-use App\Models\Board;
-use App\Enums\UserRole;
-use App\Models\Project;
 
 test('popular scope returns highest voted items', function () {
     $items = Item::factory(10)->create();
@@ -85,7 +85,6 @@ test('returns true if the user has voted on an item', function () {
     expect($item->hasVoted($user))->toBeTruthy();
     $this->assertEquals(3, $user->votes()->count());
 });
-
 
 test('returns false if the user has not voted on an item', function () {
     $user = createUser();

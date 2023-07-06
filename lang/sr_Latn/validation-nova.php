@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => 'Овај број :attribute је већ приложен.',
+    'attached' => 'Овај број :attribute је већ приложен.',
     'relatable' => 'Овај :attribute можда није повезан са овим ресурсом.',
 ];

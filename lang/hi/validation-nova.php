@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => 'यह :attribute पहले से ही संलग्न है । ',
+    'attached' => 'यह :attribute पहले से ही संलग्न है । ',
     'relatable' => 'यह :attribute इस संसाधन से संबद्ध नहीं हो सकता है । ',
 ];

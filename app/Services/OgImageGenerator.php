@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Str;
 use App\Settings\ColorSettings;
+use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 
 class OgImageGenerator
@@ -11,14 +11,18 @@ class OgImageGenerator
     private const DEFAULT_POLYGON_POINTS = [1200, 200, 1200, 630, 825, 630];
 
     private string  $title;
-    private ?string $subject     = null;
+
+    private ?string $subject = null;
+
     private ?string $description = null;
 
-    private ?string $filename     = null;
+    private ?string $filename = null;
+
     private ?string $templateFile = null;
 
     private bool   $polygonEnabled = false;
-    private ?array $polygonPoints  = null;
+
+    private ?array $polygonPoints = null;
 
     public static function make(string $title): self
     {
@@ -30,14 +34,14 @@ class OgImageGenerator
         $this->title = $title;
     }
 
-    public function withSubject(string|null $subject): self
+    public function withSubject(string | null $subject): self
     {
         $this->subject = $subject;
 
         return $this;
     }
 
-    public function withDescription(string|null $description): self
+    public function withDescription(string | null $description): self
     {
         $this->description = $description;
 
@@ -61,7 +65,7 @@ class OgImageGenerator
     public function withPolygonDecoration(?array $points = null): static
     {
         $this->polygonEnabled = true;
-        $this->polygonPoints  = $points;
+        $this->polygonPoints = $points;
 
         return $this;
     }
@@ -71,7 +75,7 @@ class OgImageGenerator
         if (
             $this->filename &&
             $this->filename !== 'og.jpg' &&
-            !Str::startsWith($this->filename, 'og-')
+            ! Str::startsWith($this->filename, 'og-')
         ) {
             $this->filename = 'og-' . $this->filename;
         }

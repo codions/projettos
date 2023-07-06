@@ -2,10 +2,10 @@
 
 namespace App\Filament\Resources\InboxResource\RelationManagers;
 
-use Filament\Tables;
 use Filament\Resources\Form;
-use Filament\Resources\Table;
 use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Resources\Table;
+use Filament\Tables;
 
 class VotesRelationManager extends RelationManager
 {

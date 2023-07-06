@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => 'Este :attribute xa está conectado.',
+    'attached' => 'Este :attribute xa está conectado.',
     'relatable' => 'Este :attribute non pode ser asociado con este recurso.',
 ];

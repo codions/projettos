@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources\CommentResource\Pages;
 
+use App\Filament\Resources\CommentResource;
 use Filament\Pages\Actions\Action;
 use Filament\Resources\Pages\EditRecord;
-use App\Filament\Resources\CommentResource;
 
 class EditComment extends EditRecord
 {
@@ -17,7 +17,7 @@ class EditComment extends EditRecord
                 ->color('secondary')
                 ->openUrlInNewTab()
                 ->url(fn () => route('items.show', $this->record->item) . '#comment-' . $this->record->id),
-            ...parent::getActions()
+            ...parent::getActions(),
         ];
     }
 }

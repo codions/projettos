@@ -2,16 +2,17 @@
 
 namespace App\Console\Commands;
 
-use App\Models\User;
+use App\Console\Commands\Concerns\CanShowAnIntro;
 use App\Enums\UserRole;
+use App\Models\User;
+use Filament\Support\Commands\Concerns\CanValidateInput;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Hash;
-use App\Console\Commands\Concerns\CanShowAnIntro;
-use Filament\Support\Commands\Concerns\CanValidateInput;
 
 class Install extends Command
 {
-    use CanValidateInput, CanShowAnIntro;
+    use CanValidateInput;
+    use CanShowAnIntro;
 
     protected $signature = 'roadmap:install';
 
@@ -53,11 +54,10 @@ class Install extends Command
 
     protected function linkStorage()
     {
-        if (!file_exists(public_path('storage')) && $this->confirm('Your storage does not seem to be linked, do you want me to do this?')) {
+        if (! file_exists(public_path('storage')) && $this->confirm('Your storage does not seem to be linked, do you want me to do this?')) {
             $this->call('storage:link');
         }
     }
-
 
     protected function getUserData(): array
     {

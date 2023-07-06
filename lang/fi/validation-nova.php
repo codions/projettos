@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => 'Tämä :attribute on jo kiinnitetty.',
+    'attached' => 'Tämä :attribute on jo kiinnitetty.',
     'relatable' => 'Tätä :attribute: ää ei saa yhdistää tähän resurssiin.',
 ];

@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => 'Dit veld is reeds gekoppeld.',
+    'attached' => 'Dit veld is reeds gekoppeld.',
     'relatable' => 'Dit veld mag niet gekoppeld worden aan deze bron.',
 ];

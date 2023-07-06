@@ -3,23 +3,25 @@
 namespace App\Models;
 
 use App\Enums\UserRole;
+use App\Settings\GeneralSettings;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Models\Contracts\HasAvatar;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use App\Settings\GeneralSettings;
 use Laravel\Sanctum\HasApiTokens;
-use Filament\Models\Contracts\HasAvatar;
-use Illuminate\Notifications\Notifiable;
-use Filament\Models\Contracts\FilamentUser;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class User extends Authenticatable implements FilamentUser, HasAvatar, MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens;
+    use HasFactory;
+    use Notifiable;
 
     protected $fillable = [
         'name',
@@ -73,7 +75,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, MustVerif
             '%s/%s?s=%d',
             config('services.gravatar.base_url'),
             md5(strtolower(trim(Arr::get($this->attributes, 'email')))),
-            (int)$size
+            (int) $size
         );
     }
 
@@ -141,10 +143,10 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, MustVerif
         return in_array($type, $this->notification_settings ?? []);
     }
 
-    public function needsToVerifyEmail() : bool
+    public function needsToVerifyEmail(): bool
     {
         return app(GeneralSettings::class)->users_must_verify_email &&
-             !auth()->user()->hasVerifiedEmail();
+             ! auth()->user()->hasVerifiedEmail();
     }
 
     public function isSubscribedToItem(Item $item): bool
@@ -159,11 +161,11 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, MustVerif
             ->where('user_id', $this->id)
             ->first();
 
-        if (!$vote) {
+        if (! $vote) {
             return;
         }
 
-        $vote->update(['subscribed' => !$vote->subscribed]);
+        $vote->update(['subscribed' => ! $vote->subscribed]);
     }
 
     public static function booted()
@@ -174,7 +176,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, MustVerif
                 'receive_mention_notifications',
                 'receive_comment_reply_notifications',
             ];
-            $user->per_page_setting = ['5','15','25'];
+            $user->per_page_setting = ['5', '15', '25'];
         });
 
         static::updating(function (self $user) {

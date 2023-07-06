@@ -1,16 +1,16 @@
 <?php
 
-use App\Models\Item;
 use App\Models\Changelog;
-use function Pest\Laravel\get;
+use App\Models\Item;
 use App\Settings\GeneralSettings;
 use Illuminate\Database\Eloquent\Factories\Sequence;
+use function Pest\Laravel\get;
 
 beforeEach(function () {
     GeneralSettings::fake([
         'enable_changelog' => true,
         'show_changelog_author' => true,
-        'show_changelog_related_items' => true
+        'show_changelog_related_items' => true,
     ]);
 });
 

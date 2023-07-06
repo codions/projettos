@@ -2,15 +2,15 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Forms;
-use App\Models\User;
-use Filament\Tables;
 use App\Enums\UserRole;
-use Filament\Resources\Form;
-use Filament\Resources\Table;
-use Filament\Resources\Resource;
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
+use App\Models\User;
+use Filament\Forms;
+use Filament\Resources\Form;
+use Filament\Resources\Resource;
+use Filament\Resources\Table;
+use Filament\Tables;
 
 class UserResource extends Resource
 {
@@ -31,8 +31,8 @@ class UserResource extends Resource
                             UserRole::User->value => 'User',
                             UserRole::Employee->value => 'Employee',
                             UserRole::Admin->value => 'Administrator',
-                        ])
-                ])->columns(2)
+                        ]),
+                ])->columns(2),
             ]);
     }
 

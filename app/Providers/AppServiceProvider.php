@@ -3,14 +3,14 @@
 namespace App\Providers;
 
 use App\Http\Kernel;
-use Filament\Facades\Filament;
-use Illuminate\Foundation\Vite;
-use App\Settings\GeneralSettings;
 use App\Services\OgImageGenerator;
-use Illuminate\Support\Collection;
+use App\Settings\GeneralSettings;
 use App\SocialProviders\SsoProvider;
-use Illuminate\Support\Facades\View;
+use Filament\Facades\Filament;
 use Filament\Navigation\NavigationItem;
+use Illuminate\Foundation\Vite;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Socialite\Contracts\Factory as SocialiteFactory;
 
@@ -36,7 +36,7 @@ class AppServiceProvider extends ServiceProvider
                 static fn () => (new Vite)(['resources/css/admin.css'])
             );
         });
-        
+
         Filament::registerNavigationItems([
             NavigationItem::make()
                 ->group('External')
@@ -54,9 +54,9 @@ class AppServiceProvider extends ServiceProvider
         $this->bootSsoSocialite();
         $this->bootCollectionMacros();
 
-//        if (app(GeneralSettings::class)->users_must_verify_email) {
-//            $this->addVerificationMiddleware($kernel);
-//        }
+        //        if (app(GeneralSettings::class)->users_must_verify_email) {
+        //            $this->addVerificationMiddleware($kernel);
+        //        }
     }
 
     private function bootSsoSocialite(): void

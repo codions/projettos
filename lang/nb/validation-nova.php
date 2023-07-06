@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => ':Attribute er allerede vedlagt.',
+    'attached' => ':Attribute er allerede vedlagt.',
     'relatable' => ':Attribute kan ikke være knyttet til denne ressursen.',
 ];

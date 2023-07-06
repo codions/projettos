@@ -1,10 +1,10 @@
 <?php
 
-use App\Models\Item;
-use App\Models\User;
-use App\Models\Board;
 use App\Enums\UserRole;
+use App\Models\Board;
+use App\Models\Item;
 use App\Models\Project;
+use App\Models\User;
 
 beforeEach(function () {
     // disables Observers/ItemObserver.php
@@ -104,7 +104,7 @@ test('A user cant vote on an item that belongs to a board which disables voting'
     $item = Item::factory()->create([
         'project_id' => $board->getAttributeValue('project_id'),
         'board_id' => $board->getAttributeValue('id'),
-        ]);
+    ]);
 
     $this->assertEquals(0, $item->votes()->count());
 

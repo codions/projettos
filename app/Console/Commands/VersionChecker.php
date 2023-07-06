@@ -2,11 +2,11 @@
 
 namespace App\Console\Commands;
 
-use App\Services\SystemChecker;
-use Illuminate\Console\Command;
-use App\Settings\GeneralSettings;
-use Illuminate\Support\Facades\Mail;
 use App\Mail\Admin\RoadmapVersionOutOfDate;
+use App\Services\SystemChecker;
+use App\Settings\GeneralSettings;
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Mail;
 
 class VersionChecker extends Command
 {
@@ -16,11 +16,11 @@ class VersionChecker extends Command
 
     public function handle(SystemChecker $systemChecker): int
     {
-        if (!$systemChecker->isOutOfDate()) {
+        if (! $systemChecker->isOutOfDate()) {
             return 0;
         }
 
-        if (!$receivers = app(GeneralSettings::class)->send_notifications_to) {
+        if (! $receivers = app(GeneralSettings::class)->send_notifications_to) {
             return 0;
         }
 

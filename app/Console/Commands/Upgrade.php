@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
+use App\Console\Commands\Concerns\CanShowAnIntro;
 use App\Services\SystemChecker;
 use Illuminate\Console\Command;
-use App\Console\Commands\Concerns\CanShowAnIntro;
 
 class Upgrade extends Command
 {

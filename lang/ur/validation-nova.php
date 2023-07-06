@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => 'اس :attribute پہلے سے ہی ہے کے ساتھ منسلک.',
+    'attached' => 'اس :attribute پہلے سے ہی ہے کے ساتھ منسلک.',
     'relatable' => 'اس :attribute منسلک نہیں کیا جا سکتا کے ساتھ اس کے وسائل.',
 ];

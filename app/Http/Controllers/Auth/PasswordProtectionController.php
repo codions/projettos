@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Services\Tailwind;
-use Illuminate\Http\Request;
-use App\Settings\GeneralSettings;
 use App\Http\Controllers\Controller;
+use App\Services\Tailwind;
+use App\Settings\GeneralSettings;
+use Illuminate\Http\Request;
 
 class PasswordProtectionController extends Controller
 {
@@ -14,7 +14,7 @@ class PasswordProtectionController extends Controller
         $tw = new Tailwind('brand', app(\App\Settings\ColorSettings::class)->primary);
 
         return view('auth.password-protection', [
-            'brandColors' => $tw->getCssFormat()
+            'brandColors' => $tw->getCssFormat(),
         ]);
     }
 
@@ -22,7 +22,7 @@ class PasswordProtectionController extends Controller
     {
         if (app(GeneralSettings::class)->password !== $request->input('password')) {
             return redirect()->back()->withErrors([
-                'This is the wrong password.'
+                'This is the wrong password.',
             ]);
         }
 

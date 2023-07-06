@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => 'Toto pole je již připojeno.',
+    'attached' => 'Toto pole je již připojeno.',
     'relatable' => 'Toto pole nemusí být spojeno s tímto zdrojem.',
 ];

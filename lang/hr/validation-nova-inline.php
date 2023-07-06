@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => 'Ovo polje je već pričvršćeno.',
+    'attached' => 'Ovo polje je već pričvršćeno.',
     'relatable' => 'Ovo polje možda nije povezano s ovim resursom.',
 ];

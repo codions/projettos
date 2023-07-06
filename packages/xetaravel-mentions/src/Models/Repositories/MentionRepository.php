@@ -1,4 +1,5 @@
 <?php
+
 namespace Xetaio\Mentions\Models\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
@@ -6,7 +7,6 @@ use Xetaio\Mentions\Models\Mention;
 
 class MentionRepository
 {
-
     /**
      * Gets all mentions for this model.
      *
@@ -21,8 +21,6 @@ class MentionRepository
 
     /**
      * Creates a new mention.
-     *
-     * @return \Xetaio\Mentions\Models\Mention
      */
     public static function create(Model $model, Model $recipient, $notify = true): Mention
     {
@@ -30,7 +28,7 @@ class MentionRepository
             'model_type' => get_class($model),
             'model_id' => $model->getKey(),
             'recipient_type' => get_class($recipient),
-            'recipient_id' => $recipient->getKey()
+            'recipient_id' => $recipient->getKey(),
         ]);
 
         if ($notify) {

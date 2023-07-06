@@ -2,13 +2,13 @@
 
 namespace App\Filament\Resources\ItemResource\Pages;
 
+use App\Filament\Resources\ItemResource;
 use App\Models\Item;
-use Filament\Pages\Actions\Action;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
-use Illuminate\Support\Facades\Storage;
-use App\Filament\Resources\ItemResource;
+use Filament\Pages\Actions\Action;
 use Filament\Resources\Pages\EditRecord;
+use Illuminate\Support\Facades\Storage;
 
 class EditItem extends EditRecord
 {
@@ -35,7 +35,7 @@ class EditItem extends EditRecord
                     /** @var Item $selectedItem */
                     $selectedItem = Item::query()->find($data['item_id']);
 
-                    if (!$selectedItem->hasVoted($this->record->user)) {
+                    if (! $selectedItem->hasVoted($this->record->user)) {
                         $selectedItem->toggleUpvote($this->record->user);
                     }
 
@@ -66,7 +66,7 @@ class EditItem extends EditRecord
                 ])
                 ->modalSubheading('Select the item you want to merge it with. This action cannot be undone')
                 ->modalButton('Merge with selected and delete current item'),
-            ...parent::getActions()
+            ...parent::getActions(),
         ];
     }
 

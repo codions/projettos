@@ -2,13 +2,13 @@
 
 namespace App\Filament\Resources;
 
-use App\Models\Vote;
-use Filament\Tables;
-use Filament\Resources\Form;
-use Filament\Resources\Table;
-use Filament\Resources\Resource;
-use Illuminate\Database\Eloquent\Model;
 use App\Filament\Resources\VoteResource\Pages;
+use App\Models\Vote;
+use Filament\Resources\Form;
+use Filament\Resources\Resource;
+use Filament\Resources\Table;
+use Filament\Tables;
+use Illuminate\Database\Eloquent\Model;
 
 class VoteResource extends Resource
 {

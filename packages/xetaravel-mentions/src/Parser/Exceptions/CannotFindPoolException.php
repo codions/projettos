@@ -1,4 +1,5 @@
 <?php
+
 namespace Xetaio\Mentions\Parser\Exceptions;
 
 use Exception;

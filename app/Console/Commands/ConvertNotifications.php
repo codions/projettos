@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\Settings\GeneralSettings;
+use Illuminate\Console\Command;
 
 class ConvertNotifications extends Command
 {
@@ -19,7 +19,7 @@ class ConvertNotifications extends Command
             $array[] = [
                 'name' => $sendNotificationsTo['name'],
                 'webhook' => $sendNotificationsTo['email'],
-                'type' => 'email'
+                'type' => 'email',
             ];
         }
 

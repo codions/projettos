@@ -1,9 +1,8 @@
 <?php
 
 use App\Models\User;
-
-use function Pest\Laravel\get;
 use function Pest\Laravel\actingAs;
+use function Pest\Laravel\get;
 
 test('it renders the page', function () {
     $user = User::factory()->create();

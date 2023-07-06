@@ -25,6 +25,6 @@ class ViewProfile extends SpotlightCommand
 
     public function shouldBeShown(Request $request): bool
     {
-        return (bool)$request->user();
+        return (bool) $request->user();
     }
 }

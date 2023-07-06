@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => '此 :attribute 已附加。',
+    'attached' => '此 :attribute 已附加。',
     'relatable' => '此 :attribute 可能与此资源不相關聯。',
 ];

@@ -9,7 +9,9 @@ use Livewire\Component;
 class ItemCard extends Component
 {
     public Item $item;
+
     public Project $project;
+
     public int $comments = 0;
 
     public function mount()

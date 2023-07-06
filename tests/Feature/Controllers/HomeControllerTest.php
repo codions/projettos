@@ -1,11 +1,10 @@
 <?php
 
-use App\Models\Item;
 use App\Enums\UserRole;
+use App\Models\Item;
 use App\Models\Project;
-use function Pest\Laravel\get;
-
 use App\Settings\GeneralSettings;
+use function Pest\Laravel\get;
 
 test('it renders the home page', function () {
     get('/')->assertStatus(200);
@@ -21,12 +20,12 @@ test('the dashboard items are shown', function ($setting, $value) {
     GeneralSettings::fake(['dashboard_items' => $setting]);
     get('/')->assertSee($value);
 })->with([
-    'recent items' =>['setting' => ["type" => "recent-items", "column_span" => 1, "must_have_board" => false, "must_have_project" => false], 'value' => 'Recent items'],
-    'recent comments' => ['setting' => ["type" => "recent-comments", "column_span" => 1, "must_have_board" => false, "must_have_project" => false], 'value' => 'Recent activities'],
+    'recent items' => ['setting' => ['type' => 'recent-items', 'column_span' => 1, 'must_have_board' => false, 'must_have_project' => false], 'value' => 'Recent items'],
+    'recent comments' => ['setting' => ['type' => 'recent-comments', 'column_span' => 1, 'must_have_board' => false, 'must_have_project' => false], 'value' => 'Recent activities'],
 ]);
 
 test('recent items will not contain private items for users', function (UserRole $userRole, bool $shouldBeVisible) {
-    GeneralSettings::fake(['dashboard_items' => [["type" => "recent-items", "column_span" => 1, "must_have_board" => false, "must_have_project" => false]]]);
+    GeneralSettings::fake(['dashboard_items' => [['type' => 'recent-items', 'column_span' => 1, 'must_have_board' => false, 'must_have_project' => false]]]);
 
     Item::factory()->private()->create(['title' => 'Private item']);
 
@@ -40,7 +39,7 @@ test('recent items will not contain private items for users', function (UserRole
 ]);
 
 test('recent items will not contain items from private projects for users', function (UserRole $userRole, bool $shouldBeVisible) {
-    GeneralSettings::fake(['dashboard_items' => [["type" => "recent-items", "column_span" => 1, "must_have_board" => false, "must_have_project" => true]]]);
+    GeneralSettings::fake(['dashboard_items' => [['type' => 'recent-items', 'column_span' => 1, 'must_have_board' => false, 'must_have_project' => true]]]);
 
     $project = Project::factory()->private()->create();
     Item::factory()->for($project)->create(['title' => 'Item in private project']);

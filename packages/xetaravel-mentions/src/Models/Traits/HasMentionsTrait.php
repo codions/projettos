@@ -1,10 +1,11 @@
 <?php
+
 namespace Xetaio\Mentions\Models\Traits;
 
-use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Xetaio\Mentions\Models\Repositories\MentionRepository;
+use Illuminate\Support\Collection;
 use Xetaio\Mentions\Models\Mention;
+use Xetaio\Mentions\Models\Repositories\MentionRepository;
 
 trait HasMentionsTrait
 {

@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources\ProjectResource\Pages;
 
+use App\Filament\Resources\ProjectResource;
 use Filament\Pages\Actions\Action;
 use Filament\Resources\Pages\EditRecord;
-use App\Filament\Resources\ProjectResource;
 
 class EditProject extends EditRecord
 {
@@ -14,7 +14,7 @@ class EditProject extends EditRecord
     {
         return [
             Action::make('view_public')->color('secondary')->url(fn () => route('projects.show', $this->record)),
-            ...parent::getActions()
+            ...parent::getActions(),
         ];
     }
 }

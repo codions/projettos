@@ -2,8 +2,8 @@
 
 namespace App\Filament\Resources\ProjectResource\Pages;
 
-use Filament\Resources\Pages\CreateRecord;
 use App\Filament\Resources\ProjectResource;
+use Filament\Resources\Pages\CreateRecord;
 
 class CreateProject extends CreateRecord
 {

@@ -2,13 +2,13 @@
 
 namespace App\Http\Livewire\Welcome;
 
+use App\Models\Comment;
 use Closure;
 use Filament\Tables;
-use App\Models\Comment;
-use Livewire\Component;
+use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Illuminate\Database\Eloquent\Builder;
-use Filament\Tables\Concerns\InteractsWithTable;
+use Livewire\Component;
 
 class RecentComments extends Component implements HasTable
 {
@@ -26,11 +26,11 @@ class RecentComments extends Component implements HasTable
 
     protected function getTableRecordUrlUsing(): ?Closure
     {
-        return function($record) {
+        return function ($record) {
             if ($item = $record->item) {
-                return route('items.show', $item). "#comment-$record->id";
+                return route('items.show', $item) . "#comment-$record->id";
             }
-    
+
             return null;
         };
     }

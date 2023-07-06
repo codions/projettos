@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => 'Ez a mező már csatolva van.',
+    'attached' => 'Ez a mező már csatolva van.',
     'relatable' => 'Lehet, hogy ez a mező nem kapcsolódik ehhez az erőforráshoz.',
 ];

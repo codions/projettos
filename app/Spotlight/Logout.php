@@ -2,9 +2,9 @@
 
 namespace App\Spotlight;
 
+use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
 use LivewireUI\Spotlight\Spotlight;
-use Illuminate\Contracts\Auth\Guard;
 use LivewireUI\Spotlight\SpotlightCommand;
 
 class Logout extends SpotlightCommand
@@ -27,6 +27,6 @@ class Logout extends SpotlightCommand
 
     public function shouldBeShown(Request $request): bool
     {
-        return (bool)$request->user();
+        return (bool) $request->user();
     }
 }

@@ -2,9 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use App\Settings\GeneralSettings;
 use Closure;
 use Illuminate\Http\Request;
-use App\Settings\GeneralSettings;
 
 class PasswordProtected
 {
@@ -12,7 +12,7 @@ class PasswordProtected
     {
         if (
             app(GeneralSettings::class)->password &&
-            !session('password-login-authorized') &&
+            ! session('password-login-authorized') &&
             $request->route()->getName() !== 'password.protection' &&
             $request->route()->getName() !== 'password.protection.login'
         ) {

@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => 'Ин :attribute аллакай прикреплен.',
+    'attached' => 'Ин :attribute аллакай прикреплен.',
     'relatable' => 'Ин :attribute мумкин нест, вобаста ба ин захираҳо.',
 ];

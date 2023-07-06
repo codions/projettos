@@ -2,12 +2,12 @@
 
 namespace App\Notifications\Item;
 
-use App\Models\User;
 use App\Models\Comment;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\URL;
 
 class ItemHasNewCommentNotification extends Notification implements ShouldQueue
@@ -35,8 +35,8 @@ class ItemHasNewCommentNotification extends Notification implements ShouldQueue
             ->subject(trans('notifications.new-comment-subject', ['title' => $this->comment->item->title]))
             ->markdown('emails.item.new-comment', [
                 'comment' => $this->comment,
-                'user'    => $this->user,
-                'url'     => route('items.show', $this->comment->item) . '#comment-' . $this->comment->id,
+                'user' => $this->user,
+                'url' => route('items.show', $this->comment->item) . '#comment-' . $this->comment->id,
                 'unsubscribeUrl' => URL::signedRoute('items.email-unsubscribe', [
                     'item' => $this->comment->item,
                     'user' => $this->user,

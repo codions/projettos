@@ -4,11 +4,11 @@ namespace App\Http\Livewire;
 
 use Closure;
 use Filament\Tables;
-use Livewire\Component;
-use Illuminate\Support\Carbon;
+use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Illuminate\Database\Eloquent\Builder;
-use Filament\Tables\Concerns\InteractsWithTable;
+use Illuminate\Support\Carbon;
+use Livewire\Component;
 
 class My extends Component implements HasTable
 {
@@ -50,18 +50,18 @@ class My extends Component implements HasTable
 
                     return trans('table.created_at');
                 })
-                ->formatStateUsing(fn (Carbon|string $state) => (is_string($state) ? Carbon::parse($state) : $state)->isoFormat('L LTS')),
+                ->formatStateUsing(fn (Carbon | string $state) => (is_string($state) ? Carbon::parse($state) : $state)->isoFormat('L LTS')),
         ];
     }
 
     protected function getTableRecordUrlUsing(): ?Closure
     {
         return function ($record) {
-            if (!$record->board) {
+            if (! $record->board) {
                 return route('items.show', $record);
             }
 
-            if (!$record->project) {
+            if (! $record->project) {
                 return route('items.show', $record);
             }
 

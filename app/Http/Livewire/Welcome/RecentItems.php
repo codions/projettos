@@ -2,15 +2,15 @@
 
 namespace App\Http\Livewire\Welcome;
 
-use Closure;
 use App\Models\Item;
-use Filament\Tables;
-use Livewire\Component;
-use Illuminate\Support\Arr;
 use App\Settings\GeneralSettings;
+use Closure;
+use Filament\Tables;
+use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Illuminate\Database\Eloquent\Builder;
-use Filament\Tables\Concerns\InteractsWithTable;
+use Illuminate\Support\Arr;
+use Livewire\Component;
 
 class RecentItems extends Component implements HasTable
 {
@@ -40,11 +40,11 @@ class RecentItems extends Component implements HasTable
     protected function getTableRecordUrlUsing(): ?Closure
     {
         return function ($record) {
-            if (!$record->board) {
+            if (! $record->board) {
                 return route('items.show', $record);
             }
 
-            if (!$record->project) {
+            if (! $record->project) {
                 return route('items.show', $record);
             }
 

@@ -10,7 +10,7 @@ class ItemEmailUnsubscribeController extends Controller
 {
     public function __invoke(Item $item, User $user): RedirectResponse
     {
-        if (!$user->isSubscribedToItem($item)) {
+        if (! $user->isSubscribedToItem($item)) {
             return redirect()->route('home');
         }
 

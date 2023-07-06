@@ -2,16 +2,19 @@
 
 namespace App\Models;
 
-use App\Traits\Sluggable;
 use App\Traits\HasOgImage;
-use Illuminate\Database\Eloquent\Model;
+use App\Traits\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Board extends Model
 {
-    use HasFactory, Sluggable, HasOgImage;
+    use HasFactory;
+    use Sluggable;
+    use HasOgImage;
 
     const SORT_ITEMS_BY_POPULAR = 'popular';
+
     const SORT_ITEMS_BY_LATEST = 'latest';
 
     public $fillable = [
@@ -30,7 +33,7 @@ class Board extends Model
         'visible' => 'boolean',
         'can_users_create' => 'boolean',
         'block_comments' => 'boolean',
-        'block_votes' => 'boolean'
+        'block_votes' => 'boolean',
     ];
 
     public function project()

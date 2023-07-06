@@ -2,21 +2,22 @@
 
 namespace App\Http\Livewire\Modals\Item\Comment;
 
-use function auth;
-use function view;
-use function redirect;
 use App\Models\Comment;
 use App\Settings\GeneralSettings;
+use function auth;
 use Filament\Forms\Components\Group;
-use LivewireUI\Modal\ModalComponent;
-use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\MarkdownEditor;
-use Filament\Http\Livewire\Concerns\CanNotify;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Http\Livewire\Concerns\CanNotify;
+use LivewireUI\Modal\ModalComponent;
+use function redirect;
+use function view;
 
 class EditCommentModal extends ModalComponent implements HasForms
 {
-    use InteractsWithForms, CanNotify;
+    use InteractsWithForms;
+    use CanNotify;
 
     public $comment;
 
@@ -36,18 +37,17 @@ class EditCommentModal extends ModalComponent implements HasForms
                     ->id('edit-comment' . $this->comment->id)
                     ->disableToolbarButtons(app(GeneralSettings::class)->getDisabledToolbarButtons())
                     ->required(),
-            ])
+            ]),
         ];
     }
 
     public function submit()
     {
-        if (!auth()->user()) {
+        if (! auth()->user()) {
             return redirect()->route('login');
         }
 
         $this->comment->update($this->form->getState());
-
 
         $this->closeModal();
 

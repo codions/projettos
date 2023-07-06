@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => 'Ta :attribute je že priložena.',
+    'attached' => 'Ta :attribute je že priložena.',
     'relatable' => 'Ta :attribute morda ni povezan s tem virom.',
 ];

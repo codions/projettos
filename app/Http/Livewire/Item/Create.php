@@ -2,25 +2,27 @@
 
 namespace App\Http\Livewire\Item;
 
-use function auth;
-use function view;
-use App\Models\Item;
 use App\Models\Board;
+use App\Models\Item;
 use App\Models\Project;
-use Livewire\Component;
 use App\Settings\GeneralSettings;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Components\TextInput;
+use function auth;
 use Filament\Forms\Components\MarkdownEditor;
-use Filament\Http\Livewire\Concerns\CanNotify;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Http\Livewire\Concerns\CanNotify;
+use Livewire\Component;
+use function view;
 
 class Create extends Component implements HasForms
 {
-    use InteractsWithForms, CanNotify;
+    use InteractsWithForms;
+    use CanNotify;
 
-    public Project|null $project = null;
-    public Board|null $board = null;
+    public Project | null $project = null;
+
+    public Board | null $board = null;
 
     public function mount()
     {
@@ -44,9 +46,10 @@ class Create extends Component implements HasForms
 
     public function submit()
     {
-        if (!$this->board->canUsersCreateItem()) {
+        if (! $this->board->canUsersCreateItem()) {
             $this->notify('error', trans('items.not-allowed-to-create-items'));
             $this->redirectRoute('projects.boards.show', [$this->project, $this->board]);
+
             return;
         }
 

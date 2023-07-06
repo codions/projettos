@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => ':Attribute уже прикреплён.',
+    'attached' => ':Attribute уже прикреплён.',
     'relatable' => ':Attribute не может быть связан с этим ресурсом.',
 ];

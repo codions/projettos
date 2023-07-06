@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => 'Kjo :attribute është ngjitur tashmë.',
+    'attached' => 'Kjo :attribute është ngjitur tashmë.',
     'relatable' => 'Ky :attribute mund të mos jetë i lidhur me këtë burim.',
 ];

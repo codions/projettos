@@ -1,4 +1,5 @@
 <?php
+
 namespace Xetaio\Mentions\Parser;
 
 use Illuminate\Database\Eloquent\Model;
@@ -29,15 +30,15 @@ class MentionParser extends Configurator
         'regex_replacement' => [
             '{character}' => '@',
             '{pattern}' => '[A-Za-z0-9]',
-            '{rules}' => '{4,20}'
-        ]
+            '{rules}' => '{4,20}',
+        ],
     ];
 
     /**
      * Constructor.
      *
-     * @param \Illuminate\Database\Eloquent\Model $model The model used to mention the user.
-     * @param array $config The config to merge with the default config.
+     * @param  \Illuminate\Database\Eloquent\Model  $model The model used to mention the user.
+     * @param  array  $config The config to merge with the default config.
      */
     public function __construct(Model $model, array $config = [])
     {
@@ -51,8 +52,7 @@ class MentionParser extends Configurator
      * Parse a text and determine if it contains mentions. If it does,
      * then we transform the mentions to a markdown link and we notify the user.
      *
-     * @param null|string $input The string to parse.
-     *
+     * @param  null|string  $input The string to parse.
      * @return null|string
      */
     public function parse($input)
@@ -78,9 +78,7 @@ class MentionParser extends Configurator
     /**
      * Replace the mention with a markdown link.
      *
-     * @param array $match The mention to replace.
-     *
-     * @return string
+     * @param  array  $match The mention to replace.
      */
     protected function replace(array $match): string
     {
@@ -101,9 +99,7 @@ class MentionParser extends Configurator
      * so it will match the largest name first, else it can remove
      * `@admin2` if it match `@admin` first (based on the default regex).
      *
-     * @param array $array The array to prepare
-     *
-     * @return array
+     * @param  array  $array The array to prepare
      */
     protected function prepareArray(array $array): array
     {
@@ -117,14 +113,12 @@ class MentionParser extends Configurator
     /**
      * Remove all `null` key in the given array.
      *
-     * @param array $array The array where the filter should be applied.
-     *
-     * @return array
+     * @param  array  $array The array where the filter should be applied.
      */
     protected function removeNullKeys(array $array): array
     {
         return array_filter($array, function ($key) {
-            return ($key !== null);
+            return $key !== null;
         });
     }
 
@@ -132,8 +126,7 @@ class MentionParser extends Configurator
      * Handle a mention and return it has a regex. If you want to delete
      * this mention from the out array, just return `null`.
      *
-     * @param string $key The mention that has been matched.
-     *
+     * @param  string  $key The mention that has been matched.
      * @return null|string
      */
     protected function mapper(string $key)

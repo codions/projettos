@@ -20,10 +20,10 @@ enum InboxWorkflow: string
     public function label(): string
     {
         return match ($this) {
-            self::Disabled               => 'Disabled',
+            self::Disabled => 'Disabled',
             self::WithoutBoardAndProject => 'Items without board and project',
             self::WithoutBoardOrProject => 'Items without board or project',
-            self::WithoutBoard           => 'Items without board',
+            self::WithoutBoard => 'Items without board',
         };
     }
 }

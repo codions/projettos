@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => 'Er allerede vedlagt.',
+    'attached' => 'Er allerede vedlagt.',
     'relatable' => 'Kan ikke være knyttet til denne ressursen.',
 ];

@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => 'Ce champ est déjà attaché.',
+    'attached' => 'Ce champ est déjà attaché.',
     'relatable' => 'Ce champ n\'est sans doute pas associé avec cette donnée.',
 ];

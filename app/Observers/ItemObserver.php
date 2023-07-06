@@ -2,16 +2,16 @@
 
 namespace App\Observers;
 
-use App\Models\Project;
-use Mail;
-use App\Models\Item;
-use App\Models\User;
 use App\Enums\ItemActivity;
-use App\Settings\GeneralSettings;
 use App\Jobs\SendWebhookForNewItemJob;
-use Illuminate\Support\Facades\Storage;
 use App\Mail\Admin\ItemHasBeenCreatedEmail;
+use App\Models\Item;
+use App\Models\Project;
+use App\Models\User;
 use App\Notifications\Item\ItemUpdatedNotification;
+use App\Settings\GeneralSettings;
+use Illuminate\Support\Facades\Storage;
+use Mail;
 
 class ItemObserver
 {
@@ -21,14 +21,14 @@ class ItemObserver
 
         if ($receivers = app(GeneralSettings::class)->send_notifications_to) {
             foreach ($receivers as $receiver) {
-                if (!isset($receiver['type'])) {
+                if (! isset($receiver['type'])) {
                     continue;
                 }
 
                 if (
                     isset($receiver['projects']) &&
                     Project::whereIn('id', $receiver['projects'])->count() &&
-                    !in_array($item->project_id, $receiver['projects'])
+                    ! in_array($item->project_id, $receiver['projects'])
                 ) {
                     continue;
                 }
@@ -67,7 +67,7 @@ class ItemObserver
             $isDirty = true;
         }
 
-        if ($item->isDirty('pinned') && !$item->pinned) {
+        if ($item->isDirty('pinned') && ! $item->pinned) {
             ItemActivity::createForItem($item, ItemActivity::Unpinned);
 
             $isDirty = true;
@@ -79,13 +79,13 @@ class ItemObserver
             $isDirty = true;
         }
 
-        if ($item->isDirty('private') && !$item->private) {
+        if ($item->isDirty('private') && ! $item->private) {
             ItemActivity::createForItem($item, ItemActivity::MadePublic);
 
             $isDirty = true;
         }
 
-        if ($item->isDirty('issue_number') && !$item->issue_number) {
+        if ($item->isDirty('issue_number') && ! $item->issue_number) {
             ItemActivity::createForItem($item, ItemActivity::LinkedToIssue, [
                 'issue_number' => $item->issue_number,
                 'repo' => $item->project->repo,

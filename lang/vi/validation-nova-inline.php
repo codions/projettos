@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => 'Trường này đã được đính kèm.',
+    'attached' => 'Trường này đã được đính kèm.',
     'relatable' => 'Trường này không thể liên kết với tài nguyên này.',
 ];

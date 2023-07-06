@@ -9,6 +9,7 @@ use Livewire\Component;
 class Items extends Component
 {
     public Project $project;
+
     public Board $board;
 
     public $items = [];

@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => 'Цей :attribute вже прикріплений.',
+    'attached' => 'Цей :attribute вже прикріплений.',
     'relatable' => 'Цей :attribute може бути не пов\'язаний з цим ресурсом.',
 ];

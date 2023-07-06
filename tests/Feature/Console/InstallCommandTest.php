@@ -1,10 +1,10 @@
 <?php
 
-use App\Models\User;
 use App\Enums\UserRole;
+use App\Models\User;
 use function Pest\Laravel\artisan;
-use function PHPUnit\Framework\assertSame;
 use function Pest\Laravel\assertDatabaseCount;
+use function PHPUnit\Framework\assertSame;
 
 test('install command works', function () {
     $command = artisan('roadmap:install')
@@ -15,7 +15,7 @@ test('install command works', function () {
         ->expectsQuestion('Email address', 'johndoe@codions.io')
         ->expectsQuestion('Password', 'secret');
 
-    if (!file_exists(public_path('storage'))) {
+    if (! file_exists(public_path('storage'))) {
         $command->expectsConfirmation('Your storage does not seem to be linked, do you want me to do this?');
     }
 

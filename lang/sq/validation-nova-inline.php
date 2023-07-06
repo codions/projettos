@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => 'Kjo fushë është e ngjitur.',
+    'attached' => 'Kjo fushë është e ngjitur.',
     'relatable' => 'Kjo fushë mund të mos shoqërohet me këtë burim.',
 ];

@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => 'این :attribute قبلاً پیوست شده است.',
+    'attached' => 'این :attribute قبلاً پیوست شده است.',
     'relatable' => 'این :attribute ممکن است با این منبع مرتبط نباشد.',
 ];

@@ -2,12 +2,12 @@
 
 namespace App\Filament\Widgets;
 
-use Closure;
-use App\Models\Item;
-use Filament\Tables;
 use App\Filament\Resources\ItemResource;
-use Illuminate\Database\Eloquent\Builder;
+use App\Models\Item;
+use Closure;
+use Filament\Tables;
 use Filament\Widgets\TableWidget as BaseWidget;
+use Illuminate\Database\Eloquent\Builder;
 
 class LatestItems extends BaseWidget
 {

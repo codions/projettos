@@ -3,10 +3,10 @@
 namespace App\Filament\Pages;
 
 use App\Enums\UserRole;
-use Filament\Pages\Page;
+use App\Filament\Pages\Widgets\System\SystemInfo;
 use App\Services\SystemChecker;
 use Filament\Pages\Actions\Action;
-use App\Filament\Pages\Widgets\System\SystemInfo;
+use Filament\Pages\Page;
 
 class System extends Page
 {
@@ -31,7 +31,7 @@ class System extends Page
     protected function getHeaderWidgets(): array
     {
         return [
-            SystemInfo::class
+            SystemInfo::class,
         ];
     }
 

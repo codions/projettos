@@ -2,27 +2,31 @@
 
 namespace App\Models;
 
-use Spatie\Tags\HasTags;
-use App\Traits\HasUpvote;
-use App\Traits\Sluggable;
-use App\Traits\HasOgImage;
-use Illuminate\Support\Str;
 use App\Enums\InboxWorkflow;
 use App\Settings\GeneralSettings;
-use Illuminate\Database\Eloquent\Model;
+use App\Traits\HasOgImage;
+use App\Traits\HasUpvote;
+use App\Traits\Sluggable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Spatie\Activitylog\ActivitylogServiceProvider;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Support\Str;
+use Spatie\Activitylog\ActivitylogServiceProvider;
+use Spatie\Tags\HasTags;
 
 class Item extends Model
 {
-    use HasFactory, Sluggable, HasOgImage, HasUpvote, HasTags;
+    use HasFactory;
+    use Sluggable;
+    use HasOgImage;
+    use HasUpvote;
+    use HasTags;
 
     public $fillable = [
         'slug',
@@ -34,7 +38,7 @@ class Item extends Model
         'project_id',
         'board_id',
         'user_id',
-        'issue_number'
+        'issue_number',
     ];
 
     protected $casts = [

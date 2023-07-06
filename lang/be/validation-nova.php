@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => 'Гэты нумар :attribute ўжо прымацаваны.',
+    'attached' => 'Гэты нумар :attribute ўжо прымацаваны.',
     'relatable' => 'Гэты :attribute можа быць не звязаны з гэтым рэсурсам.',
 ];

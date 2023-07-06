@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => 'ಈ :attribute ಈಗಾಗಲೇ ಲಗತ್ತಿಸಲಾಗಿದೆ.',
+    'attached' => 'ಈ :attribute ಈಗಾಗಲೇ ಲಗತ್ತಿಸಲಾಗಿದೆ.',
     'relatable' => 'ಈ :attribute ಸಂಬಂಧಿಸಿದ ಇರಬಹುದು ಈ ಸಂಪನ್ಮೂಲ.',
 ];

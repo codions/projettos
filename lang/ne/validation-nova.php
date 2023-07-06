@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => 'यो :attribute छ नै संलग्न.',
+    'attached' => 'यो :attribute छ नै संलग्न.',
     'relatable' => 'यो :attribute हुन सक्छ, यस संग सम्बन्धित संसाधन । ',
 ];

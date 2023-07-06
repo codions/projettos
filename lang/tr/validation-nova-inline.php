@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => 'Bu alan zaten tanımlı.',
+    'attached' => 'Bu alan zaten tanımlı.',
     'relatable' => 'Bu alan, bu kaynakla ilişkili olmayabilir.',
 ];

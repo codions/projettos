@@ -2,13 +2,13 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Forms;
-use Filament\Tables;
-use App\Models\Comment;
-use Filament\Resources\Form;
-use Filament\Resources\Table;
-use Filament\Resources\Resource;
 use App\Filament\Resources\CommentResource\Pages;
+use App\Models\Comment;
+use Filament\Forms;
+use Filament\Resources\Form;
+use Filament\Resources\Resource;
+use Filament\Resources\Table;
+use Filament\Tables;
 
 class CommentResource extends Resource
 {
@@ -36,7 +36,7 @@ class CommentResource extends Resource
                         ->label('Private')
                         ->default(false),
                     Forms\Components\MarkdownEditor::make('content')->columnSpan(2),
-                ])->columns(2)
+                ])->columns(2),
             ]);
     }
 

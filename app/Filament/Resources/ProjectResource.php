@@ -2,17 +2,17 @@
 
 namespace App\Filament\Resources;
 
-use App\Services\GitHubService;
-use Filament\Forms;
-use Filament\Tables;
+use App\Filament\Resources\ProjectResource\Pages;
 use App\Models\Board;
 use App\Models\Project;
+use App\Services\GitHubService;
 use App\Services\Icons;
-use Filament\Resources\Form;
-use Filament\Resources\Table;
-use Filament\Resources\Resource;
 use App\Settings\GeneralSettings;
-use App\Filament\Resources\ProjectResource\Pages;
+use Filament\Forms;
+use Filament\Resources\Form;
+use Filament\Resources\Resource;
+use Filament\Resources\Table;
+use Filament\Tables;
 
 class ProjectResource extends Resource
 {
@@ -33,10 +33,10 @@ class ProjectResource extends Resource
                         ->columnSpan(1)
                         ->required()
                         ->maxLength(255),
-// For now, we're not using this..
-//                    Forms\Components\TextInput::make('url')
-//                        ->columnSpan(1)
-//                        ->maxLength(255),
+                    // For now, we're not using this..
+                    //                    Forms\Components\TextInput::make('url')
+                    //                        ->columnSpan(1)
+                    //                        ->maxLength(255),
                     Forms\Components\TextInput::make('group')
                         ->helperText('Type a group here to categorise them in your roadmap')
                         ->columnSpan(1)
@@ -93,7 +93,7 @@ class ProjectResource extends Resource
 
                             Forms\Components\Textarea::make('description')->helperText('Used as META description for SEO purposes.'),
                         ]),
-                ])->columns()
+                ])->columns(),
             ]);
     }
 

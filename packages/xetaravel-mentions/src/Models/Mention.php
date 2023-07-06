@@ -1,7 +1,7 @@
 <?php
+
 namespace Xetaio\Mentions\Models;
 
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Xetaio\Mentions\Parser\Exceptions\CannotFindPoolException;
 
@@ -16,7 +16,7 @@ class Mention extends Model
         'model_type',
         'model_id',
         'recipient_type',
-        'recipient_id'
+        'recipient_id',
     ];
 
     /**
@@ -28,8 +28,6 @@ class Mention extends Model
 
     /**
      * Gets the recipient model.
-     *
-     * @return \Illuminate\Database\Eloquent\Model
      */
     public function recipient(): Model
     {
@@ -39,7 +37,6 @@ class Mention extends Model
     /**
      * Notify the mentioned model.
      *
-     * @param \Illuminate\Database\Eloquent\Model $model
      *
      * @return \Xetaio\Mentions\Models\Mention
      */
@@ -67,7 +64,7 @@ class Mention extends Model
 
         foreach (config('mentions.pools') as $key => $pool) {
             if ($pool['model'] == $name) {
-                $result = (object)$pool;
+                $result = (object) $pool;
                 $result->key = $key;
 
                 return $result;

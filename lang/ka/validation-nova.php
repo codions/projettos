@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => 'ეს :attribute უკვე ერთვის.',
+    'attached' => 'ეს :attribute უკვე ერთვის.',
     'relatable' => 'ეს :attribute არ შეიძლება იყოს დაკავშირებული ამ რესურსის.',
 ];

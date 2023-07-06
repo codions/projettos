@@ -1,4 +1,5 @@
 <?php
+
 namespace Test\Parser;
 
 use Tests\TestCase;
@@ -21,8 +22,6 @@ class MentionParserTest extends TestCase
 
     /**
      * Triggered before each test.
-     *
-     * @return void
      */
     public function setUp(): void
     {
@@ -34,7 +33,7 @@ class MentionParserTest extends TestCase
         $this->article = Article::create([
             'user_id' => 1,
             'title' => 'test',
-            'content' => ''
+            'content' => '',
         ]);
 
         $this->parser = new MentionParser($this->article);

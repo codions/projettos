@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => 'Šis laukas jau yra pridėtas.',
+    'attached' => 'Šis laukas jau yra pridėtas.',
     'relatable' => 'Šis laukas negali būti susijęs su šiuo šaltiniu.',
 ];

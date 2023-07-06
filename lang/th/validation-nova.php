@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => 'นี่ :attribute แล้วมาเกี่ยวข้อง',
+    'attached' => 'นี่ :attribute แล้วมาเกี่ยวข้อง',
     'relatable' => 'นี่ :attribute อาจจะไม่เกี่ยวข้องกับทรัพยากรนี้',
 ];

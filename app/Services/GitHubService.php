@@ -11,7 +11,7 @@ class GitHubService
 {
     public function getRepositories(?string $searchQuery = null): Collection
     {
-        if (!$this->isEnabled()) {
+        if (! $this->isEnabled()) {
             return collect();
         }
 
@@ -20,8 +20,8 @@ class GitHubService
             $paginator = new ResultPager($gitHubClient);
 
             return collect($paginator->fetchAll($gitHubClient->api('me'), 'repositories', ['all']))
-                ->filter(fn($repo) => str_contains($repo['full_name'], $searchQuery))
-                ->mapWithKeys(fn($repo) => [$repo['full_name'] => $repo['full_name']]);
+                ->filter(fn ($repo) => str_contains($repo['full_name'], $searchQuery))
+                ->mapWithKeys(fn ($repo) => [$repo['full_name'] => $repo['full_name']]);
         } catch (Throwable $e) {
             logger()->error("Failed to retrieve GitHub repo's: {$e->getMessage()}");
 
@@ -36,7 +36,7 @@ class GitHubService
 
     public function getIssuesForRepository(?string $repository, ?string $searchQuery = null): Collection
     {
-        if (!$this->isEnabled() || $repository === null) {
+        if (! $this->isEnabled() || $repository === null) {
             return collect();
         }
 
@@ -47,9 +47,9 @@ class GitHubService
             $paginator = new ResultPager($gitHubClient);
 
             return collect($paginator->fetchAll($gitHubClient->api('issues'), 'all', [$repo[0], $repo[1]]))
-                ->filter(fn($issue) => str_contains('#' . $issue['number'] . ' - ' . $issue['title'], $searchQuery))
-                ->filter(fn($issue) => !isset($issue['pull_request']))
-                ->mapWithKeys(fn($issue) => [$issue['number'] => '#' . $issue['number'] . ' - ' . $issue['title']]);
+                ->filter(fn ($issue) => str_contains('#' . $issue['number'] . ' - ' . $issue['title'], $searchQuery))
+                ->filter(fn ($issue) => ! isset($issue['pull_request']))
+                ->mapWithKeys(fn ($issue) => [$issue['number'] => '#' . $issue['number'] . ' - ' . $issue['title']]);
         } catch (Throwable $e) {
             logger()->error("Failed to retrieve GitHub repo's: {$e->getMessage()}");
 
@@ -59,7 +59,7 @@ class GitHubService
 
     public function getIssueTitle(?string $repository, ?int $issueNumber): ?string
     {
-        if (!$this->isEnabled() || $repository === null || $issueNumber === null) {
+        if (! $this->isEnabled() || $repository === null || $issueNumber === null) {
             return null;
         }
 
@@ -82,7 +82,7 @@ class GitHubService
 
         return GitHub::issues()->create($repo[0], $repo[1], [
             'title' => $title,
-            'body'  => $body,
+            'body' => $body,
         ])['number'];
     }
 }

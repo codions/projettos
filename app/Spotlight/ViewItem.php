@@ -4,9 +4,9 @@ namespace App\Spotlight;
 
 use App\Models\Item;
 use LivewireUI\Spotlight\SpotlightCommand;
-use LivewireUI\Spotlight\SpotlightSearchResult;
-use LivewireUI\Spotlight\SpotlightCommandDependency;
 use LivewireUI\Spotlight\SpotlightCommandDependencies;
+use LivewireUI\Spotlight\SpotlightCommandDependency;
+use LivewireUI\Spotlight\SpotlightSearchResult;
 
 class ViewItem extends SpotlightCommand
 {

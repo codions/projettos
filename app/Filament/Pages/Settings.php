@@ -2,28 +2,28 @@
 
 namespace App\Filament\Pages;
 
+use App\Enums\InboxWorkflow;
+use App\Enums\UserRole;
 use App\Models\Board;
 use App\Models\Project;
 use App\Services\GitHubService;
-use Closure;
-use Filament\Forms\Components\Textarea;
-use Storage;
-use App\Enums\UserRole;
-use Illuminate\Support\Str;
-use App\Enums\InboxWorkflow;
-use Filament\Pages\SettingsPage;
 use App\Settings\GeneralSettings;
-use Filament\Pages\Actions\Action;
-use Illuminate\Support\Collection;
+use Closure;
 use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Group;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\TagsInput;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Tabs;
+use Filament\Forms\Components\TagsInput;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
+use Filament\Pages\Actions\Action;
+use Filament\Pages\SettingsPage;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
+use Storage;
 
 class Settings extends SettingsPage
 {
@@ -127,39 +127,39 @@ class Settings extends SettingsPage
                         ]),
 
                     Tabs\Tab::make('Default boards')
-                            ->schema([
-                                Toggle::make('create_default_boards')->label('Create default boards for new projects')
-                                      ->helperText('When creating a new project, some default boards can be created.')
-                                      ->reactive()
-                                      ->columnSpan(2),
+                        ->schema([
+                            Toggle::make('create_default_boards')->label('Create default boards for new projects')
+                                ->helperText('When creating a new project, some default boards can be created.')
+                                ->reactive()
+                                ->columnSpan(2),
 
-                                Group::make([
-                                    Repeater::make('default_boards')
-                                            ->columns(2)
-                                            ->columnSpan(2)
-                                            ->schema([
-                                                Grid::make(2)->schema([
-                                                    TextInput::make('title')->required(),
-                                                    Select::make('sort_items_by')
-                                                          ->options([
-                                                              Board::SORT_ITEMS_BY_POPULAR => 'Popular',
-                                                              Board::SORT_ITEMS_BY_LATEST => 'Latest',
-                                                          ])
-                                                          ->default(Board::SORT_ITEMS_BY_POPULAR)
-                                                          ->required(),
-                                                ]),
-                                                Grid::make(2)->schema([
-                                                    Toggle::make('visible')->default(true)->helperText('Hides the board from the public view, but will still be accessible if you use the direct URL.'),
-                                                    Toggle::make('can_users_create')->helperText('Allow users to create items in this board.'),
-                                                    Toggle::make('block_comments')->helperText('Block users from commenting to items in this board.'),
-                                                    Toggle::make('block_votes')->helperText('Block users from voting to items in this board.'),
-                                                ]),
+                            Group::make([
+                                Repeater::make('default_boards')
+                                    ->columns(2)
+                                    ->columnSpan(2)
+                                    ->schema([
+                                        Grid::make(2)->schema([
+                                            TextInput::make('title')->required(),
+                                            Select::make('sort_items_by')
+                                                ->options([
+                                                    Board::SORT_ITEMS_BY_POPULAR => 'Popular',
+                                                    Board::SORT_ITEMS_BY_LATEST => 'Latest',
+                                                ])
+                                                ->default(Board::SORT_ITEMS_BY_POPULAR)
+                                                ->required(),
+                                        ]),
+                                        Grid::make(2)->schema([
+                                            Toggle::make('visible')->default(true)->helperText('Hides the board from the public view, but will still be accessible if you use the direct URL.'),
+                                            Toggle::make('can_users_create')->helperText('Allow users to create items in this board.'),
+                                            Toggle::make('block_comments')->helperText('Block users from commenting to items in this board.'),
+                                            Toggle::make('block_votes')->helperText('Block users from voting to items in this board.'),
+                                        ]),
 
-                                                Textarea::make('description')->helperText('Used as META description for SEO purposes.')->columnSpan(2),
+                                        Textarea::make('description')->helperText('Used as META description for SEO purposes.')->columnSpan(2),
 
-                                            ]),
-                                ])->columnSpan(2)->visible(fn ($get) => $get('create_default_boards')),
-                            ]),
+                                    ]),
+                            ])->columnSpan(2)->visible(fn ($get) => $get('create_default_boards')),
+                        ]),
 
                     Tabs\Tab::make('Dashboard items')
                         ->schema([
@@ -171,7 +171,7 @@ class Settings extends SettingsPage
                                         ->reactive()
                                         ->options([
                                             'recent-items' => 'Recent items',
-                                            'recent-comments' => 'Recent comments'
+                                            'recent-comments' => 'Recent comments',
                                         ])->default('recent-items'),
                                     Select::make('column_span')->options([
                                         1 => 1,
@@ -214,7 +214,7 @@ class Settings extends SettingsPage
                                         ->options([
                                             'email' => 'E-mail',
                                             'discord' => 'Discord',
-                                            'slack' => 'Slack'
+                                            'slack' => 'Slack',
                                         ]),
                                     Select::make('projects')
                                         ->multiple()
@@ -251,7 +251,7 @@ class Settings extends SettingsPage
                     Tabs\Tab::make('SEO')
                         ->schema([
                             Toggle::make('block_robots')
-                                ->helperText('Instructs your roadmap to add the block robots META tag, it\'s up to the search engines to honor this request.')
+                                ->helperText('Instructs your roadmap to add the block robots META tag, it\'s up to the search engines to honor this request.'),
                         ]),
 
                     Tabs\Tab::make('Scripts')
@@ -265,14 +265,14 @@ class Settings extends SettingsPage
                         ->schema([
                             TagsInput::make('excluded_matching_search_words')
                                 ->placeholder('New excluded word')
-                                ->helperText('Define any words here that should be excluded when users create a new item, you can also add words in your own language here to be excluded. Defining words here will increase the search results when a user starts creating an item, to prevent duplicates.')
+                                ->helperText('Define any words here that should be excluded when users create a new item, you can also add words in your own language here to be excluded. Defining words here will increase the search results when a user starts creating an item, to prevent duplicates.'),
                         ]),
                     Tabs\Tab::make('Profanity')
                         ->schema([
                             TagsInput::make('profanity_words')
                                 ->placeholder('Words')
-                                ->helperText('Add words here that should be filtered out when users create items or comment on items.')
-                        ])
+                                ->helperText('Add words here that should be filtered out when users create items or comment on items.'),
+                        ]),
                 ])
                 ->columns()
                 ->columnSpan(2),
@@ -291,6 +291,7 @@ class Settings extends SettingsPage
 
                     if ($items->count() === 0) {
                         $this->notify('primary', 'There are no OG images to flush ✅');
+
                         return;
                     }
 
@@ -298,7 +299,7 @@ class Settings extends SettingsPage
 
                     $this->ogImages = collect();
                 })
-                ->disabled(!$this->ogImages->count())
+                ->disabled(! $this->ogImages->count())
                 ->label('Flush OG images (' . $this->ogImages->count() . ')')
                 ->color('secondary')
                 ->modalHeading('Delete OG images')

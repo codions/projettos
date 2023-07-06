@@ -2,27 +2,31 @@
 
 namespace App\Http\Livewire;
 
-use Filament\Forms;
-use ResourceBundle;
 use App\Models\User;
-use Filament\Tables;
-use Livewire\Component;
 use App\SocialProviders\SsoProvider;
-use Illuminate\Support\Facades\Http;
+use Filament\Forms;
+use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
+use Filament\Http\Livewire\Concerns\CanNotify;
+use Filament\Tables;
+use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Filament\Http\Livewire\Concerns\CanNotify;
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Tables\Concerns\InteractsWithTable;
+use Illuminate\Support\Facades\Http;
+use Livewire\Component;
+use ResourceBundle;
 
 class Profile extends Component implements HasForms, HasTable
 {
-    use InteractsWithForms, InteractsWithTable, CanNotify;
+    use InteractsWithForms;
+    use InteractsWithTable;
+    use CanNotify;
 
     public $name;
+
     public $email;
+
     public User $user;
 
     public function mount(): void
@@ -50,7 +54,7 @@ class Profile extends Component implements HasForms, HasTable
                     ->helperText(trans('profile.username_description'))
                     ->required()
                     ->rules([
-                        'alpha_dash'
+                        'alpha_dash',
                     ])
                     ->unique(table: User::class, column: 'username', ignorable: auth()->user()),
                 Forms\Components\TextInput::make('email')->label(trans('auth.email'))->required()->email(),
@@ -68,19 +72,19 @@ class Profile extends Component implements HasForms, HasTable
                 ])->collapsible(),
 
             Forms\Components\Section::make(trans('profile.settings'))
-            ->schema([
-                Forms\Components\MultiSelect::make('per_page_setting')->label(trans('profile.per_page_setting'))
-                    ->options([
-                        5 => '5',
-                        10 => '10',
-                        15 => '15',
-                        25 => '25',
-                        50 => '50',
-                    ])
-                    ->required()
-                    ->helperText('Determine how many pages should be available for the items in the "My" page for example.')
-                    ->rules(['array', 'in:5,10,15,25,50'])
-            ])->collapsible(),
+                ->schema([
+                    Forms\Components\MultiSelect::make('per_page_setting')->label(trans('profile.per_page_setting'))
+                        ->options([
+                            5 => '5',
+                            10 => '10',
+                            15 => '15',
+                            25 => '25',
+                            50 => '50',
+                        ])
+                        ->required()
+                        ->helperText('Determine how many pages should be available for the items in the "My" page for example.')
+                        ->rules(['array', 'in:5,10,15,25,50']),
+                ])->collapsible(),
         ];
     }
 

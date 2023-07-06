@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => 'この:attributeはすでに添付されています。',
+    'attached' => 'この:attributeはすでに添付されています。',
     'relatable' => 'この:attributeきない場合に伴い資源です。',
 ];

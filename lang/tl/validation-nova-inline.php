@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => 'Ang patlang na ito ay nakalakip.',
+    'attached' => 'Ang patlang na ito ay nakalakip.',
     'relatable' => 'Ang patlang na ito ay maaaring hindi nauugnay sa mapagkukunan na ito.',
 ];

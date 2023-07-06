@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => 'Tento :attribute je už pripojený.',
+    'attached' => 'Tento :attribute je už pripojený.',
     'relatable' => 'Tento :attribute nemusí byť spojený s týmto zdrojom.',
 ];

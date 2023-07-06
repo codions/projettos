@@ -1,9 +1,8 @@
 <?php
 
 use App\Models\User;
-
-use function Pest\Laravel\get;
 use function Pest\Laravel\actingAs;
+use function Pest\Laravel\get;
 
 test('with no query', function () {
     $user = User::factory()->create();
@@ -19,7 +18,7 @@ test('with query', function () {
     actingAs($user)
         ->get(route('mention-search', ['query' => $testUser->name]))
         ->assertExactJson([
-            ['key' => $testUser->name, 'value' => $testUser->username, 'avatar' => $testUser->getGravatar()]
+            ['key' => $testUser->name, 'value' => $testUser->username, 'avatar' => $testUser->getGravatar()],
         ]);
 });
 

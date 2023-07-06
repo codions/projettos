@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Models\User;
 use App\Http\Controllers\Controller;
-use App\SocialProviders\SsoProvider;
-use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
-use Spatie\Honeypot\ProtectAgainstSpam;
-use Illuminate\Support\Facades\Validator;
+use App\SocialProviders\SsoProvider;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Spatie\Honeypot\ProtectAgainstSpam;
 
 class RegisterController extends Controller
 {

@@ -2,25 +2,26 @@
 
 namespace App\Http\Livewire\Tickets;
 
+use App\Enums\UserRole;
+use App\Filament\Resources\TicketResource;
+use App\Filament\Resources\UserResource;
 use App\Models\Ticket;
 use App\Models\User;
 use App\Notifications\TicketCreated;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
-use Filament\Notifications\Notification;
+use Filament\Http\Livewire\Concerns\CanNotify;
 use Filament\Notifications\Actions\Action;
+use Filament\Notifications\Notification;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Notification as FacadesNotification;
 use Livewire\Component;
-use App\Enums\UserRole;
-use Filament\Http\Livewire\Concerns\CanNotify;
-use App\Filament\Resources\TicketResource;
-use App\Filament\Resources\UserResource;
 
 class Show extends Component implements Forms\Contracts\HasForms
 {
-    use Forms\Concerns\InteractsWithForms, CanNotify;
+    use Forms\Concerns\InteractsWithForms;
+    use CanNotify;
 
     public $state = [
         'message' => '',
@@ -115,7 +116,6 @@ class Show extends Component implements Forms\Contracts\HasForms
 
             $this->notify('success', trans('tickets.ticket_created'));
 
-
             User::query()->whereIn('role', [UserRole::Admin->value, UserRole::Employee->value])->each(function (User $user) use ($ticket) {
                 Notification::make()
                     ->title(trans('tickets.ticket_created'))
@@ -125,7 +125,6 @@ class Show extends Component implements Forms\Contracts\HasForms
                         Action::make('view_user')->label(trans('notifications.view-user'))->url(UserResource::getUrl('edit', ['record' => auth()->user()])),
                     ])
                     ->sendToDatabase($user);
-
 
                 FacadesNotification::route('mail', $user->email)
                     ->notify(new TicketCreated($ticket));

@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => ':attribute è già associato.',
+    'attached' => ':attribute è già associato.',
     'relatable' => ':attribute non può essere associato a questa risorsa.',
 ];

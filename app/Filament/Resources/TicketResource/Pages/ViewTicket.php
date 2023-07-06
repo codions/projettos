@@ -5,7 +5,6 @@ namespace App\Filament\Resources\TicketResource\Pages;
 use App\Filament\Resources\TicketResource;
 use App\Models\Ticket as Message;
 use App\Notifications\TicketAnswered;
-use Codions\GptTrixEditor\Components\GptTrixEditor;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;

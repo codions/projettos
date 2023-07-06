@@ -33,7 +33,7 @@ return [
     'send_reset_link' => 'Reset link versturen',
     'back_to_login' => 'Terug naar inloggen',
 
-    'failed'   => 'Deze combinatie van e-mailadres en wachtwoord is niet geldig.',
+    'failed' => 'Deze combinatie van e-mailadres en wachtwoord is niet geldig.',
     'throttle' => 'Te veel mislukte aanmeldpogingen. Probeer het over nog eens over :seconds seconden.',
 
     'date_locale' => 'Datum & tijd vertaling',

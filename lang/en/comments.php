@@ -13,5 +13,5 @@ return [
     'edited' => 'Edited',
     'edit-comment' => 'Edit comment',
     'comment-updated' => 'Comment updated',
-    'activity' => 'Activity'
+    'activity' => 'Activity',
 ];

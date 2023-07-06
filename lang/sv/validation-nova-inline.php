@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => 'Detta fält är redan bifogat.',
+    'attached' => 'Detta fält är redan bifogat.',
     'relatable' => 'Det här fältet kanske inte är associerat med den här resursen.',
 ];

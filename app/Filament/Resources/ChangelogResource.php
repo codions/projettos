@@ -2,16 +2,16 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Forms;
-use App\Models\Item;
-use Filament\Tables;
-use App\Models\Changelog;
-use Filament\Resources\Form;
-use Filament\Resources\Table;
-use Filament\Resources\Resource;
-use App\Settings\GeneralSettings;
-use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\ChangelogResource\Pages;
+use App\Models\Changelog;
+use App\Models\Item;
+use App\Settings\GeneralSettings;
+use Filament\Forms;
+use Filament\Resources\Form;
+use Filament\Resources\Resource;
+use Filament\Resources\Table;
+use Filament\Tables;
+use Illuminate\Database\Eloquent\Builder;
 
 class ChangelogResource extends Resource
 {
@@ -36,27 +36,27 @@ class ChangelogResource extends Resource
             ->schema([
                 Forms\Components\Card::make([
                     Forms\Components\TextInput::make('title')
-                                              ->required()
-                                              ->maxLength(255),
+                        ->required()
+                        ->maxLength(255),
                     Forms\Components\Select::make('user_id')
-                                           ->relationship('user', 'name')
-                                           ->label('Author')
-                                           ->default(auth()->user()->id)
-                                           ->preload()
-                                           ->required()
-                                           ->searchable(),
+                        ->relationship('user', 'name')
+                        ->label('Author')
+                        ->default(auth()->user()->id)
+                        ->preload()
+                        ->required()
+                        ->searchable(),
 
                     Forms\Components\DateTimePicker::make('published_at'),
                     Forms\Components\MultiSelect::make('related_items')
-                                                ->preload()->label('Related items')
-                                                ->relationship('items', 'title')
-                                                ->getOptionLabelFromRecordUsing(fn (Item $record) => $record->title . ($record->project ? ' (' . $record->project->title . ')' : '')),
+                        ->preload()->label('Related items')
+                        ->relationship('items', 'title')
+                        ->getOptionLabelFromRecordUsing(fn (Item $record) => $record->title . ($record->project ? ' (' . $record->project->title . ')' : '')),
 
                     Forms\Components\MarkdownEditor::make('content')
-                                                   ->columnSpan(2)
-                                                   ->required()
-                                                   ->minLength(5)
-                                                   ->maxLength(65535),
+                        ->columnSpan(2)
+                        ->required()
+                        ->minLength(5)
+                        ->maxLength(65535),
                 ])->columns(),
             ]);
     }
@@ -73,7 +73,7 @@ class ChangelogResource extends Resource
             ])
             ->filters([
                 Tables\Filters\Filter::make('is_published')
-                    ->query(fn (Builder $query): Builder => $query->where('published_at', '<=', now()))
+                    ->query(fn (Builder $query): Builder => $query->where('published_at', '<=', now())),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

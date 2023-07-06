@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -24,24 +25,23 @@ abstract class TestCase extends Orchestra
                 'column' => 'username',
                 'route' => '/users/profile/@',
                 'notification' => \Tests\vendor\Notifications\MentionNotification::class,
-            ]
+            ],
         ]);
     }
 
     /**
-     * @param \Illuminate\Foundation\Application $app
-     *
+     * @param  \Illuminate\Foundation\Application  $app
      * @return array
      */
     protected function getPackageProviders($app)
     {
         return [
-            MentionServiceProvider::class
+            MentionServiceProvider::class,
         ];
     }
 
     /**
-     * @param \Illuminate\Foundation\Application $app
+     * @param  \Illuminate\Foundation\Application  $app
      */
     protected function getEnvironmentSetUp($app)
     {
@@ -49,14 +49,14 @@ abstract class TestCase extends Orchestra
 
         $app['config']->set('database.connections.testing', [
             'driver' => 'sqlite',
-            'database' => __DIR__.'/vendor/temp/database.sqlite',
+            'database' => __DIR__ . '/vendor/temp/database.sqlite',
             'prefix' => '',
         ]);
     }
 
     protected function setupDatabase()
     {
-        $databasePath = __DIR__.'/vendor/temp/database.sqlite';
+        $databasePath = __DIR__ . '/vendor/temp/database.sqlite';
         file_put_contents($databasePath, '');
     }
 }

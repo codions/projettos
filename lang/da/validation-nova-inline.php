@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => 'Dette felt er allerede vedhæftet.',
+    'attached' => 'Dette felt er allerede vedhæftet.',
     'relatable' => 'Dette felt er muligvis ikke tilknyttet denne ressource.',
 ];

@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\ItemActivity;
 use App\Models\Item;
 use App\Models\Project;
-use App\Enums\ItemActivity;
 use App\Settings\GeneralSettings;
-use Illuminate\Http\Request;
-use Illuminate\Http\RedirectResponse;
-use Spatie\Activitylog\Models\Activity;
 use Filament\Notifications\Notification;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Spatie\Activitylog\Models\Activity;
 
 class ItemController extends Controller
 {
@@ -17,7 +17,7 @@ class ItemController extends Controller
     {
         $project = null;
 
-        if (!$itemId) {
+        if (! $itemId) {
             $item = Item::query()->visibleForCurrentUser()->where('slug', $projectId)->firstOrFail();
         } else {
             $project = Project::query()->visibleForCurrentUser()->where('slug', $projectId)->firstOrFail();
@@ -26,8 +26,8 @@ class ItemController extends Controller
         }
 
         $showGitHubLink = app(GeneralSettings::class)->show_github_link;
-        $activities = $item->activities()->with('causer')->latest()->limit(10)->get()->filter(function(Activity $activity) use ($showGitHubLink) {
-            if (!$showGitHubLink && ItemActivity::getForActivity($activity) === ItemActivity::LinkedToIssue) {
+        $activities = $item->activities()->with('causer')->latest()->limit(10)->get()->filter(function (Activity $activity) use ($showGitHubLink) {
+            if (! $showGitHubLink && ItemActivity::getForActivity($activity) === ItemActivity::LinkedToIssue) {
                 return false;
             }
 
@@ -56,7 +56,7 @@ class ItemController extends Controller
         $item = auth()->user()->items()->findOrFail($id);
 
         return view('edit-item', [
-            'item' => $item
+            'item' => $item,
         ]);
     }
 
@@ -78,9 +78,9 @@ class ItemController extends Controller
         $item->update($request->only('board_id'));
 
         Notification::make()
-                    ->title(trans('items.update-board-success', ['board' => $item->board->title]))
-                    ->success()
-                    ->send();
+            ->title(trans('items.update-board-success', ['board' => $item->board->title]))
+            ->success()
+            ->send();
 
         return redirect()->back();
     }

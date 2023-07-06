@@ -14,6 +14,6 @@ return [
 
             // Notification class to use when this model is mentioned.
             'notification' => App\Notifications\MentionNotification::class,
-        ]
-    ]
+        ],
+    ],
 ];

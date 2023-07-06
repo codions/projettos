@@ -3,8 +3,8 @@
 namespace Database\Factories;
 
 use App\Enums\UserRole;
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -50,7 +50,7 @@ class UserFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'role' => UserRole::Admin
+                'role' => UserRole::Admin,
             ];
         });
     }

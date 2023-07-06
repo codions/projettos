@@ -3,10 +3,10 @@
 namespace App\Filament\Resources\ItemResource\RelationManagers;
 
 use Filament\Forms;
-use Filament\Tables;
 use Filament\Resources\Form;
-use Filament\Resources\Table;
 use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Resources\Table;
+use Filament\Tables;
 
 class VotesRelationManager extends RelationManager
 {

@@ -3,16 +3,19 @@
 namespace App\Models;
 
 use App\Traits\HasUpvote;
-use Spatie\Activitylog\LogOptions;
-use Xetaio\Mentions\Models\Mention;
-use Illuminate\Database\Eloquent\Model;
-use Spatie\Activitylog\Traits\LogsActivity;
-use Xetaio\Mentions\Models\Traits\HasMentionsTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Xetaio\Mentions\Models\Mention;
+use Xetaio\Mentions\Models\Traits\HasMentionsTrait;
 
 class Comment extends Model
 {
-    use HasFactory, HasMentionsTrait, LogsActivity, HasUpvote;
+    use HasFactory;
+    use HasMentionsTrait;
+    use LogsActivity;
+    use HasUpvote;
 
     public $fillable = [
         'content',

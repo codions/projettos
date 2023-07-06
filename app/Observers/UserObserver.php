@@ -2,8 +2,8 @@
 
 namespace App\Observers;
 
-use App\Models\User;
 use App\Jobs\Items\RecalculateItemsVotes;
+use App\Models\User;
 
 class UserObserver
 {

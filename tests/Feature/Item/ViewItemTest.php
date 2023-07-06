@@ -1,10 +1,10 @@
 <?php
 
-use App\Models\Item;
-use App\Models\User;
-use App\Models\Board;
 use App\Enums\UserRole;
+use App\Models\Board;
+use App\Models\Item;
 use App\Models\Project;
+use App\Models\User;
 
 beforeEach(function () {
     // disables Observers/ItemObserver.php
@@ -19,7 +19,7 @@ beforeEach(function () {
     $board = Board::factory()->create(['project_id' => $project->getAttributeValue('id')]);
     Item::factory()->create([
         'project_id' => $project->getAttributeValue('id'), 'board_id' => $board->getAttributeValue('id'),
-        'user_id' => $user
+        'user_id' => $user,
     ]);
 });
 
@@ -68,9 +68,9 @@ test('A guest can render a public item page that has an associated project', fun
     $item = Item::first();
 
     $this->get(route('projects.items.show', [
-            'item' => $item->getAttributeValue('slug'),
-            'project' => $project->getAttributeValue('slug'),
-        ]))
+        'item' => $item->getAttributeValue('slug'),
+        'project' => $project->getAttributeValue('slug'),
+    ]))
         ->assertStatus(200)
         ->assertViewIs('item');
 

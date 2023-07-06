@@ -19,5 +19,5 @@ return [
     'social-login' => 'Social login',
     'social-login-description' => 'Here you\'ll find the social login\'s you\'ve used to log in with your account.',
     'per_page_setting' => 'Per page setting',
-    'settings' => 'Settings'
+    'settings' => 'Settings',
 ];

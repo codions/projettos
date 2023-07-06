@@ -3,17 +3,21 @@
 namespace App\Http\Livewire\Item;
 
 use App\Models\Vote;
-use Livewire\Component;
-use Illuminate\Support\Collection;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
+use Livewire\Component;
 
 class VoteButton extends Component
 {
     public Model $model;
-    public Vote|null $vote;
+
+    public Vote | null $vote;
+
     public Collection $recentVoters;
+
     public int $recentVotersToShow = 5;
+
     public bool $showSubscribeOption;
 
     public function mount(bool $hideSubscribeOption = false)

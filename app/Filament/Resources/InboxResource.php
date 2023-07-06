@@ -2,20 +2,20 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Forms;
-use App\Models\Item;
-use Filament\Tables;
-use App\Models\Project;
 use App\Enums\InboxWorkflow;
-use Filament\Resources\Form;
-use Filament\Resources\Table;
-use Filament\Resources\Resource;
+use App\Filament\Resources\InboxResource\Pages;
+use App\Filament\Resources\InboxResource\RelationManagers\CommentsRelationManager;
+use App\Filament\Resources\InboxResource\RelationManagers\VotesRelationManager;
+use App\Models\Item;
+use App\Models\Project;
 use App\Settings\GeneralSettings;
+use Filament\Forms;
+use Filament\Resources\Form;
+use Filament\Resources\Resource;
+use Filament\Resources\Table;
+use Filament\Tables;
 use Filament\Tables\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
-use App\Filament\Resources\InboxResource\Pages;
-use App\Filament\Resources\InboxResource\RelationManagers\VotesRelationManager;
-use App\Filament\Resources\InboxResource\RelationManagers\CommentsRelationManager;
 
 class InboxResource extends Resource
 {
@@ -75,7 +75,7 @@ class InboxResource extends Resource
                                 $data['project_id'],
                                 fn (Builder $query, $projectId): Builder => $query->where('project_id', $projectId),
                             );
-                    })
+                    }),
             ])
             ->defaultSort('created_at', 'desc');
     }

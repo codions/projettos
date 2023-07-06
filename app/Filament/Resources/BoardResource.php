@@ -2,13 +2,13 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Forms;
-use Filament\Tables;
-use App\Models\Board;
-use Filament\Resources\Form;
-use Filament\Resources\Table;
-use Filament\Resources\Resource;
 use App\Filament\Resources\BoardResource\Pages;
+use App\Models\Board;
+use Filament\Forms;
+use Filament\Resources\Form;
+use Filament\Resources\Resource;
+use Filament\Resources\Table;
+use Filament\Tables;
 
 class BoardResource extends Resource
 {
@@ -32,7 +32,7 @@ class BoardResource extends Resource
                     Forms\Components\Textarea::make('description')
                         ->columnSpan(2)
                         ->maxLength(65535),
-                ])->columns(2)
+                ])->columns(2),
             ]);
     }
 

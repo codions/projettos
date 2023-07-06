@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => 'Bu maydon allaqachon biriktirilgan.',
+    'attached' => 'Bu maydon allaqachon biriktirilgan.',
     'relatable' => 'Bu soha ushbu resurs bilan bog\'liq bo\'lmasligi mumkin.',
 ];

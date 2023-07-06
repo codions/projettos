@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => 'Aquest camp és ja s\'adjunta.',
+    'attached' => 'Aquest camp és ja s\'adjunta.',
     'relatable' => 'Aquest camp no pot estar associat amb aquest recurs.',
 ];

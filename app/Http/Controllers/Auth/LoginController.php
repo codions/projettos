@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\UserSocial;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\SocialProviders\SsoProvider;
 use App\Providers\RouteServiceProvider;
-use Laravel\Socialite\Facades\Socialite;
+use App\SocialProviders\SsoProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Laravel\Socialite\Facades\Socialite;
 
 class LoginController extends Controller
 {
@@ -31,7 +31,7 @@ class LoginController extends Controller
     {
         if ($request->input('error') === 'access_denied') {
             return redirect()->route('login')->withErrors([
-                'Denied access to login'
+                'Denied access to login',
             ]);
         }
 
@@ -58,7 +58,7 @@ class LoginController extends Controller
             ->where('email', $social->getEmail())
             ->first();
 
-        if (!$user) {
+        if (! $user) {
             $user = User::create([
                 'name' => $social->getName(),
                 'email' => $social->getEmail(),
@@ -71,7 +71,7 @@ class LoginController extends Controller
                 'provider' => 'sso',
                 'provider_id' => $social->getId(),
                 'access_token' => $social->token ? $social->token : null,
-                'refresh_token' => $social->refreshToken ? $social->refreshToken : null
+                'refresh_token' => $social->refreshToken ? $social->refreshToken : null,
             ]);
 
             auth()->guard()->login($user, remember: true);
@@ -79,13 +79,13 @@ class LoginController extends Controller
             return redirect()->intended($this->redirectPath());
         }
 
-        if ($user && !$userSocial) {
+        if ($user && ! $userSocial) {
             $user->userSocials()->create([
                 'name' => $social->getName(),
                 'provider' => 'sso',
                 'provider_id' => $social->getId(),
                 'access_token' => $social->token ? $social->token : null,
-                'refresh_token' => $social->refreshToken ? $social->refreshToken : null
+                'refresh_token' => $social->refreshToken ? $social->refreshToken : null,
             ]);
 
             $user->markEmailAsVerified();

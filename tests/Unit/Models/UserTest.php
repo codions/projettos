@@ -1,9 +1,9 @@
 <?php
 
-use App\Models\Item;
-use App\Models\Vote;
 use App\Enums\UserRole;
 use App\Models\Comment;
+use App\Models\Item;
+use App\Models\Vote;
 use App\Settings\GeneralSettings;
 use Illuminate\Support\Facades\DB;
 
@@ -91,7 +91,7 @@ it('can delete a user with votes', function () {
 it('can delete a user with items and comments and votes', function () {
     $user = createUser([], [
         'items' => Item::factory(1)->has(Vote::factory()),
-        'comments' => Comment::factory(1)->has(Item::factory())
+        'comments' => Comment::factory(1)->has(Item::factory()),
     ]);
 
     $vote = $user->fresh()->items()->first()->votes()->first();

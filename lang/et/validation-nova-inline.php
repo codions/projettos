@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => 'See väli on juba lisatud.',
+    'attached' => 'See väli on juba lisatud.',
     'relatable' => 'See väli ei pruugi olla seotud selle ressursiga.',
 ];

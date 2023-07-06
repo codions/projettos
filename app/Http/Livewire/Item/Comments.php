@@ -3,23 +3,27 @@
 namespace App\Http\Livewire\Item;
 
 use App\Models\Item;
-use Livewire\Component;
 use App\Rules\ProfanityCheck;
 use App\Settings\GeneralSettings;
-use Filament\Forms\Components\Tabs;
-use Filament\Forms\Contracts\HasForms;
 use App\View\Components\MarkdownEditor;
-use Filament\Notifications\Notification;
+use Filament\Forms\Components\Tabs;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Notifications\Notification;
+use Livewire\Component;
 
 class Comments extends Component implements HasForms
 {
     use InteractsWithForms;
 
     public Item $item;
+
     public $comments;
+
     public $content;
+
     public $private_content;
+
     public $reply;
 
     protected $listeners = ['updatedComment' => '$refresh'];
@@ -31,11 +35,11 @@ class Comments extends Component implements HasForms
 
     public function submit()
     {
-        if (!auth()->user()) {
+        if (! auth()->user()) {
             return redirect()->route('login');
         }
 
-        if (app(GeneralSettings::class)->users_must_verify_email && !auth()->user()->hasVerifiedEmail()) {
+        if (app(GeneralSettings::class)->users_must_verify_email && ! auth()->user()->hasVerifiedEmail()) {
             Notification::make()
                 ->title('Reply')
                 ->body('Please verify your email before replying to items.');
@@ -98,7 +102,7 @@ class Comments extends Component implements HasForms
         return [
             MarkdownEditor::make('content')
                 ->rules([
-                    new ProfanityCheck()
+                    new ProfanityCheck(),
                 ])
                 ->label(trans('comments.comment'))
                 ->helperText(trans('comments.mention-helper-text'))
@@ -114,10 +118,10 @@ class Comments extends Component implements HasForms
             ->comments()
             ->with('user:id,name,email')
             ->orderByRaw('COALESCE(parent_id, id), parent_id IS NOT NULL, id')
-            ->when(!auth()->user()?->hasAdminAccess(), fn ($query) => $query->where('private', false))
+            ->when(! auth()->user()?->hasAdminAccess(), fn ($query) => $query->where('private', false))
             ->get()
             ->mapToGroups(function ($comment) {
-                return [(int)$comment->parent_id => $comment];
+                return [(int) $comment->parent_id => $comment];
             });
 
         return view('livewire.item.comments');

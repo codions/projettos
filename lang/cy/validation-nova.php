@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => 'Mae hyn yn :attribute eisoes ynghlwm.',
+    'attached' => 'Mae hyn yn :attribute eisoes ynghlwm.',
     'relatable' => 'Mae hyn yn :attribute efallai na fod yn gysylltiedig â\'r adnodd hwn.',
 ];

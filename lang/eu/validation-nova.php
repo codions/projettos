@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => 'Hau :attribute da dagoeneko erantsita.',
+    'attached' => 'Hau :attribute da dagoeneko erantsita.',
     'relatable' => 'Hau :attribute ezingo lotutako baliabide hau.',
 ];

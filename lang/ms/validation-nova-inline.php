@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => 'Ruangan ini sudah terpasang.',
+    'attached' => 'Ruangan ini sudah terpasang.',
     'relatable' => 'Ruangan ini tidak boleh dikaitkan dengan sumber ini.',
 ];

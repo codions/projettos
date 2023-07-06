@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 
 class MentionSearchController extends Controller
 {
     public function __invoke(Request $request)
     {
-        if (!$request->input('query')) {
+        if (! $request->input('query')) {
             return [];
         }
 
@@ -26,7 +26,7 @@ class MentionSearchController extends Controller
                 return [
                     'key' => $user->name,
                     'value' => $user->username,
-                    'avatar' => $user->getGravatar()
+                    'avatar' => $user->getGravatar(),
                 ];
             })
             ->toArray();

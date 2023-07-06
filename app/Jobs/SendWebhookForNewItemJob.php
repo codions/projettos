@@ -3,17 +3,20 @@
 namespace App\Jobs;
 
 use App\Models\Item;
-use Illuminate\Bus\Queueable;
 use App\Services\WebhookClient;
 use App\Settings\ColorSettings;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class SendWebhookForNewItemJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     public function __construct(private readonly Item $item, private readonly array $receiver)
     {
@@ -57,7 +60,7 @@ class SendWebhookForNewItemJob implements ShouldQueue
                                 'title' => $this->item->title,
                                 'value' => str($this->item->content)->limit(50),
                                 'shorts' => false,
-                            ]
+                            ],
                         ],
                     ],
                 ],

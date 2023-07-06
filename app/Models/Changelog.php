@@ -2,17 +2,19 @@
 
 namespace App\Models;
 
-use App\Traits\Sluggable;
 use App\Traits\HasOgImage;
-use Illuminate\Database\Eloquent\Model;
+use App\Traits\Sluggable;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Changelog extends Model
 {
-    use HasFactory, Sluggable, HasOgImage;
+    use HasFactory;
+    use Sluggable;
+    use HasOgImage;
 
     public $fillable = [
         'slug',

@@ -1,11 +1,11 @@
 <?php
 
-use Mockery\MockInterface;
+use App\Mail\Admin\RoadmapVersionOutOfDate;
 use App\Services\SystemChecker;
 use App\Settings\GeneralSettings;
-use function Pest\Laravel\artisan;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\Admin\RoadmapVersionOutOfDate;
+use Mockery\MockInterface;
+use function Pest\Laravel\artisan;
 
 beforeEach(function () {
     GeneralSettings::fake(['send_notifications_to' => [['name' => 'codions.io', 'email' => 'info@codions.io']]]);

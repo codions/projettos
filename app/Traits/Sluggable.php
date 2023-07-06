@@ -14,7 +14,7 @@ trait Sluggable
     public static function bootSluggable()
     {
         static::created(function ($model) {
-            if (!$model->slug) {
+            if (! $model->slug) {
                 $model->slug = Str::slug($model->id . ' ' . $model->title);
                 $model->save();
             }

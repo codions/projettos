@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => 'Þetta sviði er nú þegar fylgir.',
+    'attached' => 'Þetta sviði er nú þegar fylgir.',
     'relatable' => 'Þetta sviði getur ekki tengst þessu úrræði.',
 ];

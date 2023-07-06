@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => ':attribute դաշտը արդեն կցված է։',
+    'attached' => ':attribute դաշտը արդեն կցված է։',
     'relatable' => ':attribute դաշտը չի կարող կցվել տվյալ ռեսուրսին։',
 ];

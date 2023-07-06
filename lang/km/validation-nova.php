@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => ':attribute ត្រូវបានភ្ជាប់រួចទៅហើយ។',
+    'attached' => ':attribute ត្រូវបានភ្ជាប់រួចទៅហើយ។',
     'relatable' => ':attribute មិនអាចត្រូវបានភ្ជាប់ជាមួយនឹងធនធាននេះ។',
 ];

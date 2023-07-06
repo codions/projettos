@@ -12,6 +12,6 @@
 */
 
 return [
-    'next'     => 'अर्को &raquo;',
+    'next' => 'अर्को &raquo;',
     'previous' => '&laquo; अघिल्लो',
 ];

@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => 'See :attribute on juba lisatud.',
+    'attached' => 'See :attribute on juba lisatud.',
     'relatable' => 'See :attribute ei pruugi olla seotud selle ressursiga.',
 ];

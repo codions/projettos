@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => 'To polje je že pritrjeno.',
+    'attached' => 'To polje je že pritrjeno.',
     'relatable' => 'To polje morda ni povezano s tem virom.',
 ];

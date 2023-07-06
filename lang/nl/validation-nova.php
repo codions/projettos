@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => ':Attribute is reeds gekoppeld.',
+    'attached' => ':Attribute is reeds gekoppeld.',
     'relatable' => ':Attribute mag niet gekoppeld worden aan deze bron.',
 ];

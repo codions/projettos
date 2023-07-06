@@ -29,14 +29,14 @@ class Tailwind
     public function getCssFormat(): string
     {
         $output = '<style>' . PHP_EOL;
-        $output.= ':root {' . PHP_EOL;
+        $output .= ':root {' . PHP_EOL;
 
         foreach ($this->shades as $shade => $color) {
-            $output.= "\t--color-{$shade}: {$color};" . PHP_EOL;
+            $output .= "\t--color-{$shade}: {$color};" . PHP_EOL;
         }
 
-        $output.= '}' . PHP_EOL;
-        $output.= '</style>';
+        $output .= '}' . PHP_EOL;
+        $output .= '</style>';
 
         return $output;
     }

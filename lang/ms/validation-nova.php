@@ -12,6 +12,6 @@
 */
 
 return [
-    'attached'  => ':attribute ini sudah dilampirkan.',
+    'attached' => ':attribute ini sudah dilampirkan.',
     'relatable' => 'Ruangan :attribute tidak boleh dikaitkan dengan sumber ini.',
 ];

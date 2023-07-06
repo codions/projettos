@@ -2,34 +2,35 @@
 
 namespace App\Http\Livewire\Modals\Item;
 
-use Closure;
 use function app;
-use function auth;
-use function view;
-use function route;
-use App\Models\Item;
-use App\Models\User;
-use function redirect;
 use App\Enums\UserRole;
-use App\Models\Project;
-use App\Rules\ProfanityCheck;
-use App\Settings\GeneralSettings;
-use Filament\Forms\Components\Group;
-use LivewireUI\Modal\ModalComponent;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Contracts\HasForms;
 use App\Filament\Resources\ItemResource;
 use App\Filament\Resources\UserResource;
-use Filament\Forms\Components\TextInput;
-use Filament\Notifications\Notification;
-use Filament\Notifications\Actions\Action;
+use App\Models\Item;
+use App\Models\Project;
+use App\Models\User;
+use App\Rules\ProfanityCheck;
+use App\Settings\GeneralSettings;
+use function auth;
+use Closure;
+use Filament\Forms\Components\Group;
 use Filament\Forms\Components\MarkdownEditor;
-use Filament\Http\Livewire\Concerns\CanNotify;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Http\Livewire\Concerns\CanNotify;
+use Filament\Notifications\Actions\Action;
+use Filament\Notifications\Notification;
+use LivewireUI\Modal\ModalComponent;
+use function redirect;
+use function route;
+use function view;
 
 class CreateItemModal extends ModalComponent implements HasForms
 {
-    use InteractsWithForms, CanNotify;
+    use InteractsWithForms;
+    use CanNotify;
 
     public $similarItems;
 
@@ -51,7 +52,7 @@ class CreateItemModal extends ModalComponent implements HasForms
         $inputs[] = TextInput::make('title')
             ->autofocus()
             ->rules([
-                new ProfanityCheck()
+                new ProfanityCheck(),
             ])
             ->label(trans('table.title'))
             ->lazy()
@@ -81,11 +82,11 @@ class CreateItemModal extends ModalComponent implements HasForms
             MarkdownEditor::make('content')
                 ->label(trans('table.content'))
                 ->rules([
-                    new ProfanityCheck()
+                    new ProfanityCheck(),
                 ])
                 ->disableToolbarButtons(app(GeneralSettings::class)->getDisabledToolbarButtons())
                 ->minLength(10)
-                ->required()
+                ->required(),
         ]);
 
         return $inputs;
@@ -93,11 +94,11 @@ class CreateItemModal extends ModalComponent implements HasForms
 
     public function submit()
     {
-        if (!auth()->user()) {
+        if (! auth()->user()) {
             return redirect()->route('login');
         }
 
-        if (app(GeneralSettings::class)->users_must_verify_email && !auth()->user()->hasVerifiedEmail()) {
+        if (app(GeneralSettings::class)->users_must_verify_email && ! auth()->user()->hasVerifiedEmail()) {
             $this->notify('primary', 'Please verify your email before submitting items.');
 
             return redirect()->route('verification.notice');
@@ -108,7 +109,7 @@ class CreateItemModal extends ModalComponent implements HasForms
         $item = Item::create([
             'title' => $data['title'],
             'content' => $data['content'],
-            'project_id' => $data['project_id'] ?? null
+            'project_id' => $data['project_id'] ?? null,
         ]);
 
         $item->user()->associate(auth()->user())->save();
@@ -147,7 +148,7 @@ class CreateItemModal extends ModalComponent implements HasForms
         $words = collect(explode(' ', $state))->filter(function ($item) {
             $excludedWords = app(GeneralSettings::class)->excluded_matching_search_words;
 
-            return !in_array($item, $excludedWords);
+            return ! in_array($item, $excludedWords);
         });
 
         $this->similarItems = $state ? Item::query()
