@@ -13,9 +13,10 @@ class StatsOverview extends BaseWidget
     protected function getCards(): array
     {
         return [
-            Card::make(__('Users'), User::count()),
-            Card::make(__('Votes'), Vote::count()),
-            Card::make('Items', Item::count()),
+            Stats\Users::make(),
+            Stats\Tickets::make(),
+            Stats\Items::make(),
+            Stats\Votes::make(),
         ];
     }
 }

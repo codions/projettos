@@ -36,4 +36,9 @@ class PopularItems extends BaseWidget
     {
         return false;
     }
+
+    public static function getSort(): int
+    {
+        return 0;
+    }
 }
