@@ -43,7 +43,7 @@ As well as the timezone can be set with `APP_TIMEZONE`, for example: `APP_TIMEZO
 Now run the following:
 
 ```
-php artisan roadmap:install
+php artisan app:install
 ```
 
 And login with the credentials you've provided, the user you've created will automatically be admin.

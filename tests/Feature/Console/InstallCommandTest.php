@@ -7,7 +7,7 @@ use function Pest\Laravel\assertDatabaseCount;
 use function PHPUnit\Framework\assertSame;
 
 test('install command works', function () {
-    $command = artisan('roadmap:install')
+    $command = artisan('app:install')
         ->expectsOutput('Roadmap Installation')
         ->expectsConfirmation('Do you want to run the migrations to set up everything fresh? (php artisan migrate:fresh)')
         ->expectsOutput('Let\'s create a user.')

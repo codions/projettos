@@ -14,7 +14,7 @@ class Install extends Command
     use CanValidateInput;
     use CanShowAnIntro;
 
-    protected $signature = 'roadmap:install';
+    protected $signature = 'app:install';
 
     protected $description = 'Install Roadmap software.';
 
