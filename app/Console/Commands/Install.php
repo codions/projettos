@@ -62,8 +62,8 @@ class Install extends Command
     protected function getUserData(): array
     {
         return [
-            'name' => $this->validateInput(fn () => $this->ask('Name'), 'name', ['required']),
-            'email' => $this->validateInput(fn () => $this->ask('Email address'), 'email', ['required', 'email', 'unique:' . User::class]),
+            'name' => $this->validateInput(fn () => $this->ask('Name', 'Admin'), 'name', ['required']),
+            'email' => $this->validateInput(fn () => $this->ask('Email address', 'admin@admin.com'), 'email', ['required', 'email', 'unique:' . User::class]),
             'password' => Hash::make($this->validateInput(fn () => $this->secret('Password'), 'password', ['required', 'min:6'])),
         ];
     }
