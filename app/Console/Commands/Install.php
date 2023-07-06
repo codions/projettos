@@ -33,9 +33,10 @@ class Install extends Command
 
     protected function refreshDatabase()
     {
-        if ($this->confirm('Do you want to run the migrations to set up everything fresh? (php artisan migrate:fresh)')) {
-            $this->call('migrate:fresh');
-        }
+        $this->call('migrate');
+
+        $this->info('Installing initial data...');
+        $this->call('db:seed', ['--class' => \Database\Seeders\DatabaseSeeder::class, '--force' => true]);
     }
 
     protected function createUser()
