@@ -5,9 +5,9 @@
             <a class="text-2xl font-semibold tracking-tight"
                href="{{ route('home') }}">
                 @if(!is_null($logo) && file_exists($logoFile = storage_path('app/public/'.$logo)))
-                    <img src="{{ asset('storage/'.$logo) }}?v={{ md5_file($logoFile) }}" alt="{{ config('app.name') }}" class="h-8"/>
+                    <img src="{{ asset('storage/'.$logo) }}?v={{ md5_file($logoFile) }}" alt="{{ config('app.name') }}" class="h-10"/>
                 @else
-                    {{ config('app.name') }}
+                <img src="/images/logos/logo-white.png" alt="{{ config('app.name') }}" class="h-10"/>
                 @endif
             </a>
 
