@@ -47,6 +47,16 @@ class AppServiceProvider extends ServiceProvider
                 ->url('/'),
         ]);
 
+        Filament::registerRenderHook(
+            'head.end',
+            fn (): \Illuminate\Contracts\View\View => view('components.header-scripts'),
+        );
+
+        Filament::registerRenderHook(
+            'body.end',
+            fn (): \Illuminate\Contracts\View\View => view('components.footer-scripts'),
+        );
+
         if (file_exists($favIcon = storage_path('app/public/favicon.png'))) {
             config(['filament.favicon' => asset('storage/favicon.png') . '?v=' . md5_file($favIcon)]);
         }
