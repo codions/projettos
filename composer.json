@@ -8,6 +8,7 @@
         "php": "^8.1.0",
         "doctrine/dbal": "^3.3",
         "filament/filament": "^2.17.0",
+        "filament/spatie-laravel-media-library-plugin": "^2.17",
         "filament/spatie-laravel-settings-plugin": "^2.17.0",
         "filament/spatie-laravel-tags-plugin": "^2.17",
         "filament/spatie-laravel-translatable-plugin": "^2.17",
@@ -23,6 +24,7 @@
         "spatie/color": "^1.5",
         "spatie/laravel-activitylog": "^4.7.3",
         "spatie/laravel-honeypot": "^4.3.2",
+        "spatie/laravel-medialibrary": "^10.10",
         "spatie/laravel-ray": "^1.32.2",
         "spiral/roadrunner": "^2.12.2",
         "symfony/http-client": "^6.0",
@@ -30,7 +32,8 @@
         "symfony/postmark-mailer": "^6.0",
         "wire-elements/modal": "^1.0.7",
         "wire-elements/spotlight": "^1.0.7",
-        "xetaio/xetaravel-mentions": "*"
+        "xetaio/xetaravel-mentions": "*",
+        "flowframe/laravel-trend": "^0.1.3"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",
@@ -62,8 +65,7 @@
         ],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
-            "@php artisan filament:upgrade",
-            "npm run production"
+            "@php artisan filament:upgrade"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
