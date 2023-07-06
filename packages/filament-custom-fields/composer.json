@@ -1,0 +1,26 @@
+{
+    "name": "codions/filament-custom-fields",
+    "description": "Filament Custom Fields",
+    "type": "library",
+    "require": {
+        "filament/filament": "2.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Codions\\FilamentCustomFields\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "yemenpoint",
+            "email": "ebrahim29001@gmail.com"
+        }
+    ],
+    "extra": {
+    "laravel": {
+        "providers": [
+            "Codions\\FilamentCustomFields\\FilamentCustomFieldsServiceProvider"
+        ]
+    }
+}
+}
