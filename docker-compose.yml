@@ -23,7 +23,7 @@ services:
       - SUPERVISORD_PASS=secret
 
     env_file:
-      - .env
+      - .env.docker
 
     volumes:
      - .:/var/www/html
