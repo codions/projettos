@@ -40,7 +40,7 @@
                 <li>
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
-                            <div class="flex items-center space-x-4">
+                            <div class="flex items-center space-x-4 cursor-pointer">
                                 <div class="flex-shrink-0">
                                     <img class="w-8 h-8 rounded-full" src="{{ auth()->user()->profile_picture }}" alt="{{ auth()->user()->name }}">
                                 </div>
