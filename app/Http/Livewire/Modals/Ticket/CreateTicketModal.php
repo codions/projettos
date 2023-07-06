@@ -61,7 +61,6 @@ class CreateTicketModal extends ModalComponent implements HasForms
                         ->multiple()
                         ->maxFiles(10)
                         ->acceptedFileTypes(Ticket::ACCEPTED_FILE_TYPES)
-                        ->hidden(! auth()->check())
                         ->columnSpan(6),
                 ]),
         ];
@@ -95,30 +94,25 @@ class CreateTicketModal extends ModalComponent implements HasForms
             }
         }
 
-        if ($ticket) {
-            $this->notify('success', trans('tickets.ticket_created'));
-
-            User::query()->whereIn('role', [UserRole::Admin->value, UserRole::Employee->value])->each(function (User $user) use ($ticket) {
-                Notification::make()
-                    ->title(trans('tickets.ticket_created'))
-                    ->body(trans('tickets.ticket_created_notification_body', ['user' => auth()->user()->name, 'title' => $ticket->title]))
-                    ->actions([
-                        Action::make('view')->label(trans('notifications.view-item'))->url(TicketResource::getUrl('edit', ['record' => $ticket])),
-                        Action::make('view_user')->label(trans('notifications.view-user'))->url(UserResource::getUrl('edit', ['record' => auth()->user()])),
-                    ])
-                    ->sendToDatabase($user);
-
-                FacadesNotification::route('mail', $user->email)
-                    ->notify(new TicketCreated($ticket));
-            });
-
-        } else {
-            $this->notify('danger', __('Your ticket could not be sent'));
-        }
-
         $this->closeModal();
 
-        return route('ticket.show', $ticket->id);
+        $this->notify('success', trans('tickets.ticket_created'));
+
+        User::query()->whereIn('role', [UserRole::Admin->value, UserRole::Employee->value])->each(function (User $user) use ($ticket) {
+            Notification::make()
+                ->title(trans('tickets.ticket_created'))
+                ->body(trans('tickets.ticket_created_notification_body', ['user' => auth()->user()->name, 'title' => $ticket->title]))
+                ->actions([
+                    Action::make('view')->label(trans('notifications.view-item'))->url(TicketResource::getUrl('view', ['record' => $ticket])),
+                    Action::make('view_user')->label(trans('notifications.view-user'))->url(UserResource::getUrl('edit', ['record' => auth()->user()])),
+                ])
+                ->sendToDatabase($user);
+
+            FacadesNotification::route('mail', $user->email)
+                ->notify(new TicketCreated($ticket));
+        });
+
+        return route('tickets.show', $ticket->id);
     }
 
     public function render()

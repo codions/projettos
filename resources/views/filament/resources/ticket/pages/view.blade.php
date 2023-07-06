@@ -1,9 +1,9 @@
 <x-filament::page>
-    <div class="w-full bg-white shadow-xl rounded-lg flex">
+    <div class="w-full bg-white shadow rounded-xl flex">
         <div class="flex-1 p-4">
             <div class="h-16 flex items-center justify-between">
                 <div class="flex items-center">
-                    <a href="/admin/contacts" class="flex items-center text-gray-700 px-2 py-1 space-x-0.5 border border-gray-300 rounded-lg shadow hover:bg-gray-200 transition duration-100" title="Back">
+                    <a href="/admin/tickets" class="flex items-center text-gray-700 px-2 py-1 space-x-0.5 border border-gray-300 rounded-lg shadow hover:bg-gray-200 transition duration-100" title="Back">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M9.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L7.414 9H15a1 1 0 110 2H7.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd"></path>
                         </svg>
@@ -14,20 +14,20 @@
                         <div class="flex items-center space-x-2">
 
                             @if($record->is_spam)
-                            <button wire:click="toggleSpam()" title="{{ __('Mark as spam') }}" class="text-red-700 px-2 py-1 border border-red-300 rounded-lg shadow bg-red-100 hover:bg-red-200 transition duration-100">
+                            <button wire:click="toggleSpam" title="{{ __('Mark as spam') }}" class="text-red-700 px-2 py-1 border border-red-300 rounded-lg shadow bg-red-100 hover:bg-red-200 transition duration-100">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
                                 </svg>
                             </button>
                             @else
-                            <button wire:click="toggleSpam()" title="{{ __('Unmark as spam') }}" class="text-gray-700 px-2 py-1 border border-gray-300 rounded-lg shadow hover:bg-gray-200 transition duration-100">
+                            <button wire:click="toggleSpam" title="{{ __('Unmark as spam') }}" class="text-gray-700 px-2 py-1 border border-gray-300 rounded-lg shadow hover:bg-gray-200 transition duration-100">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
                                 </svg>
                             </button>
                             @endif
 
-                            <button wire:click="delete()" title="{{ __('Delete') }}" class="text-gray-700 px-2 py-1 border border-gray-300 rounded-lg shadow hover:bg-gray-200 transition duration-100">
+                            <button wire:click="delete" title="{{ __('Delete') }}" class="text-gray-700 px-2 py-1 border border-gray-300 rounded-lg shadow hover:bg-gray-200 transition duration-100">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                                 </svg>
@@ -40,29 +40,13 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                                 </svg>
                             </button>
-
-                            @php $favorited = true; @endphp
-
-                            @if($favorited)
-                            <button wire:click="toggleFavorite()" title="{{ __('Remove Star') }}" class="text-yellow-700 px-2 py-1 border border-yellow-300 rounded-lg shadow bg-yellow-100 hover:bg-yellow-200 transition duration-100">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>
-                                </svg>
-                            </button>
-                            @else
-                            <button wire:click="toggleFavorite()" title="{{ __('Add Star') }}" class="text-gray-700 px-2 py-1 border border-gray-300 rounded-lg shadow hover:bg-gray-200 transition duration-100">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>
-                                </svg>
-                            </button>
-                            @endif
                         </div>
                     </div>
                 </div>
                 <div class="px-2 flex items-center space-x-4">
                     <div class="flex items-center space-x-2">
                         @if($next)
-                        <a href="/admin/contacts/{{ $next }}/view" class="bg-gray-200 hover:bg-gray-300 text-gray-700 p-1.5 rounded-lg transition duration-150" title="Previous Email">
+                        <a href="/admin/tickets/{{ $next }}/view" class="bg-gray-200 hover:bg-gray-300 text-gray-700 p-1.5 rounded-lg transition duration-150" title="Previous Email">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"></path>
                             </svg>
@@ -70,7 +54,7 @@
                         @endif
 
                         @if($previous)
-                        <a href="/admin/contacts/{{ $previous }}/view" class="bg-gray-200 hover:bg-gray-300 text-gray-700 p-1.5 rounded-lg transition duration-150" title="Nex Email">
+                        <a href="/admin/tickets/{{ $previous }}/view" class="bg-gray-200 hover:bg-gray-300 text-gray-700 p-1.5 rounded-lg transition duration-150" title="Nex Email">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
                             </svg>
@@ -135,7 +119,7 @@
     </div>
 
     @if($showReplyForm)
-    <div class="w-full bg-white shadow-xl rounded-lg p-4">
+    <div class="w-full bg-white shadow rounded-xl p-4">
         <form wire:submit.prevent="submit">
             {{ $this->form }}
 
@@ -153,7 +137,7 @@
     @endif
 
     @foreach($replies as $reply)
-    <div class="w-full bg-white shadow-xl rounded-lg flex">
+    <div class="w-full bg-white shadow rounded-xl flex">
         <div class="flex-1 p-4">
             <div class="flex items-center justify-between">
                 <div class="flex items-center">

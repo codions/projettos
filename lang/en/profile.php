@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'admin' => 'Admin',
+    'profile' => 'Profile',
     'save' => 'Save',
     'logout' => 'Logout',
     'delete-account' => 'Remove account',

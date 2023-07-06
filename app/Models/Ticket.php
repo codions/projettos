@@ -34,6 +34,8 @@ class Ticket extends Model implements HasMedia
     ];
 
     public $fillable = [
+        'parent_id',
+        'sent_by',
         'name',
         'email',
         'subject',

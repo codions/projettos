@@ -14,7 +14,7 @@ class TicketResource extends Resource
 {
     protected static ?string $model = Ticket::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-mail';
+    protected static ?string $navigationIcon = 'heroicon-o-ticket';
 
     protected static function getNavigationBadge(): ?string
     {
@@ -80,13 +80,6 @@ class TicketResource extends Resource
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
     }
 
     public static function getPages(): array

@@ -1,5 +1,5 @@
 <div>
-    <div class="w-full bg-white shadow-xl rounded-lg flex">
+    <div class="w-full bg-white shadow rounded-xl flex">
         <div class="flex-1 p-4">
             <div class="h-16 flex items-center justify-between">
                 <div class="flex items-center">
@@ -14,17 +14,7 @@
                         <span class="bg-gray-300 h-6 w-[.5px] mx-3"></span>
                         <div class="flex items-center space-x-2">
                             <button
-                            x-on:confirm="{
-                                title: '{{ __('Are you sure you want to delete this ticket?') }}',
-                                icon: 'warning',
-                                accept: {
-                                    label: 'Yes, delete it!',
-                                    method: 'delete',
-                                },
-                                reject: {
-                                    label: 'No, cancel',
-                                }
-                            }"
+                                wire:click.prevent="delete"
                                 title="{{ __('Delete') }}" class="text-gray-700 px-2 py-1 border border-gray-300 rounded-lg shadow hover:bg-gray-200 transition duration-100">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
@@ -83,7 +73,7 @@
     </div>
 
     @if($showReplyForm)
-    <div class="w-full bg-white shadow-xl rounded-lg p-4 mt-4">
+    <div class="w-full bg-white shadow rounded-xl p-4 mt-4">
         <form wire:submit.prevent="submit" class="">
             {{ $this->form }}
 
@@ -101,7 +91,7 @@
     @endif
 
     @foreach($replies as $reply)
-    <div class="w-full bg-white shadow-xl rounded-lg flex mt-4">
+    <div class="w-full bg-white shadow rounded-xl flex mt-4">
         <div class="flex-1 p-4">
             <div class="flex items-center justify-between">
                 <div class="flex items-center">

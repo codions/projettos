@@ -64,19 +64,6 @@ class ViewTicket extends Page implements Forms\Contracts\HasForms
         $this->next = Message::root()->where('id', '>', $record->id)->min('id');
     }
 
-    public function toggleFavorite()
-    {
-        if ($this->record->isFavorited()) {
-            $this->emit('messageRemovedFromFavorites');
-
-            return $this->record->removeFavorite();
-        }
-
-        $this->emit('messageAddedToFavorites');
-
-        return $this->record->addFavorite();
-    }
-
     public function toggleSpam()
     {
         if ($this->record->is_spam) {
@@ -91,14 +78,14 @@ class ViewTicket extends Page implements Forms\Contracts\HasForms
         $this->record->delete();
         $this->emit('messageDeleted');
 
-        return redirect()->to('/admin/contacts');
+        return redirect()->to('/admin/tickets');
     }
 
     public function markAsUnread()
     {
         $this->record->update(['status' => Message::UNREAD]);
 
-        return redirect()->to('/admin/contacts');
+        return redirect()->to('/admin/tickets');
     }
 
     public function submit()

@@ -41,7 +41,7 @@ class Show extends Component implements Forms\Contracts\HasForms
 
     public function mount(): void
     {
-        $this->replies = $this->ticket->replies()->orderBy('id', 'desc')->get();
+        $this->replies = $this->ticket->replies()->orderBy('id', 'asc')->get();
     }
 
     protected function getFormSchema(): array
@@ -87,51 +87,48 @@ class Show extends Component implements Forms\Contracts\HasForms
 
     public function submit()
     {
-        $this->validate();
+        $data = $this->form->getState()['state'];
 
-        $contact = new Ticket;
+        $ticket = Ticket::create([
+            'parent_id' => $this->ticket->id,
+            'message' => $data['message'],
+        ]);
 
-        $contact->parent_id = $this->ticket->id;
-        $contact->message = $this->state['message'];
-        $status = $contact->save();
+        $ticket->user()->associate(auth()->user())->save();
 
-        if (! empty($this->state['attachments'])) {
-            foreach ($this->state['attachments'] as $file) {
-                $contact->addMedia($file)
+        if (! empty($data['attachments'])) {
+            foreach ($data['attachments'] as $file) {
+                $ticket->addMedia($file)
                     ->toMediaCollection('message_attachments');
             }
         }
 
-        if ($status) {
-            if ($this->ticket->status !== Ticket::UNREAD) {
-                $this->ticket->update(['status' => Ticket::UNREAD]);
-            }
-
-            $this->replies = $this->ticket
-                ->replies()
-                ->orderBy('id', 'desc')
-                ->get();
-
-            $this->showReplyForm = false;
-
-            $this->notify('success', trans('tickets.ticket_created'));
-
-            User::query()->whereIn('role', [UserRole::Admin->value, UserRole::Employee->value])->each(function (User $user) use ($ticket) {
-                Notification::make()
-                    ->title(trans('tickets.ticket_created'))
-                    ->body(trans('tickets.ticket_created_notification_body', ['user' => auth()->user()->name, 'title' => $ticket->title]))
-                    ->actions([
-                        Action::make('view')->label(trans('notifications.view-item'))->url(TicketResource::getUrl('edit', ['record' => $ticket])),
-                        Action::make('view_user')->label(trans('notifications.view-user'))->url(UserResource::getUrl('edit', ['record' => auth()->user()])),
-                    ])
-                    ->sendToDatabase($user);
-
-                FacadesNotification::route('mail', $user->email)
-                    ->notify(new TicketCreated($ticket));
-            });
-        } else {
-            $this->notify('danger', __('Your ticket could not be sent'));
+        if ($this->ticket->status !== Ticket::UNREAD) {
+            $this->ticket->update(['status' => Ticket::UNREAD]);
         }
+
+        $this->replies = $this->ticket
+            ->replies()
+            ->orderBy('id', 'asc')
+            ->get();
+
+        $this->showReplyForm = false;
+
+        $this->notify('success', trans('tickets.ticket-updated-by-user'));
+
+        User::query()->whereIn('role', [UserRole::Admin->value, UserRole::Employee->value])->each(function (User $user) use ($ticket) {
+            Notification::make()
+                ->title(trans('tickets.ticket-updated-by-user'))
+                ->body(trans('tickets.ticket_updated_notification_body', ['user' => auth()->user()->name, 'title' => $ticket->title]))
+                ->actions([
+                    Action::make('view')->label(trans('notifications.view-item'))->url(TicketResource::getUrl('view', ['record' => $ticket])),
+                    Action::make('view_user')->label(trans('notifications.view-user'))->url(UserResource::getUrl('edit', ['record' => auth()->user()])),
+                ])
+                ->sendToDatabase($user);
+
+            FacadesNotification::route('mail', $user->email)
+                ->notify(new TicketCreated($ticket));
+        });
 
         $this->state = [
             'message' => '',
