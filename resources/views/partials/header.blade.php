@@ -15,49 +15,71 @@
                 <li>
                     <kbd @click="$dispatch('toggle-spotlight')" class="cursor-pointer p-1 items-center shadow justify-center rounded border border-gray-400 hover:bg-gray-200 bg-white font-semibold text-gray-900">{{ trans('general.navbar-search') }}</kbd>
                 </li>
+                <li>
+                    <x-filament::button color="secondary" onclick="Livewire.emit('openModal', 'modals.item.create-item-modal')"
+                                        icon="heroicon-o-plus-circle">
+                        {{ trans('items.create') }}
+                    </x-filament::button>
+                </li>
+
                 @guest
-                    <li>
-                        <a class="flex items-center justify-center text-white hover:text-gray-50 focus:outline-none"
-                           href="{{ route('login') }}">
-                            {{ trans('auth.login') }}
-                        </a>
-                    </li>
-                    <li>
-                        <a class="flex items-center justify-center text-white hover:text-gray-50 focus:outline-none"
-                           href="{{ route('register') }}">
-                            {{ trans('auth.register') }}
-                        </a>
-                    </li>
+                <li>
+                    <a class="flex items-center justify-center text-white hover:text-gray-50 focus:outline-none"
+                    href="{{ route('login') }}">
+                        {{ trans('auth.login') }}
+                    </a>
+                </li>
+                <li>
+                    <a class="flex items-center justify-center text-white hover:text-gray-50 focus:outline-none"
+                    href="{{ route('register') }}">
+                        {{ trans('auth.register') }}
+                    </a>
+                </li>
                 @endguest
-
                 @auth
-                    @if(auth()->user()->hasAdminAccess())
-                        <li>
-                            <a class="flex items-center justify-center w-10 h-10 text-red-500 transition rounded-full hover:bg-gray-500/5 focus:bg-blue-500/10 focus:outline-none"
-                               href="{{ route('filament.pages.dashboard') }}">
-                                <x-heroicon-o-cog class="w-7 h-7 text-white"/>
-                            </a>
-                        </li>
-                    @endif
-                    <li>
-                        <a href="{{ route('profile') }}">
-                            <div class="relative w-7 h-7 rounded-full">
-                                <div class="absolute inset-0 bg-gray-200 rounded-full animate-pulse"></div>
-
-                                <img class="absolute inset-0 object-cover rounded-full"
-                                     src="{{ auth()->user()->profile_picture }}"
-                                     alt="{{ auth()->user()->name }}">
+                <li>
+                    <x-dropdown align="right" width="48">
+                        <x-slot name="trigger">
+                            <div class="flex items-center space-x-4">
+                                <div class="flex-shrink-0">
+                                    <img class="w-8 h-8 rounded-full" src="{{ auth()->user()->profile_picture }}" alt="{{ auth()->user()->name }}">
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-bold truncate text-white dark:text-gray-100">
+                                        {{ auth()->user()->name }}
+                                    </p>
+                                    <p class="text-sm truncate text-gray-100 dark:text-gray-200">
+                                        {{ auth()->user()->email }}
+                                    </p>
+                                </div>
                             </div>
-                        </a>
-                    </li>
-                @endauth
+                        </x-slot>
 
-                    <li>
-                        <x-filament::button color="secondary" onclick="Livewire.emit('openModal', 'modals.item.create-item-modal')"
-                                            icon="heroicon-o-plus-circle">
-                            {{ trans('items.create') }}
-                        </x-filament::button>
-                    </li>
+                        <x-slot name="content">
+                            <x-dropdown-link :href="route('profile')">
+                                {{ trans('profile.profile') }}
+                            </x-dropdown-link>
+
+                            @if(auth()->user()->hasAdminAccess())
+                            <x-dropdown-link :href="route('filament.pages.dashboard')">
+                                {{ trans('profile.admin') }}
+                            </x-dropdown-link>
+                            @endif
+
+                            <!-- Authentication -->
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+
+                                <x-dropdown-link :href="route('logout')"
+                                        onclick="event.preventDefault();
+                                                    this.closest('form').submit();">
+                                    {{ trans('profile.logout') }}
+                                </x-dropdown-link>
+                            </form>
+                        </x-slot>
+                    </x-dropdown>
+                </li>
+                @endauth
             </ul>
 
             <!-- Hamburger -->
