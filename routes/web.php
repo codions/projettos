@@ -3,6 +3,7 @@
 use App\Http\Controllers\ItemEmailUnsubscribeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MyController;
+use App\Http\Controllers\TicketsController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\BoardsController;
 use App\Http\Controllers\ProjectController;
@@ -40,6 +41,8 @@ Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'
 Route::group(['middleware' => 'authed'], function () {
     Route::get('profile', [\App\Http\Controllers\Auth\ProfileController::class, 'show'])->name('profile');
     Route::get('my', MyController::class)->name('my');
+    Route::get('tickets', TicketsController::class)->name('tickets');
+    Route::get('tickets/{id}', [TicketsController::class, 'show'])->name('tickets.show');
 
     Route::get('mention-search', \App\Http\Controllers\MentionSearchController::class)->name('mention-search');
     Route::get('user/{username}', \App\Http\Controllers\PublicUserController::class)->name('public-user');

@@ -104,7 +104,7 @@ class Ticket extends Model implements HasMedia
 
     public function getAttachments()
     {
-        return $this->getMedia('message_attachments');
+        return $this->getMedia('ticket_attachments');
     }
 
     public function downloadAttachments()

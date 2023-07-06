@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources\TicketResource\Pages;
 
-use App\Filament\Resources\MessageResource;
+use App\Filament\Resources\TicketResource;
 use App\Models\Ticket as Message;
-use App\Notifications\MessageAnswered;
+use App\Notifications\TicketAnswered;
 use Codions\GptTrixEditor\Components\GptTrixEditor;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
@@ -16,9 +16,9 @@ use Illuminate\Support\Facades\Notification as LaravelNotification;
 
 class ViewTicket extends Page implements Forms\Contracts\HasForms
 {
-    protected static string $resource = MessageResource::class;
+    protected static string $resource = TicketResource::class;
 
-    protected static string $view = 'filament.resources.message-resource.pages.view';
+    protected static string $view = 'filament.resources.ticket.pages.view';
 
     public $state = [
         'message' => '',
@@ -115,7 +115,7 @@ class ViewTicket extends Page implements Forms\Contracts\HasForms
         if (! empty($this->state['attachments'])) {
             foreach ($this->state['attachments'] as $file) {
                 $contact->addMedia($file)
-                    ->toMediaCollection('message_attachments');
+                    ->toMediaCollection('ticket_attachments');
             }
         }
 
@@ -138,10 +138,10 @@ class ViewTicket extends Page implements Forms\Contracts\HasForms
                 ->toDatabase();
 
             if ($this->record->user()->exists()) {
-                $this->record->user->notify(new MessageAnswered($contact));
+                $this->record->user->notify(new TicketAnswered($contact));
             } else {
                 LaravelNotification::route('mail', $this->record->email)
-                    ->notify(new MessageAnswered($contact));
+                    ->notify(new TicketAnswered($contact));
             }
         } else {
             Notification::make()
