@@ -24,10 +24,6 @@ return new class extends Migration {
             $table->foreignId('user_id')->nullable()->constrained();
             $table->timestamps();
         });
-
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('password')->nullable()->change();
-        });
     }
 
     /**

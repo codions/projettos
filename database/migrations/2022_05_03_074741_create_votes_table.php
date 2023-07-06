@@ -14,7 +14,7 @@ return new class extends Migration {
     {
         Schema::create('votes', function (Blueprint $table) {
             $table->id();
-
+            $table->boolean('subscribed')->default(true);
             $table->morphs('model');
 
             $table->foreignId('user_id')->nullable()->constrained();
