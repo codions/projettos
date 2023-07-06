@@ -6,17 +6,17 @@ use function app;
 use App\Enums\UserRole;
 use App\Filament\Resources\TicketResource;
 use App\Filament\Resources\UserResource;
+use App\Models\Project;
 use App\Models\Ticket;
 use App\Models\User;
 use App\Notifications\TicketCreated;
 use App\Settings\GeneralSettings;
 use function auth;
-use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Http\Livewire\Concerns\CanNotify;
@@ -24,7 +24,6 @@ use Filament\Notifications\Actions\Action;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Notification as FacadesNotification;
 use LivewireUI\Modal\ModalComponent;
-use App\Models\Project;
 use function redirect;
 use function route;
 use function view;
@@ -99,7 +98,7 @@ class CreateTicketModal extends ModalComponent implements HasForms
         ]);
 
         $ticket->user()->associate(auth()->user())->save();
-        $this->form->model($ticket)->saveRelationships(); 
+        $this->form->model($ticket)->saveRelationships();
 
         $this->closeModal();
 

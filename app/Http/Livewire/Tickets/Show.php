@@ -9,14 +9,13 @@ use App\Models\Ticket;
 use App\Models\User;
 use App\Notifications\TicketCreated;
 use Filament\Forms;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Http\Livewire\Concerns\CanNotify;
 use Filament\Notifications\Actions\Action;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Notification as FacadesNotification;
-use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Livewire\Component;
 
 class Show extends Component implements Forms\Contracts\HasForms
@@ -98,7 +97,7 @@ class Show extends Component implements Forms\Contracts\HasForms
         ]);
 
         $ticket->user()->associate(auth()->user())->save();
-        $this->form->model($ticket)->saveRelationships(); 
+        $this->form->model($ticket)->saveRelationships();
 
         if ($this->ticket->status !== Ticket::UNREAD) {
             $this->ticket->update(['status' => Ticket::UNREAD]);

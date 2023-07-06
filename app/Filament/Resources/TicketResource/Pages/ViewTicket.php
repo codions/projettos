@@ -6,13 +6,11 @@ use App\Filament\Resources\TicketResource;
 use App\Models\Ticket;
 use App\Notifications\TicketAnswered;
 use Filament\Forms;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
-use Filament\Notifications\Notification;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Resources\Pages\Page;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Notification as LaravelNotification;
-use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 
 class ViewTicket extends Page implements Forms\Contracts\HasForms
 {
@@ -101,7 +99,7 @@ class ViewTicket extends Page implements Forms\Contracts\HasForms
         ]);
 
         $ticket->user()->associate(auth()->user())->save();
-        $this->form->model($ticket)->saveRelationships(); 
+        $this->form->model($ticket)->saveRelationships();
 
         if ($this->ticket->status !== Ticket::REPLIED) {
             $this->ticket->update(['status' => Ticket::REPLIED]);

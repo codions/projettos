@@ -1,27 +1,32 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\PasswordProtectionController;
+use App\Http\Controllers\Auth\ProfileController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\BoardsController;
 use App\Http\Controllers\ChangelogController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ItemEmailUnsubscribeController;
+use App\Http\Controllers\MentionSearchController;
 use App\Http\Controllers\MyController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\PublicUserController;
 use App\Http\Controllers\TicketsController;
 use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get('oauth/login', [\App\Http\Controllers\Auth\LoginController::class, 'redirectToProvider'])
+Route::get('oauth/login', [LoginController::class, 'redirectToProvider'])
     ->middleware('guest')
     ->name('oauth.login');
-Route::get('oauth/callback', [\App\Http\Controllers\Auth\LoginController::class, 'handleProviderCallback'])->middleware('guest');
+Route::get('oauth/callback', [LoginController::class, 'handleProviderCallback'])->middleware('guest');
 
 Route::get('password-protection', PasswordProtectionController::class)->name('password.protection');
 Route::post('password-protection', [PasswordProtectionController::class, 'login'])->name('password.protection.login');
 
-Route::get('/', \App\Http\Controllers\HomeController::class)->name('home');
+Route::get('/', HomeController::class)->name('home');
 
 Route::get('changelog', [ChangelogController::class, 'index'])->name('changelog');
 Route::get('changelog/{changelog}', [ChangelogController::class, 'show'])->name('changelog.show');
@@ -39,13 +44,13 @@ Route::post('/email/verification-notification', [VerificationController::class, 
 Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->middleware(['auth', 'signed'])->name('verification.verify');
 
 Route::group(['middleware' => 'authed'], function () {
-    Route::get('profile', [\App\Http\Controllers\Auth\ProfileController::class, 'show'])->name('profile');
+    Route::get('profile', [ProfileController::class, 'show'])->name('profile');
     Route::get('my', MyController::class)->name('my');
     Route::get('tickets', TicketsController::class)->name('tickets');
     Route::get('tickets/{id}', [TicketsController::class, 'show'])->name('tickets.show');
 
-    Route::get('mention-search', \App\Http\Controllers\MentionSearchController::class)->name('mention-search');
-    Route::get('user/{username}', \App\Http\Controllers\PublicUserController::class)->name('public-user');
+    Route::get('mention-search', MentionSearchController::class)->name('mention-search');
+    Route::get('user/{username}', PublicUserController::class)->name('public-user');
 });
 
 Route::get('/unsubscribe/{item}/{user}', [ItemEmailUnsubscribeController::class, '__invoke'])

@@ -42,8 +42,14 @@ class Index extends Component implements HasTable
                 ->toggleable(isToggledHiddenByDefault: true)
                 ->sortable(),
 
-            Tables\Columns\TextColumn::make('project.title')
-                ->label(trans('table.project')),
+            Tables\Columns\TextColumn::make('project.title')->label(trans('table.project'))
+                ->url(function ($record) {
+                    if ($project = $record->project) {
+                        return route('projects.show', $project);
+                    }
+
+                    return null;
+                }),
 
             Tables\Columns\TextColumn::make('subject')
                 ->label(__('Subject'))
