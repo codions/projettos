@@ -12,6 +12,7 @@
         "filament/spatie-laravel-settings-plugin": "^2.17.0",
         "filament/spatie-laravel-tags-plugin": "^2.17",
         "filament/spatie-laravel-translatable-plugin": "^2.17",
+        "flowframe/laravel-trend": "^0.1.3",
         "graham-campbell/github": "^12.2",
         "guzzlehttp/guzzle": "^7.2",
         "intervention/image": "^2.7.2",
@@ -32,19 +33,18 @@
         "symfony/postmark-mailer": "^6.0",
         "wire-elements/modal": "^1.0.7",
         "wire-elements/spotlight": "^1.0.7",
-        "xetaio/xetaravel-mentions": "*",
-        "flowframe/laravel-trend": "^0.1.3"
+        "xetaio/xetaravel-mentions": "*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",
         "fakerphp/faker": "^1.9.1",
-        "friendsofphp/php-cs-fixer": "^3.13.1",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^6.4",
         "pestphp/pest": "^1.22.4",
         "pestphp/pest-plugin-laravel": "^1.2",
         "phpunit/phpunit": "^9.6.3",
-        "spatie/laravel-ignition": "^2.0"
+        "spatie/laravel-ignition": "^2.0",
+        "laravel/pint": "^1.10"
     },
     "autoload": {
         "psr-4": {
