@@ -34,6 +34,7 @@ class Ticket extends Model implements HasMedia
     ];
 
     public $fillable = [
+        'project_id',
         'parent_id',
         'sent_by',
         'name',
@@ -51,6 +52,11 @@ class Ticket extends Model implements HasMedia
     public function user()
     {
         return $this->belongsTo(User::class, 'sent_by');
+    }
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class, 'project_id');
     }
 
     public function replies()

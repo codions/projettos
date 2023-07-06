@@ -20,8 +20,8 @@ return new class extends Migration
             $table->string('subject')->nullable();
             $table->text('message');
             $table->enum('status', ['read', 'unread', 'replied'])->default('unread');
-            $table->integer('project_id')->nullable();
             $table->unsignedBigInteger('replied_by')->nullable();
+            $table->unsignedBigInteger('project_id')->nullable();
             $table->unsignedBigInteger('sent_by')->nullable();
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->boolean('is_spam')->default(false);
@@ -29,6 +29,7 @@ return new class extends Migration
 
             $table->foreign('replied_by')->references('id')->on('users')->cascadeOnDelete();
             $table->foreign('sent_by')->references('id')->on('users')->cascadeOnDelete();
+            $table->foreign('project_id')->references('id')->on('projects')->cascadeOnDelete();
             $table->foreign('parent_id')->references('id')->on('tickets')->cascadeOnDelete();
         });
     }

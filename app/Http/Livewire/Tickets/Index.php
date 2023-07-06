@@ -42,6 +42,9 @@ class Index extends Component implements HasTable
                 ->toggleable(isToggledHiddenByDefault: true)
                 ->sortable(),
 
+            Tables\Columns\TextColumn::make('project.title')
+                ->label(trans('table.project')),
+
             Tables\Columns\TextColumn::make('subject')
                 ->label(__('Subject'))
                 ->toggleable()
@@ -81,8 +84,9 @@ class Index extends Component implements HasTable
     {
         return Ticket::query()
             ->root()
-            ->latest()
-            ->where('sent_by', auth()->user()->id);
+            ->with(['project'])
+            ->where('sent_by', auth()->user()->id)
+            ->latest();
     }
 
     public function isTableSearchable(): bool

@@ -13,7 +13,7 @@
                         <span class="bg-gray-300 h-6 w-[.5px] mx-3"></span>
                         <div class="flex items-center space-x-2">
 
-                            @if($record->is_spam)
+                            @if($ticket->is_spam)
                             <button wire:click="toggleSpam" title="{{ __('Mark as spam') }}" class="text-red-700 px-2 py-1 border border-red-300 rounded-lg shadow bg-red-100 hover:bg-red-200 transition duration-100">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
@@ -64,23 +64,23 @@
                 </div>
             </div>
             <div class="mb-6">
-                <h4 class="text-lg text-gray-800 font-bold pb-2 mb-4 border-b-2">#{{ $record->id }} - {{ $record->subject }}</h4>
+                <h4 class="text-lg text-gray-800 font-bold pb-2 mb-4 border-b-2">#{{ $ticket->id }} - {{ $ticket->subject }}</h4>
                 <div class="flex items-center justify-between">
                     <div class="flex items-center">
-                        <img src="{{ $record->profile_picture }}" class="rounded-full w-8 h-8 border border-gray-500">
+                        <img src="{{ $ticket->profile_picture }}" class="rounded-full w-8 h-8 border border-gray-500">
                         <div class="flex flex-col ml-2">
-                            <span class="text-sm font-semibold">{{ $record->name }}</span>
-                            <span class="text-xs text-gray-400">{{ $record->email }}</span>
+                            <span class="text-sm font-semibold">{{ $ticket->name }}</span>
+                            <span class="text-xs text-gray-400">{{ $ticket->email }}</span>
                         </div>
                     </div>
-                    <span class="text-sm text-gray-500">{{ $record->created_at->toDayDateTimeString() }}</span>
+                    <span class="text-sm text-gray-500">{{ $ticket->created_at->toDayDateTimeString() }}</span>
                 </div>
                 <div class="py-6 pl-2 text-gray-700">
-                    {!! $record->message !!}
+                    {!! $ticket->message !!}
                 </div>
 
                 @php
-                    $attachments = $record->getAttachments();
+                    $attachments = $ticket->getAttachments();
                 @endphp
                 @if($attachments->count())
                     <div class="border-t-2 flex flex-wrap py-4">

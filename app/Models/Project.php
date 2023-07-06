@@ -36,6 +36,11 @@ class Project extends Model
         return $this->hasMany(Board::class)->orderBy('sort_order');
     }
 
+    public function tickets()
+    {
+        return $this->hasMany(Ticket::class);
+    }
+
     public function members(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'project_member')->using(ProjectMember::class);

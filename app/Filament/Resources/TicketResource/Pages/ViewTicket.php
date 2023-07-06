@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\TicketResource\Pages;
 
 use App\Filament\Resources\TicketResource;
-use App\Models\Ticket as Message;
+use App\Models\Ticket;
 use App\Notifications\TicketAnswered;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
@@ -12,6 +12,7 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Page;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Notification as LaravelNotification;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 
 class ViewTicket extends Page implements Forms\Contracts\HasForms
 {
@@ -24,7 +25,7 @@ class ViewTicket extends Page implements Forms\Contracts\HasForms
         'attachments' => [],
     ];
 
-    public Message $record;
+    public Ticket $ticket;
 
     public Collection $replies;
 
@@ -42,40 +43,42 @@ class ViewTicket extends Page implements Forms\Contracts\HasForms
                 ->columnSpan('full')
                 ->required(),
 
-            FileUpload::make('state.attachments')
+            SpatieMediaLibraryFileUpload::make('state.attachments')
                 ->label(__('Attachments'))
+                ->collection('ticket_attachments')
+                ->preserveFilenames()
                 ->multiple()
                 ->maxFiles(10)
-                ->acceptedFileTypes(Message::ACCEPTED_FILE_TYPES),
+                ->acceptedFileTypes(Ticket::ACCEPTED_FILE_TYPES),
         ];
     }
 
-    public function mount(Message $record): void
+    public function mount(Ticket $record): void
     {
-        $this->record = $record;
+        $this->ticket = $record;
 
         $this->replies = $record->replies()->orderBy('id', 'desc')->get();
 
-        if ($this->record->status === Message::UNREAD) {
-            $this->record->update(['status' => Message::READ]);
+        if ($this->ticket->status === Ticket::UNREAD) {
+            $this->ticket->update(['status' => Ticket::READ]);
         }
 
-        $this->previous = Message::root()->where('id', '<', $record->id)->max('id');
-        $this->next = Message::root()->where('id', '>', $record->id)->min('id');
+        $this->previous = Ticket::root()->where('id', '<', $record->id)->max('id');
+        $this->next = Ticket::root()->where('id', '>', $record->id)->min('id');
     }
 
     public function toggleSpam()
     {
-        if ($this->record->is_spam) {
-            return $this->record->update(['is_spam' => false]);
+        if ($this->ticket->is_spam) {
+            return $this->ticket->update(['is_spam' => false]);
         }
 
-        return $this->record->update(['is_spam' => true]);
+        return $this->ticket->update(['is_spam' => true]);
     }
 
     public function delete()
     {
-        $this->record->delete();
+        $this->ticket->delete();
         $this->emit('messageDeleted');
 
         return redirect()->to('/admin/tickets');
@@ -83,57 +86,41 @@ class ViewTicket extends Page implements Forms\Contracts\HasForms
 
     public function markAsUnread()
     {
-        $this->record->update(['status' => Message::UNREAD]);
+        $this->ticket->update(['status' => Ticket::UNREAD]);
 
         return redirect()->to('/admin/tickets');
     }
 
     public function submit()
     {
-        $this->validate();
+        $data = $this->form->getState()['state'];
 
-        $contact = new Message;
+        $ticket = Ticket::create([
+            'parent_id' => $this->ticket->id,
+            'message' => $data['message'],
+        ]);
 
-        $contact->parent_id = $this->record->id;
-        $contact->message = $this->state['message'];
-        $status = $contact->save();
+        $ticket->user()->associate(auth()->user())->save();
+        $this->form->model($ticket)->saveRelationships(); 
 
-        if (! empty($this->state['attachments'])) {
-            foreach ($this->state['attachments'] as $file) {
-                $contact->addMedia($file)
-                    ->toMediaCollection('ticket_attachments');
-            }
+        if ($this->ticket->status !== Ticket::REPLIED) {
+            $this->ticket->update(['status' => Ticket::REPLIED]);
         }
 
-        if ($status) {
-            if ($this->record->status !== Message::REPLIED) {
-                $this->record->update(['status' => Message::REPLIED]);
-            }
+        $this->replies = $this->ticket
+            ->replies()
+            ->orderBy('id', 'desc')
+            ->get();
 
-            $this->replies = $this->record
-                ->replies()
-                ->orderBy('id', 'desc')
-                ->get();
+        $this->showReplyForm = false;
 
-            $this->showReplyForm = false;
+        $this->notify('success', trans('tickets.ticket-updated-by-user'));
 
-            Notification::make()
-                ->title(__('Your message has been sent successfully'))
-                ->success()
-                ->send()
-                ->toDatabase();
-
-            if ($this->record->user()->exists()) {
-                $this->record->user->notify(new TicketAnswered($contact));
-            } else {
-                LaravelNotification::route('mail', $this->record->email)
-                    ->notify(new TicketAnswered($contact));
-            }
+        if ($this->ticket->user()->exists()) {
+            $this->ticket->user->notify(new TicketAnswered($ticket));
         } else {
-            Notification::make()
-                ->title(__('Your message could not be sent'))
-                ->danger()
-                ->send();
+            LaravelNotification::route('mail', $this->ticket->email)
+                ->notify(new TicketAnswered($ticket));
         }
 
         $this->state = [

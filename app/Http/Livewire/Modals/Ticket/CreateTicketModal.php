@@ -12,9 +12,11 @@ use App\Notifications\TicketCreated;
 use App\Settings\GeneralSettings;
 use function auth;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Http\Livewire\Concerns\CanNotify;
@@ -22,6 +24,7 @@ use Filament\Notifications\Actions\Action;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Notification as FacadesNotification;
 use LivewireUI\Modal\ModalComponent;
+use App\Models\Project;
 use function redirect;
 use function route;
 use function view;
@@ -45,6 +48,13 @@ class CreateTicketModal extends ModalComponent implements HasForms
         return [
             Grid::make(6)
                 ->schema([
+                    Select::make('state.project_id')
+                        ->label(trans('table.project'))
+                        ->reactive()
+                        ->options(Project::query()->visibleForCurrentUser()->pluck('title', 'id'))
+                        ->required()
+                        ->columnSpan(6),
+
                     TextInput::make('state.subject')
                         ->label(__('Subject'))
                         ->required()
@@ -56,8 +66,10 @@ class CreateTicketModal extends ModalComponent implements HasForms
                         ->required()
                         ->columnSpan(6),
 
-                    FileUpload::make('state.attachments')
+                    SpatieMediaLibraryFileUpload::make('state.attachments')
                         ->label(__('Attachments'))
+                        ->collection('ticket_attachments')
+                        ->preserveFilenames()
                         ->multiple()
                         ->maxFiles(10)
                         ->acceptedFileTypes(Ticket::ACCEPTED_FILE_TYPES)
@@ -81,18 +93,13 @@ class CreateTicketModal extends ModalComponent implements HasForms
         $data = $this->form->getState()['state'];
 
         $ticket = Ticket::create([
+            'project_id' => $data['project_id'] ?? null,
             'subject' => $data['subject'],
             'message' => $data['message'],
         ]);
 
         $ticket->user()->associate(auth()->user())->save();
-
-        if (! empty($data['attachments'])) {
-            foreach ($data['attachments'] as $file) {
-                $ticket->addMedia($file)
-                    ->toMediaCollection('ticket_attachments');
-            }
-        }
+        $this->form->model($ticket)->saveRelationships(); 
 
         $this->closeModal();
 

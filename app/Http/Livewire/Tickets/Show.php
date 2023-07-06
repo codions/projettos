@@ -16,6 +16,7 @@ use Filament\Notifications\Actions\Action;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Notification as FacadesNotification;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Livewire\Component;
 
 class Show extends Component implements Forms\Contracts\HasForms
@@ -65,8 +66,10 @@ class Show extends Component implements Forms\Contracts\HasForms
                 ])
                 ->required(),
 
-            FileUpload::make('state.attachments')
+            SpatieMediaLibraryFileUpload::make('state.attachments')
                 ->label(__('Attachments'))
+                ->collection('ticket_attachments')
+                ->preserveFilenames()
                 ->multiple()
                 ->maxFiles(10)
                 ->acceptedFileTypes(Ticket::ACCEPTED_FILE_TYPES),
@@ -95,13 +98,7 @@ class Show extends Component implements Forms\Contracts\HasForms
         ]);
 
         $ticket->user()->associate(auth()->user())->save();
-
-        if (! empty($data['attachments'])) {
-            foreach ($data['attachments'] as $file) {
-                $ticket->addMedia($file)
-                    ->toMediaCollection('message_attachments');
-            }
-        }
+        $this->form->model($ticket)->saveRelationships(); 
 
         if ($this->ticket->status !== Ticket::UNREAD) {
             $this->ticket->update(['status' => Ticket::UNREAD]);

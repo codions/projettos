@@ -30,6 +30,9 @@ class TicketResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->sortable(),
 
+                Tables\Columns\TextColumn::make('project.title')
+                    ->label(trans('table.project')),
+
                 Tables\Columns\TextColumn::make('name')
                     ->label(_('Name'))
                     ->toggleable()
@@ -99,6 +102,8 @@ class TicketResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        return static::getModel()::root();
+        return static::getModel()::root()
+            ->with(['project'])
+            ->latest();
     }
 }
