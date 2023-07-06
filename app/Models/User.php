@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class User extends Authenticatable implements FilamentUser, HasAvatar, MustVerifyEmail
 {
@@ -43,6 +44,13 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, MustVerif
         'per_page_setting' => 'array',
         'role' => UserRole::class,
     ];
+
+    public function profilePicture(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => $value ?: '/images/users/avatar.png',
+        );
+    }
 
     public function canAccessFilament(): bool
     {
