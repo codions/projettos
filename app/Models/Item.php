@@ -27,6 +27,7 @@ class Item extends Model
     use HasOgImage;
     use HasUpvote;
     use HasTags;
+    use Traits\HasUser;
 
     public $fillable = [
         'slug',
@@ -64,11 +65,6 @@ class Item extends Model
     public function board(): BelongsTo
     {
         return $this->belongsTo(Board::class);
-    }
-
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
     }
 
     public function project(): BelongsTo

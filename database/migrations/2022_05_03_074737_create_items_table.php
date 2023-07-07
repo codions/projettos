@@ -22,8 +22,7 @@ return new class extends Migration
             $table->boolean('pinned')->default(false);
             $table->boolean('private')->default(false);
             $table->boolean('notify_subscribers')->default(true);
-            $table->integer('project_id')->nullable();
-
+            $table->integer('project_id')->nullable()->constrained();
             $table->foreignId('board_id')->nullable()->constrained();
             $table->foreignId('user_id')->nullable()->constrained();
             $table->bigInteger('issue_number')->nullable();

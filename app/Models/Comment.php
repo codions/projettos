@@ -16,6 +16,7 @@ class Comment extends Model
     use HasMentionsTrait;
     use LogsActivity;
     use HasUpvote;
+    use Traits\HasUser;
 
     public $fillable = [
         'content',
@@ -29,11 +30,6 @@ class Comment extends Model
     ];
 
     protected static $recordEvents = ['updated'];
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
 
     public function item()
     {

@@ -14,6 +14,7 @@ class Project extends Model
     use HasFactory;
     use Sluggable;
     use HasOgImage;
+    use Traits\HasUser;
 
     public $fillable = [
         'title',
