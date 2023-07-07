@@ -17,6 +17,8 @@ class ItemFactory extends Factory
     public function definition()
     {
         return [
+            'project_id' => \App\Models\Project::inRandomOrder()->first()->id,
+            'user_id' => \App\Models\User::inRandomOrder()->first()->id,
             'title' => ucfirst($this->faker->domainWord),
             'content' => $this->faker->text(500),
             'slug' => $this->faker->word,

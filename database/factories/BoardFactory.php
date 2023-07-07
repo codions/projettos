@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Board>
@@ -16,9 +17,11 @@ class BoardFactory extends Factory
      */
     public function definition()
     {
+        $name = $this->faker->randomElement(['Under review', 'Planned', 'In progress', 'Live', 'Closed']);
+
         return [
-            'title' => ucfirst($this->faker->domainWord),
-            'slug' => $this->faker->word,
+            'title' => $name,
+            'slug' => Str::slug($name),
             'can_users_create' => true,
         ];
     }

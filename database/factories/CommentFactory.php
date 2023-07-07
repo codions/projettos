@@ -17,6 +17,8 @@ class CommentFactory extends Factory
     public function definition()
     {
         return [
+            'item_id' => \App\Models\Item::inRandomOrder()->first()->id,
+            'user_id' => \App\Models\User::inRandomOrder()->first()->id,
             'content' => $this->faker->text(200),
         ];
     }

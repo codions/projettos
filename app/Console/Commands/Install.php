@@ -14,15 +14,24 @@ class Install extends Command
     use CanValidateInput;
     use CanShowAnIntro;
 
-    protected $signature = 'app:install';
+    protected $signature = 'app:install
+        {--demo : Install sample data}
+        {--force : Force install with new data}';
 
     protected $description = 'Install Roadmap software.';
 
     public function handle()
     {
+        $demo = $this->option('demo');
+        $force = $this->option('force');
+
         $this->intro();
-        $this->refreshDatabase();
-        $this->createUser();
+        $this->refreshDatabase($force, $demo);
+
+        if (!$demo) {
+            $this->createUser();
+        }
+
         $this->linkStorage();
 
         $this->writeSeparationLine();
@@ -31,12 +40,20 @@ class Install extends Command
         $this->info('All done! You can now login at ' . route('filament.auth.login'));
     }
 
-    protected function refreshDatabase()
+    protected function refreshDatabase($force, $demo)
     {
+        if ($force) {
+            $this->call('db:wip');
+        }
+
         $this->call('migrate');
 
         $this->info('Installing initial data...');
         $this->call('db:seed', ['--class' => \Database\Seeders\DatabaseSeeder::class, '--force' => true]);
+
+        if ($demo) {
+            $this->call('db:seed', ['--class' => \Database\Seeders\DemoSeeder::class, '--force' => true]);
+        }
     }
 
     protected function createUser()
