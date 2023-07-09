@@ -8,7 +8,7 @@ use Filament\Widgets\StatsOverviewWidget\Card;
 use Flowframe\Trend\Trend;
 use Flowframe\Trend\TrendValue;
 
-class TicketStats extends BaseWidget
+class TicketOverview extends BaseWidget
 {
     protected function getCards(): array
     {
@@ -21,7 +21,7 @@ class TicketStats extends BaseWidget
             ->count();
 
         return [
-            Card::make(__('Messages'), Ticket::root()->count())
+            Card::make(__('Tickets'), Ticket::root()->count())
                 ->chart(
                     $createdData
                         ->map(fn (TrendValue $value) => $value->aggregate)

@@ -2,7 +2,7 @@
     <x-slot name="title">
         <div class="flex justify-between items-center">
             <div>
-                {{ trans('tickets.create') }}
+                {{ trans('tickets.activities') }}
             </div>
             <div class="text-medium">
                 <button wire:click="$emit('closeModal')">
@@ -17,16 +17,6 @@
     </x-slot>
 
     <x-slot name="content">
-        {{ $this->form }}
-    </x-slot>
-
-    <x-slot name="buttons">
-        <x-filament::button wire:click="submit">
-            {{ trans('tickets.create') }}
-        </x-filament::button>
-
-        <x-filament::button color="secondary" wire:click="$emit('closeModal')">
-            {{ trans('general.close') }}
-        </x-filament::button>
+        <x-activities :activities="$this->getActivities()" />
     </x-slot>
 </x-modal>

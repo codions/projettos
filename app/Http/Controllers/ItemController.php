@@ -26,6 +26,7 @@ class ItemController extends Controller
         }
 
         $showGitHubLink = app(GeneralSettings::class)->show_github_link;
+
         $activities = $item->activities()->with('causer')->latest()->limit(10)->get()->filter(function (Activity $activity) use ($showGitHubLink) {
             if (! $showGitHubLink && ItemActivity::getForActivity($activity) === ItemActivity::LinkedToIssue) {
                 return false;

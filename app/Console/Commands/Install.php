@@ -28,7 +28,7 @@ class Install extends Command
         $this->intro();
         $this->refreshDatabase($force, $demo);
 
-        if (!$demo) {
+        if (! $demo) {
             $this->createUser();
         }
 

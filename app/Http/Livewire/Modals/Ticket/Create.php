@@ -9,13 +9,13 @@ use App\Filament\Resources\UserResource;
 use App\Models\Project;
 use App\Models\Ticket;
 use App\Models\User;
-use App\Notifications\TicketCreated;
+use App\Notifications\Ticket\TicketCreated;
 use App\Settings\GeneralSettings;
 use function auth;
 use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
@@ -25,10 +25,9 @@ use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Notification as FacadesNotification;
 use LivewireUI\Modal\ModalComponent;
 use function redirect;
-use function route;
 use function view;
 
-class CreateTicketModal extends ModalComponent implements HasForms
+class Create extends ModalComponent implements HasForms
 {
     use InteractsWithForms;
     use CanNotify;
@@ -49,7 +48,6 @@ class CreateTicketModal extends ModalComponent implements HasForms
                 ->schema([
                     Select::make('state.project_id')
                         ->label(trans('table.project'))
-                        ->reactive()
                         ->options(Project::query()->visibleForCurrentUser()->pluck('title', 'id'))
                         ->required()
                         ->columnSpan(6),
@@ -59,9 +57,22 @@ class CreateTicketModal extends ModalComponent implements HasForms
                         ->required()
                         ->columnSpan(6),
 
-                    Textarea::make('state.message')
-                        ->label(__('Your message'))
-                        ->rows(3)
+                    RichEditor::make('state.message')
+                        ->label(__('Your Message'))
+                        ->toolbarButtons([
+                            'blockquote',
+                            'bold',
+                            'bulletList',
+                            'codeBlock',
+                            'h2',
+                            'h3',
+                            'italic',
+                            'link',
+                            'orderedList',
+                            'redo',
+                            'strike',
+                            'undo',
+                        ])
                         ->required()
                         ->columnSpan(6),
 
@@ -79,10 +90,6 @@ class CreateTicketModal extends ModalComponent implements HasForms
 
     public function submit()
     {
-        if (! auth()->user()) {
-            return redirect()->route('login');
-        }
-
         if (app(GeneralSettings::class)->users_must_verify_email && ! auth()->user()->hasVerifiedEmail()) {
             $this->notify('primary', 'Please verify your email before submitting items.');
 
@@ -104,7 +111,7 @@ class CreateTicketModal extends ModalComponent implements HasForms
 
         $this->notify('success', trans('tickets.ticket_created'));
 
-        User::query()->whereIn('role', [UserRole::Admin->value, UserRole::Employee->value])->each(function (User $user) use ($ticket) {
+        User::whereIn('role', [UserRole::Admin->value, UserRole::Employee->value])->each(function (User $user) use ($ticket) {
             Notification::make()
                 ->title(trans('tickets.ticket_created'))
                 ->body(trans('tickets.ticket_created_notification_body', ['user' => auth()->user()->name, 'title' => $ticket->title]))
@@ -118,7 +125,7 @@ class CreateTicketModal extends ModalComponent implements HasForms
                 ->notify(new TicketCreated($ticket));
         });
 
-        return route('tickets.show', $ticket->id);
+        $this->emit('createdTicket');
     }
 
     public function render()

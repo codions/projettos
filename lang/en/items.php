@@ -32,4 +32,18 @@ return [
     'not-allowed-to-create-items' => 'You are not allowed to create items in this board.',
     'update-board-success' => 'Successfully moved the item to board :board',
     'view-on-github' => 'View issue on GitHub',
+
+    'activity' => [
+        'created' => 'created the ticket',
+        'linked-to-issue' => 'linked ticket to issue #:issue_number on GitHub',
+        'moved-to-project' => 'moved ticket to project :project',
+        'moved-to-board' => 'moved ticket to board :board',
+        'made-private' => 'made ticket private',
+        'made-public' => 'made ticket public',
+        'pinned' => 'pinned the ticket',
+        'unpinned' => 'unpinned the ticket',
+
+        'unknown-user' => 'Unknown user',
+    ],
+
 ];

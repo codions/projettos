@@ -9,4 +9,6 @@ return [
 
     'close' => 'Close',
     'save' => 'Save',
+    'confirm' => 'Confirm',
+    'cancel' => 'Cancel',
 ];

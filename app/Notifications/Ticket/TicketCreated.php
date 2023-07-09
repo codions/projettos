@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Notifications;
+namespace App\Notifications\Ticket;
 
 use App\Models\Ticket;
 use Filament\Notifications\Actions\Action;
@@ -45,14 +45,14 @@ class TicketCreated extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $subject = __('Ticket Created #:id :subject', [
-            'id' => $this->ticket->id,
+        $subject = __('Ticket Created #:code :subject', [
+            'code' => $this->ticket->code,
             'subject' => $this->ticket->subject,
         ]);
 
-        $name = __('Name: :name', ['name' => $this->ticket->name]);
-        $email = __('E-mail: :email', ['email' => $this->ticket->email]);
-        $message = __('Message: :message', ['message' => $this->ticket->message]);
+        $name = __('Name: :name', ['name' => $this->ticket->user->name]);
+        $email = __('E-mail: :email', ['email' => $this->ticket->user->email]);
+        $message = __('Message: :message', ['message' => strip_tags($this->ticket->message)]);
 
         return (new MailMessage)
             ->subject($subject)
@@ -61,7 +61,7 @@ class TicketCreated extends Notification implements ShouldQueue
             ->line($email)
             ->line($message)
             ->action(__('Reply Message'), url("/admin/tickets/{$this->ticket->id}/view"))
-            ->replyTo($this->ticket->email, $this->ticket->name)
+            ->replyTo($this->ticket->user->email, $this->ticket->user->name)
             ->line(__('Thank you for using our application!'));
     }
 

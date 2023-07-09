@@ -6,12 +6,14 @@ use App\Models\Changelog;
 use App\Models\Comment;
 use App\Models\Item;
 use App\Models\Project;
+use App\Models\Ticket;
 use App\Models\User;
 use App\Models\Vote;
 use App\Observers\ChangelogObserver;
 use App\Observers\CommentObserver;
 use App\Observers\ItemObserver;
 use App\Observers\ProjectObserver;
+use App\Observers\TicketObserver;
 use App\Observers\UserObserver;
 use App\Observers\VoteObserver;
 use Illuminate\Auth\Events\Registered;
@@ -35,6 +37,7 @@ class EventServiceProvider extends ServiceProvider
         Vote::class => [VoteObserver::class],
         Project::class => [ProjectObserver::class],
         Item::class => [ItemObserver::class],
+        Ticket::class => [TicketObserver::class],
         Comment::class => [CommentObserver::class],
         User::class => [UserObserver::class],
         Changelog::class => [ChangelogObserver::class],

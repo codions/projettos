@@ -56,25 +56,25 @@
                         </x-slot>
 
                         <x-slot name="content">
-                            <x-dropdown-link :href="route('profile')">
+                            <x-dropdown.item :href="route('profile')">
                                 {{ trans('profile.profile') }}
-                            </x-dropdown-link>
+                            </x-dropdown.item>
 
                             @if(auth()->user()->hasAdminAccess())
-                            <x-dropdown-link :href="route('filament.pages.dashboard')">
+                            <x-dropdown.item :href="route('filament.pages.dashboard')">
                                 {{ trans('profile.admin') }}
-                            </x-dropdown-link>
+                            </x-dropdown.item>
                             @endif
 
                             <!-- Authentication -->
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
 
-                                <x-dropdown-link :href="route('logout')"
+                                <x-dropdown.item :href="route('logout')"
                                         onclick="event.preventDefault();
                                                     this.closest('form').submit();">
                                     {{ trans('profile.logout') }}
-                                </x-dropdown-link>
+                                </x-dropdown.item>
                             </form>
                         </x-slot>
                     </x-dropdown>

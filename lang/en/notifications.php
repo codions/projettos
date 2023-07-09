@@ -7,6 +7,9 @@ return [
     'item-updated-subject' => 'Item :title has new updates',
     'item-updated-body' => 'The item **:title** you\'re subscribed to have been updated.',
 
+    'ticket-updated-subject' => 'Ticket :subject has new updates',
+    'ticket-updated-body' => 'The ticket **:subject** you\'re subscribed to have been updated.',
+
     'new-comment-subject' => 'New comment on roadmap item :title',
     'new-comment-body' => 'There is a new comment on item **:title**, which you are subscribed to.',
 

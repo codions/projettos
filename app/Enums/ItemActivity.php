@@ -34,14 +34,14 @@ enum ItemActivity: string
     public function getTranslation(array $attributes = [], ?string $locale = null): string
     {
         return match ($this) {
-            self::Created => trans('item-activity.created', [], $locale),
-            self::LinkedToIssue => trans('item-activity.linked-to-issue', ['issue_number' => $attributes['issue_number'] ?? ''], $locale),
-            self::MovedToProject => trans('item-activity.moved-to-project', ['project' => $attributes['project'] ?? ''], $locale),
-            self::MovedToBoard => trans('item-activity.moved-to-board', ['board' => $attributes['board'] ?? ''], $locale),
-            self::MadePrivate => trans('item-activity.made-private', [], $locale),
-            self::MadePublic => trans('item-activity.made-public', [], $locale),
-            self::Pinned => trans('item-activity.pinned', [], $locale),
-            self::Unpinned => trans('item-activity.unpinned', [], $locale),
+            self::Created => trans('items.activity.created', [], $locale),
+            self::LinkedToIssue => trans('items.activity.linked-to-issue', ['issue_number' => $attributes['issue_number'] ?? ''], $locale),
+            self::MovedToProject => trans('items.activity.moved-to-project', ['project' => $attributes['project'] ?? ''], $locale),
+            self::MovedToBoard => trans('items.activity.moved-to-board', ['board' => $attributes['board'] ?? ''], $locale),
+            self::MadePrivate => trans('items.activity.made-private', [], $locale),
+            self::MadePublic => trans('items.activity.made-public', [], $locale),
+            self::Pinned => trans('items.activity.pinned', [], $locale),
+            self::Unpinned => trans('items.activity.unpinned', [], $locale),
         };
     }
 }

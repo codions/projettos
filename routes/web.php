@@ -13,7 +13,7 @@ use App\Http\Controllers\MentionSearchController;
 use App\Http\Controllers\MyController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\PublicUserController;
-use App\Http\Controllers\TicketsController;
+use App\Http\Controllers\SupportController;
 use Illuminate\Support\Facades\Route;
 
 Auth::routes();
@@ -46,8 +46,8 @@ Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'
 Route::group(['middleware' => 'authed'], function () {
     Route::get('profile', [ProfileController::class, 'show'])->name('profile');
     Route::get('my', MyController::class)->name('my');
-    Route::get('tickets', TicketsController::class)->name('tickets');
-    Route::get('tickets/{id}', [TicketsController::class, 'show'])->name('tickets.show');
+    Route::get('support', SupportController::class)->name('support');
+    Route::get('support/tickets/{uuid}', [SupportController::class, 'ticket'])->name('support.ticket');
 
     Route::get('mention-search', MentionSearchController::class)->name('mention-search');
     Route::get('user/{username}', PublicUserController::class)->name('public-user');

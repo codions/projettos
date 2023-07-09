@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Notifications;
+namespace App\Notifications\Ticket;
 
 use App\Models\Ticket;
 use Filament\Notifications\Actions\Action;
@@ -48,14 +48,14 @@ class TicketAnswered extends Notification implements ShouldQueue
     {
         $parent = $this->ticket->parent;
 
-        $subject = __('Your ticket #:id has been answered', ['id' => $parent->id]);
+        $subject = __('Your ticket #:code has been answered', ['code' => $parent->code]);
 
         $mail = (new MailMessage)
             ->subject($subject)
             ->greeting($parent->subject)
-            ->line(__('Answered by: :name', ['name' => $this->ticket->name]))
+            ->line(__('Answered by: :name', ['name' => $this->ticket->user->name]))
             ->line(new HtmlString($this->ticket->message))
-            ->action(__('Reply Message'), route('tickets.show', $parent->id))
+            ->action(__('Reply Message'), route('support.ticket', $parent->uuid))
             ->line(__('Thank you for using our application!'));
 
         if ($this->ticket->getAttachments()) {
@@ -75,12 +75,12 @@ class TicketAnswered extends Notification implements ShouldQueue
         $parent = $this->ticket->parent;
 
         return FilamentNotification::make()
-            ->title(__('Your ticket #:id has been answered', ['id' => $parent->id]))
+            ->title(__('Your ticket #:code has been answered', ['code' => $parent->code]))
             ->icon('heroicon-o-mail')
             ->actions([
                 Action::make(__('View'))
                     ->button()
-                    ->url(route('tickets.show', $parent->id), shouldOpenInNewTab: true),
+                    ->url(route('support.ticket', $parent->uuid), shouldOpenInNewTab: true),
             ])
             ->getDatabaseMessage();
     }

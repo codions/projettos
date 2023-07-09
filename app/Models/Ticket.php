@@ -2,9 +2,14 @@
 
 namespace App\Models;
 
+use App\Settings\GeneralSettings;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Spatie\Activitylog\ActivitylogServiceProvider;
+use Spatie\Activitylog\LogOptions;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\Support\MediaStream;
@@ -13,12 +18,8 @@ class Ticket extends Model implements HasMedia
 {
     use InteractsWithMedia;
     use HasFactory;
-
-    const READ = 'read';
-
-    const UNREAD = 'unread';
-
-    const REPLIED = 'replied';
+    use Traits\HasUuid;
+    use Traits\HasUser;
 
     const ACCEPTED_FILE_TYPES = [
         'image/bmp',
@@ -36,23 +37,14 @@ class Ticket extends Model implements HasMedia
     public $fillable = [
         'project_id',
         'parent_id',
-        'sent_by',
-        'name',
-        'email',
+        'user_id',
         'subject',
         'message',
         'status',
-        'is_spam',
+        'read_at',
     ];
 
-    protected $casts = [
-        'is_spam' => 'boolean',
-    ];
-
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'sent_by');
-    }
+    protected static $recordEvents = ['updated'];
 
     public function project()
     {
@@ -69,38 +61,25 @@ class Ticket extends Model implements HasMedia
         return $this->belongsTo(self::class, 'parent_id');
     }
 
-    /**
-     * Get the user's name.
-     */
-    public function name(): Attribute
+    public function activities(): MorphMany
     {
-        return Attribute::make(
-            get: function ($value, $attributes) {
-                return $this->user->name ?? $attributes['name'];
-            },
-        );
+        return $this->morphMany(ActivitylogServiceProvider::determineActivityModel(), 'subject');
     }
 
-    /**
-     * Get the user's email.
-     */
-    public function email(): Attribute
+    public function lastUpdatedBy()
     {
-        return Attribute::make(
-            get: function ($value, $attributes) {
-                return $this->user->email ?? $attributes['email'];
-            },
-        );
+        $activity = $this->activities()->latest()->first();
+
+        return $activity->causer;
     }
 
-    /**
-     * Get the user's profile picture.
-     */
-    public function profilePicture(): Attribute
+    public function statusLabel(): Attribute
     {
+        $statuses = app(GeneralSettings::class)->ticket_statuses;
+
         return Attribute::make(
-            get: function () {
-                return $this->user->profile_picture ?? '/images/users/avatar.png';
+            get: function () use ($statuses) {
+                return ! is_null($this->status) ? $statuses[$this->status]['label'] : null;
             },
         );
     }
@@ -108,6 +87,16 @@ class Ticket extends Model implements HasMedia
     public function scopeRoot($query)
     {
         return $query->whereNull('parent_id');
+    }
+
+    public function getIsRootAttribute()
+    {
+        return is_null($this->parent_id);
+    }
+
+    public function getCodeAttribute()
+    {
+        return str_pad($this->id, 6, '0', STR_PAD_LEFT);
     }
 
     public function getAttachments()
@@ -123,5 +112,21 @@ class Ticket extends Model implements HasMedia
         // Download the files associated with the media in a streamed way.
         // No prob if your files are very large.
         return MediaStream::create('attachments.zip')->addMedia($downloads);
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logOnly(['subject', 'message', 'status', 'read_at'])->logOnlyDirty();
+    }
+
+    public function scopeVisibleForCurrentUser(Builder $query)
+    {
+        if (auth()->user()?->hasAdminAccess()) {
+            return $query;
+        }
+
+        return $query->where('private', 0)->where(function (Builder $query) {
+            return $query->whereRelation('project', 'private', 0)->orWhereNull('items.project_id');
+        });
     }
 }

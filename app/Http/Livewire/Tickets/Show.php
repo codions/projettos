@@ -7,7 +7,7 @@ use App\Filament\Resources\TicketResource;
 use App\Filament\Resources\UserResource;
 use App\Models\Ticket;
 use App\Models\User;
-use App\Notifications\TicketCreated;
+use App\Notifications\Ticket\TicketAnswered;
 use Filament\Forms;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
@@ -23,6 +23,11 @@ class Show extends Component implements Forms\Contracts\HasForms
     use Forms\Concerns\InteractsWithForms;
     use CanNotify;
 
+    public $listeners = [
+        'ticketReplyDeleted' => '$refresh',
+        'updatedTicket' => '$refresh',
+    ];
+
     public $state = [
         'message' => '',
         'attachments' => [],
@@ -32,16 +37,14 @@ class Show extends Component implements Forms\Contracts\HasForms
 
     public Collection $replies;
 
-    public $showReplyForm = false;
+    public function mount(): void
+    {
+        $this->replies = $this->ticket->replies()->get();
+    }
 
     public function render(): \Illuminate\Contracts\View\View
     {
         return view('livewire.tickets.show');
-    }
-
-    public function mount(): void
-    {
-        $this->replies = $this->ticket->replies()->orderBy('id', 'asc')->get();
     }
 
     protected function getFormSchema(): array
@@ -78,13 +81,14 @@ class Show extends Component implements Forms\Contracts\HasForms
     public function delete()
     {
         $this->ticket->delete();
-        $this->emit('messageDeleted');
+        $this->emit('ticketDeleted');
+    }
 
-        if (auth()->check()) {
-            return redirect()->route('tickets');
-        } else {
-            return redirect()->to('/');
-        }
+    public function markAsUnread()
+    {
+        $this->ticket->update(['read_at' => null]);
+
+        return redirect()->to(TicketResource::getUrl('index'));
     }
 
     public function submit()
@@ -99,31 +103,37 @@ class Show extends Component implements Forms\Contracts\HasForms
         $ticket->user()->associate(auth()->user())->save();
         $this->form->model($ticket)->saveRelationships();
 
-        if ($this->ticket->status !== Ticket::UNREAD) {
-            $this->ticket->update(['status' => Ticket::UNREAD]);
-        }
-
         $this->replies = $this->ticket
             ->replies()
-            ->orderBy('id', 'asc')
             ->get();
-
-        $this->showReplyForm = false;
 
         $this->notify('success', trans('tickets.ticket-updated-by-user'));
 
-        User::query()->whereIn('role', [UserRole::Admin->value, UserRole::Employee->value])->each(function (User $user) use ($ticket) {
+        $users = collect([$ticket->parent->user]);
+
+        // Move to settings (TODO: corrijir isso, o fluxo de notificação não está correto)
+        if (auth()->user()->id === $ticket->user_id) {
+            $users = User::whereIn('role', [UserRole::Admin->value, UserRole::Employee->value])->get();
+        }
+
+        $users->each(function (User $user) use ($ticket) {
             Notification::make()
                 ->title(trans('tickets.ticket-updated-by-user'))
-                ->body(trans('tickets.ticket_updated_notification_body', ['user' => auth()->user()->name, 'title' => $ticket->title]))
+                ->body(trans('tickets.ticket_updated_notification_body', [
+                    'user' => auth()->user()->name,
+                    'title' => $ticket->title,
+                ]))
                 ->actions([
-                    Action::make('view')->label(trans('notifications.view-item'))->url(TicketResource::getUrl('view', ['record' => $ticket])),
-                    Action::make('view_user')->label(trans('notifications.view-user'))->url(UserResource::getUrl('edit', ['record' => auth()->user()])),
+                    Action::make('view')->label(trans('notifications.view-item'))
+                        ->url(TicketResource::getUrl('view', ['record' => $ticket])),
+
+                    Action::make('view_user')->label(trans('notifications.view-user'))
+                        ->url(UserResource::getUrl('edit', ['record' => auth()->user()])),
                 ])
                 ->sendToDatabase($user);
 
             FacadesNotification::route('mail', $user->email)
-                ->notify(new TicketCreated($ticket));
+                ->notify(new TicketAnswered($ticket));
         });
 
         $this->state = [

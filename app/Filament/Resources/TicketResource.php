@@ -3,12 +3,12 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\TicketResource\Pages;
-use App\Filament\Resources\TicketResource\Widgets;
 use App\Models\Ticket;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Str;
 
 class TicketResource extends Resource
 {
@@ -16,9 +16,11 @@ class TicketResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-ticket';
 
+    protected static ?string $navigationGroup = 'Manage';
+
     protected static function getNavigationBadge(): ?string
     {
-        return static::getModel()::root()->where('status', 'unread')->count();
+        return static::getModel()::root()->whereNull('read_at')->count();
     }
 
     public static function table(Table $table): Table
@@ -30,11 +32,22 @@ class TicketResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('project.title')
-                    ->label(trans('table.project')),
+                Tables\Columns\TextColumn::make('code')
+                    ->label(__('Code'))
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->sortable(),
 
-                Tables\Columns\TextColumn::make('name')
-                    ->label(_('Name'))
+                Tables\Columns\TextColumn::make('project.title')->label(trans('table.project'))
+                    ->url(function ($record) {
+                        if ($project = $record->project) {
+                            return ProjectResource::getUrl('edit', ['record' => $project]);
+                        }
+
+                        return null;
+                    }),
+
+                Tables\Columns\TextColumn::make('user.name')
+                    ->label(_('User'))
                     ->toggleable()
                     ->searchable()
                     ->sortable()
@@ -48,30 +61,19 @@ class TicketResource extends Resource
 
                 Tables\Columns\TextColumn::make('message')
                     ->label(__('Message'))
+                    ->formatStateUsing(fn (string $state): string => Str::limit(strip_tags($state), 20))
                     ->toggleable()
-                    ->searchable()
-                    ->limit(20),
-
-                Tables\Columns\TextColumn::make('replies')
-                    ->label(__('Replies'))
-                    ->formatStateUsing(function (string $state, Ticket $record) {
-                        return $record->replies()->count();
-                    }),
+                    ->searchable(),
 
                 Tables\Columns\BadgeColumn::make('status')
                     ->label(__('Status'))
                     ->toggleable()
-                    ->sortable()
-                    ->enum([
-                        'read' => __('Read'),
-                        'unread' => __('Unread'),
-                        'replied' => __('Replied'),
-                    ])
-                    ->colors([
-                        'secondary' => 'read',
-                        'warning' => 'unread',
-                        'success' => 'replied',
-                    ]),
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label(__('Date'))
+                    ->dateTime()
+                    ->sortable(),
             ])
             ->defaultSort('id', 'desc')
             ->filters([
@@ -93,17 +95,9 @@ class TicketResource extends Resource
         ];
     }
 
-    public static function getWidgets(): array
-    {
-        return [
-            Widgets\TicketStats::class,
-        ];
-    }
-
     public static function getEloquentQuery(): Builder
     {
         return static::getModel()::root()
-            ->with(['project'])
-            ->latest();
+            ->with(['project']);
     }
 }

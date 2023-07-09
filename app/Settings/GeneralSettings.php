@@ -59,6 +59,10 @@ class GeneralSettings extends Settings
 
     public bool $show_github_link;
 
+    public array $ticket_statuses;
+
+    public array $statuses_enabled_for_change_by_ticket_owner;
+
     public function getInboxWorkflow(): InboxWorkflow
     {
         return InboxWorkflow::from($this->inbox_workflow);

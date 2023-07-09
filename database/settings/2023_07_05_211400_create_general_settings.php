@@ -47,10 +47,58 @@ class CreateGeneralSettings extends SettingsMigration
         $this->migrator->add('general.show_github_link', false);
         $this->migrator->addEncrypted('general.password', '');
 
-        // Colors
-        $this->migrator->add('colors.favicon', null);
-        $this->migrator->add('colors.fontFamily', 'Nunito');
-        $this->migrator->add('colors.logo', null);
-        $this->migrator->add('colors.primary', '#2563EB');
+        $this->migrator->add('general.ticket_statuses', [
+            'open' => [
+                'label' => 'Open',
+                'description' => 'The ticket has been registered and is awaiting attention.',
+            ],
+
+            'in_progress' => [
+                'label' => 'In Progress',
+                'description' => 'The ticket is being analyzed and worked on by the support team.',
+            ],
+
+            'waiting_for_information' => [
+                'label' => 'Waiting for Information',
+                'description' => 'Waiting for a response or additional information from the customer.',
+            ],
+
+            'on_hold' => [
+                'label' => 'On Hold',
+                'description' => 'The ticket has been temporarily paused, waiting for the resolution of an issue or external dependency.',
+            ],
+
+            'escalated' => [
+                'label' => 'Escalated',
+                'description' => 'The ticket has been forwarded to a higher-level or specialized team.',
+            ],
+
+            'awaiting_approval' => [
+                'label' => 'Awaiting Approval',
+                'description' => 'An action or solution requires approval before proceeding.',
+            ],
+
+            'resolved' => [
+                'label' => 'Resolved',
+                'description' => 'The issue has been resolved, and the ticket is closed.',
+            ],
+
+            'closed' => [
+                'label' => 'Closed',
+                'description' => 'The ticket has been finalized and requires no further action.',
+            ],
+
+            'cancelled' => [
+                'label' => 'Cancelled',
+                'description' => 'The ticket has been cancelled for a specific reason.',
+            ],
+
+            'reopened' => [
+                'label' => 'Reopened',
+                'description' => 'A previously closed or resolved ticket has been reopened due to recurring issues or dissatisfaction with the provided solution.',
+            ],
+        ]);
+
+        $this->migrator->add('general.statuses_enabled_for_change_by_ticket_owner', ['closed']);
     }
 }

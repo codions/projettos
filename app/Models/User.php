@@ -84,9 +84,14 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, MustVerif
         return $this->profile_picture;
     }
 
-    public function items()
+    public function items(): HasMany
     {
         return $this->hasMany(Item::class);
+    }
+
+    public function tickets(): HasMany
+    {
+        return $this->hasMany(Ticket::class);
     }
 
     public function projects(): BelongsToMany
@@ -104,7 +109,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, MustVerif
         return $this->hasManyThrough(Item::class, Vote::class, 'user_id', 'items.id', 'id', 'model_id');
     }
 
-    public function comments()
+    public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
     }
@@ -133,7 +138,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, MustVerif
             ->where('recipient_type', User::class);
     }
 
-    public function userSocials()
+    public function userSocials(): HasMany
     {
         return $this->hasMany(UserSocial::class);
     }
