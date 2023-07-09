@@ -23,6 +23,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('repo')->nullable();
             $table->boolean('private')->default(false);
+            $table->boolean('pinned')->default(false);
             $table->integer('sort_order')->nullable();
             $table->foreignId('user_id')->nullable()->constrained();
             $table->timestamps();

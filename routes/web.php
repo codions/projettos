@@ -31,6 +31,7 @@ Route::get('/', HomeController::class)->name('home');
 Route::get('changelog', [ChangelogController::class, 'index'])->name('changelog');
 Route::get('changelog/{changelog}', [ChangelogController::class, 'show'])->name('changelog.show');
 
+Route::get('projects', ProjectController::class)->name('projects.index');
 Route::get('projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
 Route::get('items/{item}', [ItemController::class, 'show'])->name('items.show');
 Route::get('items/{item}/edit', [ItemController::class, 'edit'])->name('items.edit');

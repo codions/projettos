@@ -8,7 +8,7 @@
 ]">
     <main class="p-4 h-full flex space-x-10 mx-auto max-w-6xl">
         <section class="flex-1 max-h-full overflow-y-scroll">
-            <livewire:project.items :project="$project" :board="$board"/>
+            <livewire:projects.items :project="$project" :board="$board"/>
         </section>
 
         @if($board->canUsersCreateItem())
