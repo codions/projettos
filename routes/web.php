@@ -3,11 +3,12 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\PasswordProtectionController;
 use App\Http\Controllers\Auth\VerificationController;
-use App\Http\Controllers\ChangelogController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ItemEmailUnsubscribeController;
 use App\Http\Controllers\MentionSearchController;
 use App\Http\Controllers\PublicUserController;
+use App\Http\Livewire\Changelog\Index as ChangelogIndex;
+use App\Http\Livewire\Changelog\Show as ChangelogShow;
 use App\Http\Livewire\Projects\Board as ProjectBoard;
 use App\Http\Livewire\Projects\Boards as ProjectBoards;
 use App\Http\Livewire\Projects\Docs as ProjectDocs;
@@ -31,8 +32,8 @@ Route::post('password-protection', [PasswordProtectionController::class, 'login'
 
 Route::view('/', 'welcome')->name('home');
 
-Route::get('changelog', [ChangelogController::class, 'index'])->name('changelog');
-Route::get('changelog/{changelog}', [ChangelogController::class, 'show'])->name('changelog.show');
+Route::get('changelog', ChangelogIndex::class)->name('changelog');
+Route::get('changelog/{changelog}', ChangelogShow::class)->name('changelog.show');
 
 Route::get('projects', ProjectsIndex::class)->name('projects.index');
 Route::get('projects/{project}', fn ($project) => redirect()->route('projects.home', $project));
