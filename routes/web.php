@@ -28,7 +28,7 @@ Route::get('oauth/callback', [LoginController::class, 'handleProviderCallback'])
 Route::get('password-protection', PasswordProtectionController::class)->name('password.protection');
 Route::post('password-protection', [PasswordProtectionController::class, 'login'])->name('password.protection.login');
 
-Route::get('/', HomeController::class)->name('home');
+Route::view('/', 'welcome')->name('home');
 
 Route::get('changelog', [ChangelogController::class, 'index'])->name('changelog');
 Route::get('changelog/{changelog}', [ChangelogController::class, 'show'])->name('changelog.show');
