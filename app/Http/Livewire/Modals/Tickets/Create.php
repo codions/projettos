@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Modals\Ticket;
+namespace App\Http\Livewire\Modals\Tickets;
 
 use function app;
 use App\Enums\UserRole;
@@ -12,7 +12,6 @@ use App\Models\User;
 use App\Notifications\Ticket\TicketCreated;
 use App\Settings\GeneralSettings;
 use function auth;
-use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
@@ -32,6 +31,8 @@ class Create extends ModalComponent implements HasForms
     use InteractsWithForms;
     use CanNotify;
 
+    public ?Project $project = null;
+
     public $state = [
         'attachments' => [],
     ];
@@ -43,49 +44,50 @@ class Create extends ModalComponent implements HasForms
 
     protected function getFormSchema(): array
     {
-        return [
-            Grid::make(6)
-                ->schema([
-                    Select::make('state.project_id')
-                        ->label(trans('table.project'))
-                        ->options(Project::query()->visibleForCurrentUser()->pluck('title', 'id'))
-                        ->required()
-                        ->columnSpan(6),
+        $inputs = [];
 
-                    TextInput::make('state.subject')
-                        ->label(__('Subject'))
-                        ->required()
-                        ->columnSpan(6),
+        if (is_null($this->project?->id)) {
+            $inputs[] = Select::make('state.project_id')
+                ->label(trans('table.project'))
+                ->options(Project::query()->visibleForCurrentUser()->pluck('title', 'id'))
+                ->required()
+                ->columnSpan(6);
+        }
 
-                    RichEditor::make('state.message')
-                        ->label(__('Your Message'))
-                        ->toolbarButtons([
-                            'blockquote',
-                            'bold',
-                            'bulletList',
-                            'codeBlock',
-                            'h2',
-                            'h3',
-                            'italic',
-                            'link',
-                            'orderedList',
-                            'redo',
-                            'strike',
-                            'undo',
-                        ])
-                        ->required()
-                        ->columnSpan(6),
+        $inputs[] = TextInput::make('state.subject')
+            ->label(__('Subject'))
+            ->required()
+            ->columnSpan(6);
 
-                    SpatieMediaLibraryFileUpload::make('state.attachments')
-                        ->label(__('Attachments'))
-                        ->collection('ticket_attachments')
-                        ->preserveFilenames()
-                        ->multiple()
-                        ->maxFiles(10)
-                        ->acceptedFileTypes(Ticket::ACCEPTED_FILE_TYPES)
-                        ->columnSpan(6),
-                ]),
-        ];
+        $inputs[] = RichEditor::make('state.message')
+            ->label(__('Your Message'))
+            ->toolbarButtons([
+                'blockquote',
+                'bold',
+                'bulletList',
+                'codeBlock',
+                'h2',
+                'h3',
+                'italic',
+                'link',
+                'orderedList',
+                'redo',
+                'strike',
+                'undo',
+            ])
+            ->required()
+            ->columnSpan(6);
+
+        $inputs[] = SpatieMediaLibraryFileUpload::make('state.attachments')
+            ->label(__('Attachments'))
+            ->collection('ticket_attachments')
+            ->preserveFilenames()
+            ->multiple()
+            ->maxFiles(10)
+            ->acceptedFileTypes(Ticket::ACCEPTED_FILE_TYPES)
+            ->columnSpan(6);
+
+        return $inputs;
     }
 
     public function submit()
@@ -132,7 +134,7 @@ class Create extends ModalComponent implements HasForms
 
     public function render()
     {
-        return view('livewire.modals.ticket.create');
+        return view('livewire.modals.tickets.create');
     }
 
     public static function closeModalOnClickAway(): bool

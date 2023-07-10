@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Modals\Ticket;
+namespace App\Http\Livewire\Modals\Tickets;
 
 use App\Enums\TicketActivity;
 use App\Models\Ticket;
@@ -15,7 +15,7 @@ class Activities extends ModalComponent
 
     public function render()
     {
-        return view('livewire.modals.ticket.activities');
+        return view('livewire.modals.tickets.activities');
     }
 
     public function getActivities()

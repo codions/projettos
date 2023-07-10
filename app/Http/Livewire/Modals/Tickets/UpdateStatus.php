@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Modals\Ticket;
+namespace App\Http\Livewire\Modals\Tickets;
 
 use App\Models\Ticket;
 use App\Settings\GeneralSettings;
@@ -19,7 +19,7 @@ class UpdateStatus extends ModalComponent
 
     public function render()
     {
-        return view('livewire.modals.ticket.update-status');
+        return view('livewire.modals.tickets.update-status');
     }
 
     protected function rules()

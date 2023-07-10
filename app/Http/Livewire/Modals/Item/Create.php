@@ -27,7 +27,7 @@ use LivewireUI\Modal\ModalComponent;
 use function redirect;
 use function view;
 
-class CreateItemModal extends ModalComponent implements HasForms
+class Create extends ModalComponent implements HasForms
 {
     use InteractsWithForms;
     use CanNotify;

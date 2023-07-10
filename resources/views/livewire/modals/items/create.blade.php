@@ -19,7 +19,7 @@
     <x-slot name="content">
 
         @if ($project?->title)
-        <div class="border rounded-lg p-3">
+        <div class="border rounded-lg p-3 bg-gray-50">
             <h5 class="text-xl font-medium text-gray-900 dark:text-white">{{ $project->title }}</h5>
 
             @if($board?->title)

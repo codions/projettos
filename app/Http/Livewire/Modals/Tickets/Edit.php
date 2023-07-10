@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Modals\Ticket;
+namespace App\Http\Livewire\Modals\Tickets;
 
 use function app;
 use App\Models\Project;
@@ -108,7 +108,7 @@ class Edit extends ModalComponent implements HasForms
 
     public function render()
     {
-        return view('livewire.modals.ticket.edit');
+        return view('livewire.modals.tickets.edit');
     }
 
     public static function closeModalOnClickAway(): bool

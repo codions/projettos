@@ -21,7 +21,7 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown.item wire:click="$emit('openModal', 'modals.ticket.edit', {{ json_encode(['ticket' => $ticket->id]) }})">
+                        <x-dropdown.item wire:click="$emit('openModal', 'modals.tickets.edit', {{ json_encode(['ticket' => $ticket->id]) }})">
                             {{ trans('tickets.edit') }}
                         </x-dropdown.item>
 
