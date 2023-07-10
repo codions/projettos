@@ -1,6 +1,6 @@
 @section('title', trans('support.support'))
 
-<x-app :breadcrumbs="[
+<x-app-layout :breadcrumbs="[
     ['title' => trans('support.support'), 'url' => route('support')]
 ]">
     <div class="space-y-6">
@@ -8,4 +8,4 @@
             <livewire:tickets.index />
         </div>
     </div>
-</x-app>
+</x-app-layout>

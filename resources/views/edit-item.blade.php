@@ -2,7 +2,7 @@
 @section('image', $item->getOgImage('"' . $item->excerpt .'"', 'Roadmap - Item'))
 @section('description', $item->excerpt)
 
-<x-app :breadcrumbs="[
+<x-app-layout :breadcrumbs="[
 ['title' => 'Dashboard', 'url' => route('home')],
 ['title' => $item->title, 'url' => route('items.show', $item)],
 ]">
@@ -11,4 +11,4 @@
             <livewire:items.edit :item="$item" />
         </div>
     </div>
-</x-app>
+</x-app-layout>

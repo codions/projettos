@@ -1,4 +1,4 @@
-<x-app>
+<x-app-layout>
     @if($text = app(\App\Settings\GeneralSettings::class)->welcome_text)
         <div class="prose mb-4">{!! $text !!}</div>
     @endif
@@ -11,4 +11,4 @@
             </div>
         @endforeach
     </div>
-</x-app>
+</x-app-layout>

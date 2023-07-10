@@ -1,6 +1,6 @@
 @section('title', trans('projects.projects'))
 
-<x-app :breadcrumbs="[
+<x-app-layout :breadcrumbs="[
     ['title' => trans('projects.projects'), 'url' => route('projects.index')]
 ]">
     <div class="space-y-6">
@@ -8,4 +8,4 @@
             <livewire:projects.index />
         </div>
     </div>
-</x-app>
+</x-app-layout>

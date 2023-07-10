@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Str;
 use Illuminate\View\Component;
 
-class App extends Component
+class AppLayout extends Component
 {
     public Collection $pinnedProjects;
 
@@ -62,6 +62,6 @@ class App extends Component
             auth()->check() &&
             ! auth()->user()->hasVerifiedEmail();
 
-        return view('components.app');
+        return view('layouts.app');
     }
 }

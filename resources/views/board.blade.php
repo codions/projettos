@@ -2,7 +2,7 @@
 @section('image', $board->getOgImage($board->description, 'Roadmap - Board'))@show
 @section('description', $board->description)@show
 
-<x-app :breadcrumbs="[
+<x-app-layout :breadcrumbs="[
     ['title' => $project->title, 'url' => route('projects.show', $project)],
     ['title' => $board->title, 'url' => '']
 ]">
@@ -19,4 +19,4 @@
             </section>
         @endif
     </main>
-</x-app>
+</x-app-layout>

@@ -1,7 +1,7 @@
 <header class="sticky top-0 z-10 w-full bg-brand-500 shadow text-white"
         x-data="{ open: false }">
     <div class="w-full px-4 mx-auto sm:px-6 md:px-8 max-w-[1500px]">
-        <nav class="flex items-center justify-between h-20">
+        <nav class="flex items-center justify-between h-16">
             <a class="text-2xl font-semibold tracking-tight"
                href="{{ route('home') }}">
                 @if(!is_null($logo) && file_exists($logoFile = storage_path('app/public/'.$logo)))
