@@ -36,7 +36,7 @@ class CreateGeneralSettings extends SettingsMigration
         $this->migrator->add('general.inbox_workflow', InboxWorkflow::WithoutBoardAndProject);
         $this->migrator->add('general.show_voter_avatars', false);
         $this->migrator->add('general.users_must_verify_email', false);
-        $this->migrator->add('general.enable_changelog', false);
+        $this->migrator->add('general.enable_changelog', true);
         $this->migrator->add('general.show_changelog_author', true);
         $this->migrator->add('general.show_changelog_related_items', true);
         $this->migrator->add('general.disable_file_uploads', false);

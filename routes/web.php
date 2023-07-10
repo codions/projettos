@@ -7,10 +7,10 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ItemEmailUnsubscribeController;
 use App\Http\Controllers\MentionSearchController;
 use App\Http\Controllers\PublicUserController;
-use App\Http\Livewire\Changelog\Index as ChangelogIndex;
-use App\Http\Livewire\Changelog\Show as ChangelogShow;
 use App\Http\Livewire\Projects\Board as ProjectBoard;
 use App\Http\Livewire\Projects\Boards as ProjectBoards;
+use App\Http\Livewire\Projects\Changelog\Index as ChangelogIndex;
+use App\Http\Livewire\Projects\Changelog\Show as ChangelogShow;
 use App\Http\Livewire\Projects\Docs as ProjectDocs;
 use App\Http\Livewire\Projects\Faqs as ProjectFaqs;
 use App\Http\Livewire\Projects\Home as ProjectHome;
@@ -32,9 +32,6 @@ Route::post('password-protection', [PasswordProtectionController::class, 'login'
 
 Route::view('/', 'welcome')->name('home');
 
-Route::get('changelog', ChangelogIndex::class)->name('changelog');
-Route::get('changelog/{changelog}', ChangelogShow::class)->name('changelog.show');
-
 Route::get('projects', ProjectsIndex::class)->name('projects.index');
 Route::get('projects/{project}', fn ($project) => redirect()->route('projects.home', $project));
 Route::get('projects/{project}/home', ProjectHome::class)->name('projects.home');
@@ -43,6 +40,8 @@ Route::get('projects/{project}/boards/{board}', ProjectBoard::class)->name('proj
 Route::get('projects/{project}/support', ProjectSupport::class)->name('projects.support');
 Route::get('projects/{project}/docs', ProjectDocs::class)->name('projects.docs');
 Route::get('projects/{project}/faqs', ProjectFaqs::class)->name('projects.faqs');
+Route::get('projects/{project}/changelog', ChangelogIndex::class)->name('projects.changelog');
+Route::get('projects/{project}/changelog/{changelog}', ChangelogShow::class)->name('projects.changelog.show');
 
 Route::get('items/{item}', [ItemController::class, 'show'])->name('items.show');
 Route::get('items/{item}/edit', [ItemController::class, 'edit'])->name('items.edit');

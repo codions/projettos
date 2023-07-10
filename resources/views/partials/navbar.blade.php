@@ -71,22 +71,6 @@
                         <span class="font-medium">{{ trans('auth.profile') }}</span>
                     </a>
                 </li>
-
-                @if(app(App\Settings\GeneralSettings::class)->enable_changelog)
-                    <li>
-                        <a
-                            @class([
-                                'flex items-center h-10 px-2 space-x-2 transition rounded-lg ',
-                                'text-white bg-brand-500' => request()->is('changelog*'),
-                                'hover:bg-gray-500/5 focus:bg-brand-500/10 focus:text-brand-600 focus:outline-none' => !request()->is('changelog*')
-                            ])
-                            href="{{ route('changelog') }}">
-
-                            <x-heroicon-o-rss class="w-5 h-5 {{ !request()->is('changelog*') ? 'text-gray-500' : ''  }}"/>
-                            <span class="font-medium">{{ trans('changelog.changelog') }}</span>
-                        </a>
-                    </li>
-                @endif
             </ul>
 
             @if(isset($pinnedProjects) && $pinnedProjects->count())

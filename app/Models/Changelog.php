@@ -7,7 +7,7 @@ use App\Traits\Sluggable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Collection;
 
 class Changelog extends Model
 {
@@ -15,8 +15,10 @@ class Changelog extends Model
     use Sluggable;
     use HasOgImage;
     use Traits\HasUser;
+    use Traits\AdditionalData;
 
     public $fillable = [
+        'project_id',
         'slug',
         'title',
         'content',
@@ -28,13 +30,38 @@ class Changelog extends Model
         'published_at' => 'datetime',
     ];
 
+    protected $appends = [
+        'board_ids',
+        'item_ids',
+    ];
+
+    public function getBoardIdsAttribute(): array
+    {
+        return $this->getData('board_ids', []);
+    }
+
+    public function getItemIdsAttribute(): array
+    {
+        return $this->getData('item_ids', []);
+    }
+
+    public function getItemsAttribute(): Collection
+    {
+        return $this->items()->get();
+    }
+
     public function scopePublished(Builder $query): Builder
     {
         return $query->where('published_at', '<=', now())->latest('published_at');
     }
 
-    public function items(): BelongsToMany
+    public function project()
     {
-        return $this->belongsToMany(Item::class);
+        return $this->belongsTo(Project::class, 'project_id');
+    }
+
+    public function items(): Builder
+    {
+        return Item::query()->whereIn('id', $this->item_ids);
     }
 }

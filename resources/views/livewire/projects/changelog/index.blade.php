@@ -7,7 +7,7 @@
         @if($changelogs->count())
             <div class="w-full space-y-8">
                 @foreach($changelogs as $changelog)
-                    <livewire:changelog.item :changelog="$changelog"/>
+                    <livewire:projects.changelog.item :changelog="$changelog"/>
                 @endforeach
             </div>
         @else
@@ -23,10 +23,10 @@
                     </div>
 
                     <header class="max-w-sm space-y-1">
-                        <h2 class="text-xl font-semibold tracking-tight">{{ trans('changelog.all-caught-up-title') }}</h2>
+                        <h2 class="text-xl font-semibold tracking-tight">{{ trans('projects.changelog.all-caught-up-title') }}</h2>
 
                         <p class="font-medium text-gray-500">
-                            {{ trans('changelog.all-caught-up-description') }}
+                            {{ trans('projects.changelog.all-caught-up-description') }}
                         </p>
                     </header>
                 </div>
