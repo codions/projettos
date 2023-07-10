@@ -26,7 +26,6 @@ return new class extends Migration
             $table->boolean('block_comments')->default(false);
             $table->boolean('block_votes')->default(false);
             $table->boolean('visible')->default(true);
-
             $table->foreignId('project_id')->nullable()->constrained();
             $table->integer('sort_order')->nullable();
 

@@ -19,15 +19,11 @@ return new class extends Migration
             $table->string('subject')->nullable();
             $table->text('message');
             $table->string('status')->default('open');
-            $table->unsignedBigInteger('project_id')->nullable();
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->unsignedBigInteger('parent_id')->nullable();
+            $table->foreignId('project_id')->nullable()->constrained();
+            $table->foreignId('user_id')->nullable()->constrained();
+            $table->foreignId('parent_id')->nullable()->constrained();
             $table->timestamp('read_at')->nullable();
             $table->timestamps();
-
-            $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
-            $table->foreign('project_id')->references('id')->on('projects')->cascadeOnDelete();
-            $table->foreign('parent_id')->references('id')->on('tickets')->cascadeOnDelete();
         });
     }
 

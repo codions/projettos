@@ -22,7 +22,6 @@ return new class extends Migration
             $table->boolean('private')->default(false);
             $table->unsignedInteger('total_votes')->nullable()->default(0);
             $table->timestamps();
-
             $table->foreign('parent_id')->references('id')->on('comments');
         });
     }
