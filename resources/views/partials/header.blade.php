@@ -136,12 +136,13 @@
             </ul>
         </nav>
 
+        @if($pinnedProjects->count())
         <nav class="-mx-2 lg:hidden"
              x-show="open"
              x-cloak>
 
             <ul class="flex flex-col py-2 space-y-1 text-sm font-medium text-white">
-                @foreach($projects as $project)
+                @foreach($pinnedProjects as $project)
                     <li>
                         <a class="block p-2 transition rounded-lg focus:outline-none hover:bg-brand-500-400"
                            href="{{ route('projects.show', $project) }}">
@@ -151,5 +152,6 @@
                 @endforeach
             </ul>
         </nav>
+        @endif
     </div>
 </header>

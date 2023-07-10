@@ -11,7 +11,7 @@ use Illuminate\View\Component;
 
 class App extends Component
 {
-    public Collection $projects;
+    public Collection $pinnedProjects;
 
     public string $brandColors;
 
@@ -25,11 +25,12 @@ class App extends Component
 
     public function __construct(public array $breadcrumbs = [])
     {
-        $this->projects = Project::query()
+        $this->pinnedProjects = Project::query()
             ->visibleForCurrentUser()
             ->when(app(GeneralSettings::class)->show_projects_sidebar_without_boards === false, function ($query) {
                 return $query->has('boards');
             })
+            ->where('pinned', true)
             ->orderBy('sort_order')
             ->orderBy('group')
             ->orderBy('title')
