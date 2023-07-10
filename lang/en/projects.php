@@ -12,6 +12,14 @@ return [
     'feature-requests-hint' => 'Join other users in helping make :project better',
     'roadmap' => 'Roadmap',
 
+    'changelog' => [
+        'related_items' => 'Related items',
+        'changelog' => 'Changelog',
+        'all-caught-up-title' => 'Nothing here yet',
+        'all-caught-up-description' => 'There aren\'t any changes added to this changelog',
+        'included-items' => 'Included items',
+    ],
+
     'activities' => 'Activities',
     'activity' => [
         'created' => 'created the project',

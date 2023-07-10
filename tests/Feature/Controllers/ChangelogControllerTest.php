@@ -64,19 +64,19 @@ test('related items are not visible when disabled in settings', function (bool $
 test('changelog details will show only details of one changelog record', function () {
     $changelogs = Changelog::factory(2)->published()->for(createUser())->create();
 
-    get(route('changelog.show', $changelogs->first()))
+    get(route('projects.changelog.show', [$changelogs->first()->project, $changelogs->first()]))
         ->assertSeeText($changelogs->first()->title)
         ->assertDontSeeText($changelogs->skip(1)->first()->title);
 });
 
 test('changelog is visible in navbar when enabled', function () {
-    get('/')->assertSeeText(trans('changelog.changelog'));
+    get('/')->assertSeeText(trans('projects.changelog.changelog'));
 });
 
 test('changelog is not visible in navbar when disabled', function () {
     GeneralSettings::fake(['enable_changelog' => false]);
 
-    get('/')->assertDontSeeText(trans('changelog.changelog'));
+    get('/')->assertDontSeeText(trans('projects.changelog.changelog'));
 });
 
 test('changelog will show a 404 when disabled in settings', function () {

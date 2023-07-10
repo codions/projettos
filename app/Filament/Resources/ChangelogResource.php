@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ChangelogResource\Pages;
 use App\Models\Changelog;
 use App\Models\Item;
+use App\Models\Project;
 use App\Settings\GeneralSettings;
 use Filament\Forms;
 use Filament\Resources\Form;
@@ -38,6 +39,17 @@ class ChangelogResource extends Resource
                     Forms\Components\TextInput::make('title')
                         ->required()
                         ->maxLength(255),
+
+                    Forms\Components\DateTimePicker::make('published_at'),
+
+                    Forms\Components\MarkdownEditor::make('content')
+                        ->columnSpan(2)
+                        ->required()
+                        ->minLength(5)
+                        ->maxLength(65535),
+                ])->columnSpan(4),
+
+                Forms\Components\Card::make([
                     Forms\Components\Select::make('user_id')
                         ->relationship('user', 'name')
                         ->label('Author')
@@ -46,27 +58,52 @@ class ChangelogResource extends Resource
                         ->required()
                         ->searchable(),
 
-                    Forms\Components\DateTimePicker::make('published_at'),
-                    Forms\Components\MultiSelect::make('related_items')
-                        ->preload()->label('Related items')
-                        ->relationship('items', 'title')
-                        ->getOptionLabelFromRecordUsing(fn (Item $record) => $record->title . ($record->project ? ' (' . $record->project->title . ')' : '')),
+                    Forms\Components\Select::make('project_id')
+                        ->label('Project')
+                        ->options(Project::query()->pluck('title', 'id'))
+                        ->reactive()
+                        ->required(),
 
-                    Forms\Components\MarkdownEditor::make('content')
-                        ->columnSpan(2)
-                        ->required()
-                        ->minLength(5)
-                        ->maxLength(65535),
-                ])->columns(),
-            ]);
+                    Forms\Components\Select::make('board_ids')
+                        ->multiple()
+                        ->label(trans('table.board'))
+                        ->visible(fn ($get) => $get('project_id'))
+                        ->options(function ($get) {
+                            return Project::find($get('project_id'))->boards()->pluck('title', 'id');
+                        })
+                        ->reactive()
+                        ->required(),
+
+                    Forms\Components\Fieldset::make(trans('projects.changelog.related_items'))
+                        ->schema([
+                            Forms\Components\CheckboxList::make('item_ids')
+                                ->label(trans('projects.changelog.tasks'))
+                                ->options(function ($get) {
+                                    return Item::whereIn('board_id', $get('board_ids'))->pluck('items.title', 'items.id');
+                                })
+                                ->bulkToggleable(),
+                        ])
+                        ->visible(fn ($get) => $get('board_ids')),
+                ])->columnSpan(2),
+            ])->columns(6);
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('project.title')->label(trans('table.project'))
+                    ->url(function ($record) {
+                        if ($project = $record->project) {
+                            return ProjectResource::getUrl('edit', ['record' => $project]);
+                        }
+
+                        return null;
+                    }),
+
                 Tables\Columns\TextColumn::make('title')->searchable()->wrap(),
-                Tables\Columns\BooleanColumn::make('published')
+                Tables\Columns\IconColumn::make('published')
+                    ->boolean()
                     ->getStateUsing(fn ($record) => filled($record->published_at) && now()->greaterThanOrEqualTo($record->published_at)),
                 Tables\Columns\TextColumn::make('published_at')->dateTime()->since()->sortable(),
                 Tables\Columns\TextColumn::make('created_at')->dateTime()->sortable(),

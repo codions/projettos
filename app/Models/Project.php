@@ -62,6 +62,11 @@ class Project extends Model implements HasMedia
         return $this->hasMany(Ticket::class);
     }
 
+    public function changelogs()
+    {
+        return $this->hasMany(Changelog::class);
+    }
+
     public function members(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'project_member')->using(ProjectMember::class);

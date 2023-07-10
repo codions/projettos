@@ -22,12 +22,18 @@ return new class extends Migration
             $table->boolean('pinned')->default(false);
             $table->boolean('private')->default(false);
             $table->boolean('notify_subscribers')->default(true);
-            $table->integer('project_id')->nullable()->constrained();
+            $table->foreignId('project_id')->nullable()->constrained();
             $table->foreignId('board_id')->nullable()->constrained();
             $table->foreignId('user_id')->nullable()->constrained();
             $table->bigInteger('issue_number')->nullable();
 
             $table->timestamps();
+        });
+
+        Schema::create('item_user', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('item_id')->nullable()->constrained();
+            $table->foreignId('user_id')->nullable()->constrained();
         });
     }
 
