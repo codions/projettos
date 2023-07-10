@@ -12,7 +12,7 @@ class Index extends Component
 {
     use WithPagination;
 
-    public $tableRecordsPerPage = 32;
+    public $tableRecordsPerPage = 16;
 
     public $search;
 
@@ -41,6 +41,15 @@ class Index extends Component
                     ['title' => trans('projects.projects'), 'url' => route('projects.index')],
                 ],
             ]);
+    }
+
+    public function showFilters(): bool
+    {
+        $total = Project::query()
+            ->visibleForCurrentUser()
+            ->count();
+
+        return ($total > $this->tableRecordsPerPage);
     }
 
     public function getProjects()
