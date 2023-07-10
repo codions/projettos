@@ -16,8 +16,19 @@
 
     </x-slot>
 
-    @auth
-        <x-slot name="content">
+    <x-slot name="content">
+
+        @if ($project?->title)
+        <div class="border rounded-lg p-3">
+            <h5 class="text-xl font-medium text-gray-900 dark:text-white">{{ $project->title }}</h5>
+
+            @if($board?->title)
+            <span class="text-sm text-gray-500 dark:text-gray-400">{{ $board->title }}</span>
+            @endif
+        </div>
+        @endif
+
+        @auth
             @if(! auth()->user()->needsToVerifyEmail())
                 <div @class(['hidden' => !$similarItems->count()])>
                     <h3 class="mb-2">{{ trans('items.similar-results') }}</h3>
@@ -44,13 +55,11 @@
                 </form>
             </div>
             @endif
-        </x-slot>
-    @endauth
-    @guest
-        <x-slot name="content">
+        @endauth
+        @guest
             <p>{{ trans('items.login_to_submit_item') }}</p>
-        </x-slot>
-    @endguest
+        @endguest
+    </x-slot>
 
     <x-slot name="buttons">
         @auth

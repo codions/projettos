@@ -8,6 +8,7 @@ use App\Filament\Resources\ItemResource;
 use App\Filament\Resources\UserResource;
 use App\Models\Item;
 use App\Models\Project;
+use App\Models\Board;
 use App\Models\User;
 use App\Rules\ProfanityCheck;
 use App\Settings\GeneralSettings;
@@ -34,6 +35,15 @@ class CreateItemModal extends ModalComponent implements HasForms
 
     public $similarItems;
 
+    public ?Project $project = null;
+
+    public ?Board $board = null;
+
+    public array $state = [
+        'project_id' => null,
+        'board_id' => null,
+    ];
+
     public function mount()
     {
         $this->form->fill([]);
@@ -42,14 +52,36 @@ class CreateItemModal extends ModalComponent implements HasForms
 
     public function hydrate()
     {
-        $this->setSimilarItems($this->title);
+        $this->setSimilarItems($this->state['title']);
     }
 
     protected function getFormSchema(): array
     {
         $inputs = [];
 
-        $inputs[] = TextInput::make('title')
+        if (is_null($this->project?->id) && app(GeneralSettings::class)->select_project_when_creating_item) {
+            $inputs[] = Select::make('state.project_id')
+                ->label(trans('table.project'))
+                ->reactive()
+                ->options(Project::query()->visibleForCurrentUser()->pluck('title', 'id'))
+                ->required(app(GeneralSettings::class)->project_required_when_creating_item);
+        }
+
+        if (is_null($this->board?->id) && app(GeneralSettings::class)->select_board_when_creating_item) {
+            $inputs[] = Select::make('state.board_id')
+                ->label(trans('table.board'))
+                ->visible(fn ($get) => $this->project?->id ?? $get('state.project_id'))
+                ->options(function ($get) {
+                    if ($this->project?->id) {
+                        return $this->project->boards->pluck('title', 'id');
+                    } else {
+                        return Project::find($get('state.project_id'))->boards()->pluck('title', 'id');
+                    }
+                })
+                ->required(app(GeneralSettings::class)->board_required_when_creating_item);
+        }
+
+        $inputs[] = TextInput::make('state.title')
             ->autofocus()
             ->rules([
                 new ProfanityCheck(),
@@ -62,24 +94,8 @@ class CreateItemModal extends ModalComponent implements HasForms
             ->minLength(3)
             ->required();
 
-        if (app(GeneralSettings::class)->select_project_when_creating_item) {
-            $inputs[] = Select::make('project_id')
-                ->label(trans('table.project'))
-                ->reactive()
-                ->options(Project::query()->visibleForCurrentUser()->pluck('title', 'id'))
-                ->required(app(GeneralSettings::class)->project_required_when_creating_item);
-        }
-
-        if (app(GeneralSettings::class)->select_board_when_creating_item) {
-            $inputs[] = Select::make('board_id')
-                ->label(trans('table.board'))
-                ->visible(fn ($get) => $get('project_id'))
-                ->options(fn ($get) => Project::find($get('project_id'))->boards()->pluck('title', 'id'))
-                ->required(app(GeneralSettings::class)->board_required_when_creating_item);
-        }
-
         $inputs[] = Group::make([
-            MarkdownEditor::make('content')
+            MarkdownEditor::make('state.content')
                 ->label(trans('table.content'))
                 ->rules([
                     new ProfanityCheck(),
@@ -104,12 +120,16 @@ class CreateItemModal extends ModalComponent implements HasForms
             return redirect()->route('verification.notice');
         }
 
-        $data = $this->form->getState();
+        $data = $this->form->getState()['state'];
+
+        $projectId = $this->project?->id ?? $data['project_id'];
+        $boardId = $this->board?->id ?? $data['board_id'];
 
         $item = Item::create([
             'title' => $data['title'],
             'content' => $data['content'],
-            'project_id' => $data['project_id'] ?? null,
+            'project_id' => $projectId,
+            'board_id' => $boardId,
         ]);
 
         $item->user()->associate(auth()->user())->save();
@@ -133,7 +153,7 @@ class CreateItemModal extends ModalComponent implements HasForms
             });
         }
 
-        return route('items.show', $item->id);
+        return redirect()->route('items.show', $item->slug);
     }
 
     public function setSimilarItems($state): void
