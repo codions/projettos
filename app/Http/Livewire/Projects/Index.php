@@ -49,7 +49,7 @@ class Index extends Component
             ->visibleForCurrentUser()
             ->count();
 
-        return ($total > $this->tableRecordsPerPage);
+        return $total > $this->tableRecordsPerPage;
     }
 
     public function getProjects()
