@@ -24,11 +24,13 @@ class Project extends Model
         'url',
         'description',
         'repo',
+        'pinned',
         'private',
         'sort_order',
     ];
 
     protected $casts = [
+        'pinned' => 'boolean',
         'private' => 'boolean',
     ];
 

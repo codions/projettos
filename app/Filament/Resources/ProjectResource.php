@@ -13,6 +13,8 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Filament\Tables\Filters\Filter;
+use Illuminate\Database\Eloquent\Builder;
 
 class ProjectResource extends Resource
 {
@@ -41,31 +43,43 @@ class ProjectResource extends Resource
                         ->helperText('Type a group here to categorise them in your roadmap')
                         ->columnSpan(1)
                         ->maxLength(255),
+
                     Forms\Components\TextInput::make('slug')
                         ->helperText('Leave blank to generate one automatically')
                         ->columnSpan(1)
                         ->maxLength(255),
+
                     Forms\Components\Select::make('icon')
                         ->options(Icons::all())
                         ->searchable(),
+
                     Forms\Components\Toggle::make('private')
                         ->reactive()
                         ->default(false)
                         ->helperText('Private projects are only visible for employees and admins'),
+
+                    Forms\Components\Toggle::make('pinned')
+                        ->helperText('Pinned items will always stay at top.')
+                        ->label('Pinned')
+                        ->default(false),
+
                     Forms\Components\Select::make('repo')
                         ->label('GitHub repository')
                         ->visible($gitHubService->isEnabled())
                         ->searchable()
                         ->getSearchResultsUsing(fn (string $search) => $gitHubService->getRepositories($search)),
+
                     Forms\Components\Select::make('members')
                         ->multiple()
                         ->preload()
                         ->relationship('members', 'name')
                         ->visible(fn ($get) => (bool) $get('private'))
                         ->helperText('Allow certain users to view this project'),
+
                     Forms\Components\MarkdownEditor::make('description')
                         ->columnSpan(2)
                         ->maxLength(65535),
+
                     Forms\Components\Repeater::make('boards')
                         ->collapsible()
                         //->collapsed() // We can enable this when Filament has a way to set header titles
@@ -101,14 +115,34 @@ class ProjectResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id'),
-                Tables\Columns\TextColumn::make('title')->searchable(),
-                Tables\Columns\TextColumn::make('boards_count')->counts('boards'),
-                Tables\Columns\BooleanColumn::make('private'),
-                Tables\Columns\TextColumn::make('created_at')->dateTime()->label('Date'),
+                Tables\Columns\TextColumn::make('id')->toggleable(),
+                Tables\Columns\TextColumn::make('title')->toggleable()->searchable(),
+                Tables\Columns\TextColumn::make('boards_count')->toggleable()->counts('boards'),
+                Tables\Columns\IconColumn::make('pinned')->boolean()->label('Pinned')->sortable()->toggleable()->toggledHiddenByDefault(),
+                Tables\Columns\IconColumn::make('private')->boolean()->label('Private')->sortable()->toggleable()->toggledHiddenByDefault(),
+                Tables\Columns\TextColumn::make('created_at')->toggleable()->dateTime()->label('Date'),
             ])
             ->filters([
-                //
+
+                Filter::make('item_filters')
+                    ->form([
+                        Forms\Components\Toggle::make('pinned')
+                            ->label('Pinned'),
+                        Forms\Components\Toggle::make('private')
+                            ->label('Private'),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['pinned'],
+                                fn (Builder $query): Builder => $query->where('pinned', $data['pinned']),
+                            )
+                            ->when(
+                                $data['private'],
+                                fn (Builder $query): Builder => $query->where('private', $data['private']),
+                            );
+                    }),
+
             ])
             ->defaultSort('sort_order');
     }

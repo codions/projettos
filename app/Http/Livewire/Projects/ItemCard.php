@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Project;
+namespace App\Http\Livewire\Projects;
 
 use App\Models\Item;
 use App\Models\Project;

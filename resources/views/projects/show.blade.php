@@ -3,6 +3,7 @@
 @section('description', $project->description)@show
 
 <x-app :breadcrumbs="[
+    ['title' => 'Projects', 'url' => route('projects.index')],
     ['title' => $project->title, 'url' => route('projects.show', $project)]
 ]">
     <div

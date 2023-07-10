@@ -157,7 +157,8 @@ class ItemResource extends Resource
                                     ->helperText('Private items will only be visible to admins and employees')
                                     ->label('Private')
                                     ->default(false),
-                                Forms\Components\MultiSelect::make('assigned_users')
+                                Forms\Components\Select::make('assigned_users')
+                                    ->multiple()
                                     ->helperText('Assign admins/employees to items here.')
                                     ->preload()
                                     ->relationship('assignedUsers', 'name', fn (Builder $query) => $query->whereIn('role', [UserRole::Admin, UserRole::Employee]))
@@ -211,8 +212,8 @@ class ItemResource extends Resource
                     ->sortable()
                     ->toggleable()
                     ->label('Date'),
-                Tables\Columns\BooleanColumn::make('pinned')->label('Pinned')->sortable()->toggleable()->toggledHiddenByDefault(),
-                Tables\Columns\BooleanColumn::make('private')->label('Private')->sortable()->toggleable()->toggledHiddenByDefault(),
+                Tables\Columns\IconColumn::make('pinned')->boolean()->label('Pinned')->sortable()->toggleable()->toggledHiddenByDefault(),
+                Tables\Columns\IconColumn::make('private')->boolean()->label('Private')->sortable()->toggleable()->toggledHiddenByDefault(),
             ])
             ->filters([
                 Filter::make('assigned')
@@ -224,7 +225,8 @@ class ItemResource extends Resource
 
                 Filter::make('assignees')
                     ->form([
-                        Forms\Components\MultiSelect::make('users')
+                        Forms\Components\Select::make('users')
+                            ->multiple()
                             ->label('Assigned to')
                             ->options(
                                 User::query()
@@ -253,7 +255,8 @@ class ItemResource extends Resource
                             })
                             ->reactive()
                             ->options(Project::pluck('title', 'id')),
-                        Forms\Components\MultiSelect::make('board_id')
+                        Forms\Components\Select::make('board_id')
+                            ->multiple()
                             ->label(trans('table.board'))
                             ->preload()
                             ->options(fn ($get) => Project::find($get('project_id'))?->boards()->pluck('title', 'id') ?? []),

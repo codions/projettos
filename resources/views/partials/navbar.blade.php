@@ -50,6 +50,20 @@
                     <a
                         @class([
                             'flex items-center h-10 px-2 space-x-2 transition rounded-lg ',
+                            'text-white bg-brand-500' => request()->is('projects*'),
+                            'hover:bg-gray-500/5 focus:bg-brand-500/10 focus:text-brand-600 focus:outline-none' => !request()->is('projects*')
+                        ])
+                        href="{{ route('projects.index') }}">
+                        <x-heroicon-o-folder class="w-5 h-5 {{ !request()->is('projects*') ? 'text-gray-500' : ''  }}"/>
+
+                        <span class="font-medium">{{ trans('projects.projects') }}</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a
+                        @class([
+                            'flex items-center h-10 px-2 space-x-2 transition rounded-lg ',
                             'text-white bg-brand-500' => request()->is('profile*'),
                             'hover:bg-gray-500/5 focus:bg-brand-500/10 focus:text-brand-600 focus:outline-none' => !request()->is('profile*')
                         ])
