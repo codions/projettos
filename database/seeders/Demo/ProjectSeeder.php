@@ -11,7 +11,7 @@ class ProjectSeeder extends Seeder
     {
         Project::factory()
             ->hasBoards(4)
-            ->count(5)
+            ->count(15)
             ->create();
     }
 }

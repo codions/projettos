@@ -1,4 +1,4 @@
-<div class="space-y-4">
+<div class="space-y-4 border rounded-xl p-6">
     <div class="space-y-2">
         <h1 class="font-bold text-2xl hover:text-brand-500">
             <a href="{{ route('changelog.show', $changelog) }}">{{ $changelog->title }}</a>

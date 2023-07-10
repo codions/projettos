@@ -14,7 +14,6 @@ use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Http\Livewire\Concerns\CanNotify;
 use Filament\Notifications\Actions\Action;
 use Filament\Notifications\Notification;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Notification as FacadesNotification;
 use Livewire\Component;
 
@@ -33,18 +32,28 @@ class Show extends Component implements Forms\Contracts\HasForms
         'attachments' => [],
     ];
 
-    public Ticket $ticket;
+    public $ticket;
 
-    public Collection $replies;
+    public $replies;
 
-    public function mount(): void
+    public function mount($uuid): void
     {
+        $this->ticket = Ticket::owner()
+            ->uuid($uuid)
+            ->firstOrFail();
+
         $this->replies = $this->ticket->replies()->get();
     }
 
     public function render(): \Illuminate\Contracts\View\View
     {
-        return view('livewire.tickets.show');
+        return view('livewire.tickets.show')
+            ->layoutData([
+                'breadcrumbs' => [
+                    ['title' => trans('support.support'), 'url' => route('support')],
+                    ['title' => $this->ticket->code, 'url' => route('support.ticket', $this->ticket->uuid)],
+                ],
+            ]);
     }
 
     protected function getFormSchema(): array

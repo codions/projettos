@@ -1,3 +1,5 @@
+@section('title', trans('projects.projects'))
+
 <div class="2xl:container xl:container lg:container mx-auto">
 
     @php
@@ -15,6 +17,7 @@
     </div>
 </div>
 
+@if($this->showFilters())
 <div class="mt-6 md:flex md:items-center md:justify-between">
     <div class="md:flex md:items-center space-x-4">
         @if(auth()->check() && auth()->user()->hasAdminAccess())
@@ -79,6 +82,7 @@
         @endif
     </div>
 </div>
+@endif
 
 @if($projects->total())
 <div class="flex text-sm text-gray-600 my-2">
@@ -93,7 +97,7 @@
 <div class="grid 2xl:grid-cols-3 xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-5">
 
     @foreach ($projects as $project)
-        <livewire:projects.project-card :project="$project" wire:key="project-{{ $project->id }}" />
+        <livewire:projects.card :project="$project" wire:key="project-{{ $project->id }}" />
     @endforeach
 
 </div>

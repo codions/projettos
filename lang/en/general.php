@@ -7,8 +7,11 @@ return [
     'recent-items' => 'Recent items',
     'recent-comments' => 'Recent comments',
 
+    'edit' => 'Edit',
     'close' => 'Close',
     'save' => 'Save',
     'confirm' => 'Confirm',
     'cancel' => 'Cancel',
+    'home' => 'Home',
+    'last-updated-by-user-at-datetime' => 'Last updated by :user at :datetime',
 ];

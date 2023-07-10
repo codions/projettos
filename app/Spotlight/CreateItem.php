@@ -19,6 +19,6 @@ class CreateItem extends SpotlightCommand
 
     public function execute(Spotlight $spotlight)
     {
-        $spotlight->emit('openModal', 'modals.item.create-item-modal');
+        $spotlight->emit('openModal', 'modals.item.create');
     }
 }

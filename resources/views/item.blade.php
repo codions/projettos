@@ -2,8 +2,8 @@
 @section('image', $item->getOgImage('"' . $item->excerpt .'"', 'Roadmap - Item'))
 @section('description', $item->excerpt)
 
-<x-app :breadcrumbs="$project ? [
-    ['title' => $project->title, 'url' => route('projects.show', $project)],
+<x-layouts.app :breadcrumbs="$project ? [
+    ['title' => $project->title, 'url' => route('projects.home', $project)],
     ['title' => $board->title, 'url' => route('projects.boards.show', [$project, $board])],
     ['title' => $item->title, 'url' => route('projects.items.show', [$project, $item])]
 ]: [
@@ -59,7 +59,7 @@
                 </div>
             </x-card>
 
-            <livewire:item.comments :item="$item"/>
+            <livewire:items.comments :item="$item"/>
         </div>
 
         <div class="lg:col-span-1 space-y-4">
@@ -106,7 +106,7 @@
 
                 <div class="border-t"></div>
 
-                <livewire:item.vote-button :model="$item"/>
+                <livewire:items.vote-button :model="$item"/>
 
                 @if(auth()->check() && $user && $user->is(auth()->user()))
                     <div class="border-t mb-2"></div>
@@ -142,4 +142,4 @@
             </div>
         </div>
     </div>
-</x-app>
+</x-layouts.app>

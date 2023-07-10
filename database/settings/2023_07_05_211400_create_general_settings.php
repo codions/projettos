@@ -10,7 +10,7 @@ class CreateGeneralSettings extends SettingsMigration
         // General
         $defaultBoards = [];
 
-        foreach (['Under review', 'Planned', 'In progress', 'Live', 'Closed'] as $defaultBoard) {
+        foreach (['Pending', 'In Review', 'Planned', 'In Progress', 'Completed'] as $defaultBoard) {
             $defaultBoards[] = [
                 'title' => $defaultBoard,
                 'visible' => true,

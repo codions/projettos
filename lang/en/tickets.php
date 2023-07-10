@@ -20,7 +20,6 @@ return [
     'ticket_created_notification_body' => 'A new ticket has been created by :user with the title :title',
     'ticket_updated_notification_body' => 'A ticket has been updated by :user',
     'not-allowed-to-create-tickets' => 'You are not allowed to create tickets in this board.',
-    'last-updated-by-user-at-datetime' => 'Last updated by :user at :datetime',
 
     'activities' => 'Activities',
     'activity' => [
