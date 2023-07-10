@@ -13,13 +13,7 @@
 
             <ul class="items-center hidden space-x-3 text-sm font-medium text-gray-600 lg:flex">
                 <li>
-                    <kbd @click="$dispatch('toggle-spotlight')" class="cursor-pointer p-1 items-center shadow justify-center rounded border border-gray-400 hover:bg-gray-200 bg-white font-semibold text-gray-900">{{ trans('general.navbar-search') }}</kbd>
-                </li>
-                <li>
-                    <x-filament::button color="secondary" onclick="Livewire.emit('openModal', 'modals.item.create-item-modal')"
-                                        icon="heroicon-o-plus-circle">
-                        {{ trans('items.create') }}
-                    </x-filament::button>
+                    <kbd @click="$dispatch('toggle-spotlight')" class="cursor-pointer px-2 py-1.5 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500">{{ trans('general.navbar-search') }}</kbd>
                 </li>
 
                 @guest
@@ -37,7 +31,7 @@
                 </li>
                 @endguest
 
-                <div class="relative mr-2">
+                <li class="relative">
                     <button x-cloak x-on:click="darkMode = !darkMode;" class="relative block text-white p-2 focus:outline-none" title="{{ _('Toggle dark mode') }}">
                         <svg x-show="darkMode" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                           <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
@@ -47,7 +41,7 @@
                           <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                         </svg>
                     </button>
-                </div>
+                </li>
 
                 @auth
                 <li>
@@ -136,15 +130,23 @@
 
                 <li>
                     <a class="block p-2 transition rounded-lg focus:outline-none hover:bg-brand-500-400"
+                       href="{{ route('support') }}">
+                        {{ trans('support.support') }}
+                    </a>
+                </li>
+
+                <li>
+                    <a class="block p-2 transition rounded-lg focus:outline-none hover:bg-brand-500-400"
+                       href="{{ route('projects.index') }}">
+                        {{ trans('projects.projects') }}
+                    </a>
+                </li>
+
+                <li>
+                    <a class="block p-2 transition rounded-lg focus:outline-none hover:bg-brand-500-400"
                        href="{{ route('profile') }}">
                         {{ trans('auth.profile') }}
                     </a>
-                </li>
-                <li>
-                    <x-filament::button color="secondary" onclick="Livewire.emit('openModal', 'modals.item.create-item-modal')"
-                                        icon="heroicon-o-plus-circle">
-                        {{ trans('items.create') }}
-                    </x-filament::button>
                 </li>
             </ul>
         </nav>
