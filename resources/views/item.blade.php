@@ -3,7 +3,7 @@
 @section('description', $item->excerpt)
 
 <x-layouts.app :breadcrumbs="$project ? [
-    ['title' => $project->title, 'url' => route('projects.show', $project)],
+    ['title' => $project->title, 'url' => route('projects.home', $project)],
     ['title' => $board->title, 'url' => route('projects.boards.show', [$project, $board])],
     ['title' => $item->title, 'url' => route('projects.items.show', [$project, $item])]
 ]: [
