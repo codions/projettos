@@ -93,7 +93,7 @@
 <div class="grid 2xl:grid-cols-3 xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-5">
 
     @foreach ($projects as $project)
-        <livewire:projects.project-card :project="$project" wire:key="project-{{ $project->id }}" />
+        <livewire:projects.card :project="$project" wire:key="project-{{ $project->id }}" />
     @endforeach
 
 </div>

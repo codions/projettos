@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Livewire\Projects;
+namespace App\Http\Livewire\Items;
 
 use App\Models\Item;
 use App\Models\Project;
 use Livewire\Component;
 
-class ItemCard extends Component
+class Card extends Component
 {
     public Item $item;
 

@@ -6,7 +6,7 @@ use App\Models\Project;
 use Illuminate\Contracts\View\View;
 use Livewire\Component;
 
-class ProjectCard extends Component
+class Card extends Component
 {
     public Project $project;
 

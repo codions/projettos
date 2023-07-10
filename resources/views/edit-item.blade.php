@@ -8,7 +8,7 @@
 ]">
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div class="lg:col-span-2 space-y-4">
-            <livewire:item.edit :item="$item" />
+            <livewire:items.edit :item="$item" />
         </div>
     </div>
 </x-app>

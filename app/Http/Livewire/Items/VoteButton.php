@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Item;
+namespace App\Http\Livewire\Items;
 
 use App\Models\Vote;
 use Illuminate\Contracts\View\View;

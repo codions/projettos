@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Livewire\Projects;
+namespace App\Http\Livewire\Items;
 
 use App\Models\Board;
 use App\Models\Project;
 use Livewire\Component;
 
-class Items extends Component
+class Index extends Component
 {
     public Project $project;
 

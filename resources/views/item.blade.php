@@ -59,7 +59,7 @@
                 </div>
             </x-card>
 
-            <livewire:item.comments :item="$item"/>
+            <livewire:items.comments :item="$item"/>
         </div>
 
         <div class="lg:col-span-1 space-y-4">
@@ -106,7 +106,7 @@
 
                 <div class="border-t"></div>
 
-                <livewire:item.vote-button :model="$item"/>
+                <livewire:items.vote-button :model="$item"/>
 
                 @if(auth()->check() && $user && $user->is(auth()->user()))
                     <div class="border-t mb-2"></div>
