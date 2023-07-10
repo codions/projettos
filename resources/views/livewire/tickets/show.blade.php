@@ -1,3 +1,5 @@
+@section('title', trans('support.support'))
+
 <div class="space-y-4">
 
     <div class="max-w-full mx-auto">

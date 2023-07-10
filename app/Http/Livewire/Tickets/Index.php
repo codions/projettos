@@ -32,14 +32,7 @@ class Index extends Component implements HasTable
                 ->toggleable(isToggledHiddenByDefault: true)
                 ->sortable(),
 
-            Tables\Columns\TextColumn::make('project.title')->label(trans('table.project'))
-                ->url(function ($record) {
-                    if ($project = $record->project) {
-                        return route('projects.show', $project);
-                    }
-
-                    return null;
-                }),
+            Tables\Columns\TextColumn::make('project.title')->label(trans('table.project')),
 
             Tables\Columns\TextColumn::make('subject')
                 ->label(__('Subject'))
@@ -101,6 +94,11 @@ class Index extends Component implements HasTable
 
     public function render(): View
     {
-        return view('livewire.tickets.index');
+        return view('livewire.tickets.index')
+            ->layoutData([
+                'breadcrumbs' => [
+                    ['title' => trans('support.support'), 'url' => route('support')],
+                ],
+            ]);
     }
 }

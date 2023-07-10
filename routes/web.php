@@ -12,9 +12,10 @@ use App\Http\Controllers\ItemEmailUnsubscribeController;
 use App\Http\Controllers\MentionSearchController;
 use App\Http\Controllers\MyController;
 use App\Http\Controllers\PublicUserController;
-use App\Http\Controllers\SupportController;
 use App\Http\Livewire\Projects\Boards as ProjectBoards;
 use App\Http\Livewire\Projects\Index as ProjectsIndex;
+use App\Http\Livewire\Tickets\Index as TicketsIndex;
+use App\Http\Livewire\Tickets\Show as TicketShow;
 use Illuminate\Support\Facades\Route;
 
 Auth::routes();
@@ -49,8 +50,8 @@ Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'
 Route::group(['middleware' => 'authed'], function () {
     Route::get('profile', [ProfileController::class, 'show'])->name('profile');
     Route::get('my', MyController::class)->name('my');
-    Route::get('support', SupportController::class)->name('support');
-    Route::get('support/tickets/{uuid}', [SupportController::class, 'ticket'])->name('support.ticket');
+    Route::get('support', TicketsIndex::class)->name('support');
+    Route::get('support/tickets/{uuid}', TicketShow::class)->name('support.ticket');
 
     Route::get('mention-search', MentionSearchController::class)->name('mention-search');
     Route::get('user/{username}', PublicUserController::class)->name('public-user');
