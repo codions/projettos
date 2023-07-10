@@ -15,6 +15,8 @@ class Index extends Component implements HasTable
 {
     use InteractsWithTable;
 
+    public $projectId;
+
     public $listeners = [
         'createdTicket' => '$refresh',
     ];
@@ -32,11 +34,12 @@ class Index extends Component implements HasTable
                 ->toggleable(isToggledHiddenByDefault: true)
                 ->sortable(),
 
-            Tables\Columns\TextColumn::make('project.title')->label(trans('table.project')),
+            Tables\Columns\TextColumn::make('project.title')
+                ->label(trans('table.project'))
+                ->toggleable(isToggledHiddenByDefault: ! empty($this->projectId)),
 
             Tables\Columns\TextColumn::make('subject')
                 ->label(__('Subject'))
-                ->toggleable()
                 ->searchable()
                 ->sortable(),
 
@@ -74,6 +77,12 @@ class Index extends Component implements HasTable
         return Ticket::query()
             ->owner()
             ->root()
+            ->when(
+                ! empty($this->projectId),
+                function (Builder $query): Builder {
+                    return $query->where('project_id', $this->projectId);
+                },
+            )
             ->with(['project']);
     }
 
