@@ -21,9 +21,11 @@ return new class extends Migration
             $table->string('status')->default('open');
             $table->foreignId('project_id')->nullable()->constrained();
             $table->foreignId('user_id')->nullable()->constrained();
-            $table->foreignId('parent_id')->nullable()->constrained();
+            $table->unsignedBigInteger('parent_id')->nullable();
             $table->timestamp('read_at')->nullable();
             $table->timestamps();
+
+            $table->foreign('parent_id')->references('id')->on('tickets')->cascadeOnDelete();
         });
     }
 

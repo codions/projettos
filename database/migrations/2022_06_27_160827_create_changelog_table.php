@@ -18,11 +18,5 @@ return new class extends Migration
             $table->foreignId('project_id')->nullable()->constrained();
             $table->timestamps();
         });
-
-        Schema::create('changelog_item', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('changelog_id')->constrained();
-            $table->foreignId('item_id')->constrained();
-        });
     }
 };

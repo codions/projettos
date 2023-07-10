@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Changelog;
+namespace App\Http\Livewire\Projects\Changelog;
 
 use App\Models\Changelog;
 use Livewire\Component;
@@ -16,6 +16,6 @@ class Item extends Component
 
     public function render()
     {
-        return view('livewire.changelog.item');
+        return view('livewire.projects.changelog.item');
     }
 }

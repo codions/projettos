@@ -1,7 +1,7 @@
 <div class="space-y-4 border rounded-xl p-6">
     <div class="space-y-2">
         <h1 class="font-bold text-2xl hover:text-brand-500">
-            <a href="{{ route('changelog.show', $changelog) }}">{{ $changelog->title }}</a>
+            <a href="{{ route('projects.changelog.show', [$changelog->project, $changelog]) }}">{{ $changelog->title }}</a>
         </h1>
 
         @if(app(App\Settings\GeneralSettings::class)->show_changelog_author)
@@ -29,13 +29,6 @@
     @if(app(App\Settings\GeneralSettings::class)->show_changelog_related_items && $changelog->items->count())
         <div class="w-full bg-gray-100 rounded-lg p-5">
             <div class="space-y-5">
-                {{--@foreach($changelog->items()->get() as $item)
-                    <a title="{{ $item->title }}"
-                       href="{{ route('items.show', $item) }}"
-                        class="w-full flex items-center h-6 px-2 text-sm font-semibold tracking-tight text-primary-800 rounded-md bg-primary-500/5 hover:bg-primary-700/10 shadow hover:scale-[1.015]">
-                        <span class="no-underline truncate">{{ $item->title }} {{ $item->project ? '(' . $item->project->title . ')' : '' }}</span>
-                    </a>
-                @endforeach--}}
                 @php
                     $tags = \App\Models\Tag::query()
                         ->forChangelog($changelog)
