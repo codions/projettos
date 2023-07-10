@@ -11,9 +11,10 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ItemEmailUnsubscribeController;
 use App\Http\Controllers\MentionSearchController;
 use App\Http\Controllers\MyController;
-use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\PublicUserController;
 use App\Http\Controllers\SupportController;
+use App\Http\Livewire\Projects\Boards as ProjectBoards;
+use App\Http\Livewire\Projects\Index as ProjectsIndex;
 use Illuminate\Support\Facades\Route;
 
 Auth::routes();
@@ -31,8 +32,9 @@ Route::get('/', HomeController::class)->name('home');
 Route::get('changelog', [ChangelogController::class, 'index'])->name('changelog');
 Route::get('changelog/{changelog}', [ChangelogController::class, 'show'])->name('changelog.show');
 
-Route::get('projects', ProjectController::class)->name('projects.index');
-Route::get('projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
+Route::get('projects', ProjectsIndex::class)->name('projects.index');
+Route::get('projects/{project}', ProjectBoards::class)->name('projects.show');
+
 Route::get('items/{item}', [ItemController::class, 'show'])->name('items.show');
 Route::get('items/{item}/edit', [ItemController::class, 'edit'])->name('items.edit');
 Route::get('projects/{project}/items/{item}', [ItemController::class, 'show'])->name('projects.items.show');

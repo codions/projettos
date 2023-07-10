@@ -8,12 +8,17 @@ use Livewire\Component;
 
 class Boards extends Component
 {
-    public Project $project;
+    public $project;
 
     public $boards;
 
-    public function mount()
+    public function mount($project)
     {
+        $this->project = Project::query()
+            ->visibleForCurrentUser()
+            ->where('slug', $project)
+            ->firstOrFail();
+
         $this->boards = $this->project->boards()
             ->visible()
             ->with(['items' => function ($query) {
@@ -28,6 +33,12 @@ class Boards extends Component
 
     public function render(): View
     {
-        return view('livewire.projects.boards');
+        return view('livewire.projects.boards')
+            ->layoutData([
+                'breadcrumbs' => [
+                    ['title' => trans('projects.projects'), 'url' => route('projects.index')],
+                    ['title' => $this->project->title, 'url' => route('projects.show', $this->project)],
+                ],
+            ]);
     }
 }

@@ -6,9 +6,9 @@ use function app;
 use App\Enums\UserRole;
 use App\Filament\Resources\ItemResource;
 use App\Filament\Resources\UserResource;
+use App\Models\Board;
 use App\Models\Item;
 use App\Models\Project;
-use App\Models\Board;
 use App\Models\User;
 use App\Rules\ProfanityCheck;
 use App\Settings\GeneralSettings;
@@ -25,7 +25,6 @@ use Filament\Notifications\Actions\Action;
 use Filament\Notifications\Notification;
 use LivewireUI\Modal\ModalComponent;
 use function redirect;
-use function route;
 use function view;
 
 class CreateItemModal extends ModalComponent implements HasForms

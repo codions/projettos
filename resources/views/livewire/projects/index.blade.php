@@ -1,3 +1,5 @@
+@section('title', trans('projects.projects'))
+
 <div class="2xl:container xl:container lg:container mx-auto">
 
     @php

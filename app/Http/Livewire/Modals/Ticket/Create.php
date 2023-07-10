@@ -126,6 +126,7 @@ class Create extends ModalComponent implements HasForms
         });
 
         $this->emit('createdTicket');
+
         return redirect()->route('support.ticket', $ticket->uuid);
     }
 

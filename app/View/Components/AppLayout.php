@@ -62,6 +62,6 @@ class AppLayout extends Component
             auth()->check() &&
             ! auth()->user()->hasVerifiedEmail();
 
-        return view('layouts.app');
+        return view('layouts.app-layout');
     }
 }
