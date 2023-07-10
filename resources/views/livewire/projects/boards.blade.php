@@ -10,11 +10,21 @@
     ];
 @endphp
 
-@if ($board)
-    <x-filament::button color="secondary" onclick="Livewire.emit('openModal', 'modals.item.create-item-modal', {{ json_encode($params) }})">
-        {{ trans('items.create') }}
-    </x-filament::button>
-@endif
+<div class="max-w-full mx-auto mb-2">
+    <div class="lg:flex lg:items-center lg:justify-between">
+      <div class="flex-1 min-w-0">
+          <h2 class="text-lg tracking-tight font-bold">{{ trans('projects.roadmap') }}</h2>
+          <p class="text-gray-500 text-sm">{{ trans('projects.feature-requests-hint', ['project' => $project->title]) }}</p>
+      </div>
+      <div class="mt-5 flex lg:mt-0 lg:ml-4">
+        @if ($board)
+            <x-filament::button color="primary" onclick="Livewire.emit('openModal', 'modals.item.create', {{ json_encode($params) }})">
+                {{ trans('items.create') }}
+            </x-filament::button>
+        @endif
+      </div>
+    </div>
+  </div>
 
 <div
 @class([

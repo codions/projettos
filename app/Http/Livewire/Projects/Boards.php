@@ -34,11 +34,9 @@ class Boards extends Component
     public function render(): View
     {
         return view('livewire.projects.boards')
+            ->layout(\App\View\Components\Layouts\Project::class)
             ->layoutData([
-                'breadcrumbs' => [
-                    ['title' => trans('projects.projects'), 'url' => route('projects.index')],
-                    ['title' => $this->project->title, 'url' => route('projects.show', $this->project)],
-                ],
+                'project' => $this->project,
             ]);
     }
 }
