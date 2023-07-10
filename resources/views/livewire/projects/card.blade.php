@@ -1,4 +1,4 @@
-<div class="max-w-sm p-6 border rounded-lg shadow bg-white hover:bg-gray-50 border-gray-200">
+<div class="max-w-sm p-6 border rounded-lg shadow bg-white hover:bg-gray-50 border-gray-200 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
     <x-dynamic-component :component="$project->icon ?? 'heroicon-o-hashtag'"
         class="w-7 h-7 text-gray-500 dark:text-gray-400 mb-3"/>
 

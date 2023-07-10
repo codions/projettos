@@ -12,9 +12,7 @@
                         href="{{ route('home') }}">
 
                         <x-heroicon-o-home class="w-5 h-5 {{ !request()->is('/') ? 'text-gray-500' : ''  }}"/>
-
-                        <span
-                            class="font-normal {{ !request()->is('/') ? 'text-gray-900' : ''  }}">{{ trans('general.dashboard') }}</span>
+                        <span class="font-normal">{{ trans('general.dashboard') }}</span>
                     </a>
                 </li>
 
@@ -26,8 +24,8 @@
                             'hover:bg-gray-500/5 focus:bg-brand-500/10 focus:text-brand-600 focus:outline-none' => !request()->is('my*')
                         ])
                         href="{{ route('my') }}">
-                        <x-heroicon-o-view-boards class="w-5 h-5 {{ !request()->is('my*') ? 'text-gray-500' : ''  }}"/>
 
+                        <x-heroicon-o-view-boards class="w-5 h-5 {{ !request()->is('my*') ? 'text-gray-500' : ''  }}"/>
                         <span class="font-medium">{{ trans('items.my-items') }}</span>
                     </a>
                 </li>
@@ -40,8 +38,8 @@
                             'hover:bg-gray-500/5 focus:bg-brand-500/10 focus:text-brand-600 focus:outline-none' => !request()->is('support*')
                         ])
                         href="{{ route('support') }}">
-                        <x-heroicon-o-support class="w-5 h-5 {{ !request()->is('support*') ? 'text-gray-500' : ''  }}"/>
 
+                        <x-heroicon-o-support class="w-5 h-5 {{ !request()->is('support*') ? 'text-gray-500' : ''  }}"/>
                         <span class="font-medium">{{ trans('support.support') }}</span>
                     </a>
                 </li>
@@ -54,8 +52,8 @@
                             'hover:bg-gray-500/5 focus:bg-brand-500/10 focus:text-brand-600 focus:outline-none' => !request()->is('projects*')
                         ])
                         href="{{ route('projects.index') }}">
-                        <x-heroicon-o-folder class="w-5 h-5 {{ !request()->is('projects*') ? 'text-gray-500' : ''  }}"/>
 
+                        <x-heroicon-o-folder class="w-5 h-5 {{ !request()->is('projects*') ? 'text-gray-500' : ''  }}"/>
                         <span class="font-medium">{{ trans('projects.projects') }}</span>
                     </a>
                 </li>
@@ -68,8 +66,8 @@
                             'hover:bg-gray-500/5 focus:bg-brand-500/10 focus:text-brand-600 focus:outline-none' => !request()->is('profile*')
                         ])
                         href="{{ route('profile') }}">
-                        <x-heroicon-o-user class="w-5 h-5 {{ !request()->is('profile*') ? 'text-gray-500' : ''  }}"/>
 
+                        <x-heroicon-o-user class="w-5 h-5 {{ !request()->is('profile*') ? 'text-gray-500' : ''  }}"/>
                         <span class="font-medium">{{ trans('auth.profile') }}</span>
                     </a>
                 </li>
@@ -83,9 +81,8 @@
                                 'hover:bg-gray-500/5 focus:bg-brand-500/10 focus:text-brand-600 focus:outline-none' => !request()->is('changelog*')
                             ])
                             href="{{ route('changelog') }}">
-                            <x-heroicon-o-rss
-                                class="w-5 h-5 {{ !request()->is('changelog*') ? 'text-gray-500' : ''  }}"/>
 
+                            <x-heroicon-o-rss class="w-5 h-5 {{ !request()->is('changelog*') ? 'text-gray-500' : ''  }}"/>
                             <span class="font-medium">{{ trans('changelog.changelog') }}</span>
                         </a>
                     </li>
@@ -137,8 +134,8 @@
             </div>
             @endif
 
-            <div id="dropdown-cta" class="p-4 mt-6 bg-gray-100 rounded-lg" role="alert">
-                <p class="text-sm text-gray-500">
+            <div id="dropdown-cta" class="p-4 mt-6 bg-gray-100 rounded-lg dark:bg-gray-700" role="alert">
+                <p class="text-sm text-gray-500 dark:text-gray-300">
                     <a href="https://github.com/codions/roadmap" target="_blank"
                        class="font-semibold border-b border-dotted">Open-source</a>
                     roadmapping software by

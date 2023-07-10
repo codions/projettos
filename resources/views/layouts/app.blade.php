@@ -38,7 +38,7 @@
         <meta name="robots" content="noindex">
     @endif
 </head>
-<body class="antialiased bg-gray-50">
+<body class="antialiased bg-gray-50 dark:bg-gray-900">
 @if($userNeedsToVerify)
     <div class="relative bg-brand-600">
         <div class="max-w-7xl mx-auto py-3 px-3 sm:px-6 lg:px-8">
@@ -60,9 +60,9 @@
 <div class="w-full mx-auto py-5 md:space-x-10 h-full grid grid-cols-6 w-full px-2 sm:px-6 md:px-8 max-w-[1500px]">
     @include('partials.navbar')
 
-    <main class="flex-1 h-full col-span-6 lg:col-span-5 lg:border-l lg:pl-5">
+    <main class="flex-1 h-full col-span-6 lg:col-span-5 lg:border-l lg:pl-5 dark:border-gray-700">
         <div class="pb-4">
-            <ul class="flex items-center space-x-0.5 text-sm font-medium text-gray-600">
+            <ul class="flex items-center space-x-0.5 text-sm font-medium text-gray-600 dark:text-gray-300">
                 @foreach($breadcrumbs as $breadcrumb)
                     @if(!$loop->first)
                         <li>

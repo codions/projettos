@@ -1,4 +1,4 @@
-<div class="w-full bg-white shadow rounded-xl flex mt-4">
+<div class="w-full bg-white shadow rounded-xl flex mt-4 dark:bg-gray-800 dark:border-gray-700">
     <div class="flex-1 p-4">
         <div class="flex items-center justify-between">
             <div class="flex items-center">
@@ -9,7 +9,7 @@
                 </div>
             </div>
             <div class="flex items-center space-x-2">
-                <time class="text-sm text-gray-500" datetime="{{ $ticket->created_at->toIso8601String() }}">{{ $ticket->created_at->diffForHumans() }}</time>
+                <time class="text-sm text-gray-500 dark:text-gray-300" datetime="{{ $ticket->created_at->toIso8601String() }}">{{ $ticket->created_at->diffForHumans() }}</time>
                 @if($ticket->parent)
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
@@ -34,15 +34,15 @@
                 @endif
             </div>
         </div>
-        <div class="py-6 pl-2 text-gray-700">
+        <div class="py-6 pl-2 text-gray-700 dark:text-white">
             {!! $ticket->message !!}
         </div>
 
         @php $attachments = $ticket->getAttachments(); @endphp
         @if($attachments->count())
-            <div class="border-t-2 flex flex-wrap py-4">
+            <div class="border-t-2 flex flex-wrap py-4 dark:border-gray-600">
                 @foreach($attachments as $file)
-                <div class="w-70 flex items-center m-1 py-2.5 px-2 border-2 border-gray-300 rounded-lg hover:bg-gray-200">
+                <div class="w-70 flex items-center m-1 py-2.5 px-2 border-2 border-gray-300 rounded-lg hover:bg-gray-200 dark:border-gray-600 dark:hover:bg-gray-600">
                     <div class="flex items-center">
                         <div class="w-10 flex items-center justify-center">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -50,7 +50,7 @@
                                 </svg>
                         </div>
                         <div class="w-48 ml-2 flex flex-col">
-                            <a href="{{ $file->getUrl() }}" target="_blank" class="text-sm text-gray-700 font-bold truncate">{{ $file->file_name }}</a>
+                            <a href="{{ $file->getUrl() }}" target="_blank" class="text-sm text-gray-700 font-bold truncate dark:text-white">{{ $file->file_name }}</a>
                             <span class="text-gray-500 text-xs">{{ $file->human_readable_size }}</span>
                         </div>
                     </div>

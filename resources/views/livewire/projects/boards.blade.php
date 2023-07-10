@@ -69,7 +69,7 @@
 @empty
     <div class="w-full">
         <div
-            class="flex flex-col items-center justify-center max-w-md p-6 mx-auto space-y-6 text-center border rounded-2xl">
+            class="flex flex-col items-center justify-center max-w-md p-6 mx-auto space-y-6 text-center border rounded-2xl dark:border-gray-700">
             <div
                 class="flex items-center justify-center w-16 h-16 text-blue-500 bg-white rounded-full shadow">
                 <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -82,7 +82,7 @@
             <header class="max-w-xs space-y-1">
                 <h2 class="text-xl font-semibold tracking-tight">{{ trans('items.all-caught-up-title') }}</h2>
 
-                <p class="font-medium text-gray-500">
+                <p class="font-medium text-gray-500 dark:text-gray-300">
                     There are no boards in this project. If you're an administrator, you can add new boards
                     via the administration area.
                 </p>
