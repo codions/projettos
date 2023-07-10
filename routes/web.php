@@ -48,7 +48,9 @@ Route::post('/email/verification-notification', [VerificationController::class, 
 Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->middleware(['auth', 'signed'])->name('verification.verify');
 
 Route::group(['middleware' => 'authed'], function () {
-    Route::get('profile', [ProfileController::class, 'show'])->name('profile');
+    Route::get('profile', function() {
+        return view('auth.profile');
+    })->name('profile');
     Route::get('my', MyController::class)->name('my');
     Route::get('support', TicketsIndex::class)->name('support');
     Route::get('support/tickets/{uuid}', TicketShow::class)->name('support.ticket');
