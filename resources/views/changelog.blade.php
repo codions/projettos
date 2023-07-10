@@ -2,7 +2,7 @@
 @section('image', App\Services\OgImageGenerator::make('View changelog')->withSubject('Changelog')->withFilename('changelog.jpg')->generate()->getPublicUrl())
 @section('description', 'View changelog for ' . config('app.name'))
 
-<x-app-layout :breadcrumbs="collect([
+<x-layouts.app :breadcrumbs="collect([
     ['title' => 'Changelog', 'url' => route('changelog')],
 ])->when(request()->routeIs('changelog.show'), fn ($collection) => $collection->push(['title' => $changelogs->first()->title, 'url' => route('changelog.show', $changelogs->first())]))->toArray()">
     <main class="p-4 h-full flex space-x-10 mx-auto max-w-6xl">
@@ -10,4 +10,4 @@
             <livewire:changelog.index :changelogs="$changelogs"/>
         </section>
     </main>
-</x-app-layout>
+</x-layouts.app>

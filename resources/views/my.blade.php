@@ -1,6 +1,6 @@
 @section('title', trans('items.my-items'))
 
-<x-app-layout :breadcrumbs="[
+<x-layouts.app :breadcrumbs="[
     ['title' => trans('items.my-items'), 'url' => route('my')]
 ]">
     <div class="space-y-6">
@@ -36,4 +36,4 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+</x-layouts.app>

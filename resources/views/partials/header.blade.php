@@ -151,7 +151,7 @@
             </ul>
         </nav>
 
-        @if($pinnedProjects->count())
+        @if(isset($pinnedProjects) && $pinnedProjects->count())
         <nav class="-mx-2 lg:hidden"
              x-show="open"
              x-cloak>

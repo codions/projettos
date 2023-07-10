@@ -1,21 +1,15 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\Layouts;
 
-use App\Models\Project;
 use App\Services\Tailwind;
 use App\Settings\GeneralSettings;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Str;
 use Illuminate\View\Component;
 
-class AppLayout extends Component
+class Base extends Component
 {
-    public Collection $pinnedProjects;
-
     public string $brandColors;
-
-    public ?string $logo;
 
     public array $fontFamily;
 
@@ -23,19 +17,10 @@ class AppLayout extends Component
 
     public bool $userNeedsToVerify = false;
 
+    public ?string $logo;
+
     public function __construct(public array $breadcrumbs = [])
     {
-        $this->pinnedProjects = Project::query()
-            ->visibleForCurrentUser()
-            ->when(app(GeneralSettings::class)->show_projects_sidebar_without_boards === false, function ($query) {
-                return $query->has('boards');
-            })
-            ->where('pinned', true)
-            ->orderBy('sort_order')
-            ->orderBy('group')
-            ->orderBy('title')
-            ->get();
-
         $this->blockRobots = app(GeneralSettings::class)->block_robots;
     }
 
@@ -56,12 +41,12 @@ class AppLayout extends Component
             'urlValue' => Str::snake($fontFamily, '-'),
         ];
 
-        $this->logo = app(\App\Settings\ColorSettings::class)->logo;
-
         $this->userNeedsToVerify = app(GeneralSettings::class)->users_must_verify_email &&
             auth()->check() &&
             ! auth()->user()->hasVerifiedEmail();
 
-        return view('layouts.app-layout');
+        $this->logo = app(\App\Settings\ColorSettings::class)->logo;
+
+        return view('layouts.base');
     }
 }

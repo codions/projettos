@@ -1,5 +1,5 @@
 @section('title', trans('errors.link-expired.title'))
 
-<x-app-layout>
+<x-layouts.app>
     <p>{{ trans('errors.link-expired') }}</p>
-</x-app-layout>
+</x-layouts.app>

@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'layout' => \App\View\Components\AppLayout::class,
+    'layout' => \App\View\Components\Layouts\App::class,
 
     /*
     |--------------------------------------------------------------------------

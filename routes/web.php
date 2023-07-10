@@ -2,15 +2,12 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\PasswordProtectionController;
-use App\Http\Controllers\Auth\ProfileController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\BoardsController;
 use App\Http\Controllers\ChangelogController;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ItemEmailUnsubscribeController;
 use App\Http\Controllers\MentionSearchController;
-use App\Http\Controllers\MyController;
 use App\Http\Controllers\PublicUserController;
 use App\Http\Livewire\Projects\Boards as ProjectBoards;
 use App\Http\Livewire\Projects\Index as ProjectsIndex;
@@ -48,7 +45,7 @@ Route::post('/email/verification-notification', [VerificationController::class, 
 Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->middleware(['auth', 'signed'])->name('verification.verify');
 
 Route::group(['middleware' => 'authed'], function () {
-    
+
     Route::view('profile', 'auth.profile')->name('profile');
     Route::view('my', 'my')->name('my');
 

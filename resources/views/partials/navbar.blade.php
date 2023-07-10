@@ -89,7 +89,7 @@
                 @endif
             </ul>
 
-            @if($pinnedProjects->count())
+            @if(isset($pinnedProjects) && $pinnedProjects->count())
             <div>
                 <p class="px-2 text-lg font-semibold mb-2">{{ trans('projects.pinned-projects') }}</p>
                 <ul class="space-y-2">
