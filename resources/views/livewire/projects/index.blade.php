@@ -17,6 +17,7 @@
     </div>
 </div>
 
+@if($this->showFilters())
 <div class="mt-6 md:flex md:items-center md:justify-between">
     <div class="md:flex md:items-center space-x-4">
         @if(auth()->check() && auth()->user()->hasAdminAccess())
@@ -81,6 +82,7 @@
         @endif
     </div>
 </div>
+@endif
 
 @if($projects->total())
 <div class="flex text-sm text-gray-600 my-2">
