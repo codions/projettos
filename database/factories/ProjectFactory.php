@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Enums\UserRole;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -17,11 +19,15 @@ class ProjectFactory extends Factory
      */
     public function definition()
     {
+        $title = rtrim($this->faker->text(20), '.');
+
         return [
-            'user_id' => \App\Models\User::inRandomOrder()->first()->id,
-            'title' => ucfirst($this->faker->domainWord),
-            'slug' => Str::slug(Str::random(12)),
-            'private' => false,
+            'user_id' => User::whereIn('role', [UserRole::Admin, UserRole::Employee])->inRandomOrder()->first()->id,
+            'title' => $title,
+            'description' => $this->faker->text(200),
+            'slug' => Str::slug($title),
+            'private' => (bool) mt_rand(0, 1),
+            'pinned' => (bool) mt_rand(0, 1),
         ];
     }
 

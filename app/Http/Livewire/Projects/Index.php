@@ -35,7 +35,12 @@ class Index extends Component
 
     public function render(): View
     {
-        return view('livewire.projects.index');
+        return view('livewire.projects.index')
+            ->layoutData([
+                'breadcrumbs' => [
+                    ['title' => trans('projects.projects'), 'url' => route('projects.index')],
+                ],
+            ]);
     }
 
     public function getProjects()

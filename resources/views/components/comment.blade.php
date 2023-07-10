@@ -98,7 +98,7 @@
 
     @if($reply != $comment->id)
         <div class="px-2">
-            <livewire:item.vote-button :model="$comment" :hideSubscribeOption="true"/>
+            <livewire:items.vote-button :model="$comment" :hideSubscribeOption="true"/>
         </div>
     @endif
 

@@ -1,7 +1,7 @@
 @section('title', trans('auth.login'))
 @section('image', App\Services\OgImageGenerator::make('Login')->withSubject('Roadmap')->withFilename('login.jpg')->generate()->getPublicUrl())
 
-<x-app>
+<x-layouts.app>
     <div class=" relative overflow-hidden flex justify-center">
         <div class="z-10 flex-1 w-full max-w-lg py-8 md:py-16">
             <div class="w-full max-w-md px-4 mx-auto sm:px-6 md:px-8">
@@ -84,4 +84,4 @@
             </div>
         </div>
     </div>
-</x-app>
+</x-layouts.app>

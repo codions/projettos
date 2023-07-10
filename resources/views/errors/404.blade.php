@@ -1,6 +1,6 @@
 @section('title', 'Page not found')
 
-<x-app>
+<x-layouts.app>
     <div class="flex flex-col items-center">
         <h1 class="font-bold text-blue-600 text-6xl">{{ __('404') }}</h1>
 
@@ -12,4 +12,4 @@
             {{ __('We\'re unable to find this page.') }}
         </p>
     </div>
-</x-app>
+</x-layouts.app>

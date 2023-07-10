@@ -2,18 +2,21 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\PasswordProtectionController;
-use App\Http\Controllers\Auth\ProfileController;
 use App\Http\Controllers\Auth\VerificationController;
-use App\Http\Controllers\BoardsController;
 use App\Http\Controllers\ChangelogController;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ItemEmailUnsubscribeController;
 use App\Http\Controllers\MentionSearchController;
-use App\Http\Controllers\MyController;
-use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\PublicUserController;
-use App\Http\Controllers\SupportController;
+use App\Http\Livewire\Projects\Board as ProjectBoard;
+use App\Http\Livewire\Projects\Boards as ProjectBoards;
+use App\Http\Livewire\Projects\Docs as ProjectDocs;
+use App\Http\Livewire\Projects\Faqs as ProjectFaqs;
+use App\Http\Livewire\Projects\Home as ProjectHome;
+use App\Http\Livewire\Projects\Index as ProjectsIndex;
+use App\Http\Livewire\Projects\Support as ProjectSupport;
+use App\Http\Livewire\Tickets\Index as TicketsIndex;
+use App\Http\Livewire\Tickets\Show as TicketShow;
 use Illuminate\Support\Facades\Route;
 
 Auth::routes();
@@ -26,29 +29,37 @@ Route::get('oauth/callback', [LoginController::class, 'handleProviderCallback'])
 Route::get('password-protection', PasswordProtectionController::class)->name('password.protection');
 Route::post('password-protection', [PasswordProtectionController::class, 'login'])->name('password.protection.login');
 
-Route::get('/', HomeController::class)->name('home');
+Route::view('/', 'welcome')->name('home');
 
 Route::get('changelog', [ChangelogController::class, 'index'])->name('changelog');
 Route::get('changelog/{changelog}', [ChangelogController::class, 'show'])->name('changelog.show');
 
-Route::get('projects', ProjectController::class)->name('projects.index');
-Route::get('projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
+Route::get('projects', ProjectsIndex::class)->name('projects.index');
+Route::get('projects/{project}', fn ($project) => redirect()->route('projects.home', $project));
+Route::get('projects/{project}/home', ProjectHome::class)->name('projects.home');
+Route::get('projects/{project}/boards', ProjectBoards::class)->name('projects.boards');
+Route::get('projects/{project}/boards/{board}', ProjectBoard::class)->name('projects.boards.show');
+Route::get('projects/{project}/support', ProjectSupport::class)->name('projects.support');
+Route::get('projects/{project}/docs', ProjectDocs::class)->name('projects.docs');
+Route::get('projects/{project}/faqs', ProjectFaqs::class)->name('projects.faqs');
+
 Route::get('items/{item}', [ItemController::class, 'show'])->name('items.show');
 Route::get('items/{item}/edit', [ItemController::class, 'edit'])->name('items.edit');
 Route::get('projects/{project}/items/{item}', [ItemController::class, 'show'])->name('projects.items.show');
 Route::post('projects/{project}/items/{item}/vote', [ItemController::class, 'vote'])->middleware('authed')->name('projects.items.vote');
 Route::post('projects/{project}/items/{item}/update-board', [ItemController::class, 'updateBoard'])->middleware('authed')->name('projects.items.update-board');
-Route::get('projects/{project}/boards/{board}', [BoardsController::class, 'show'])->name('projects.boards.show');
 
 Route::get('/email/verify', [VerificationController::class, 'show'])->middleware('auth')->name('verification.notice');
 Route::post('/email/verification-notification', [VerificationController::class, 'resend'])->middleware(['auth', 'throttle:6,1'])->name('verification.resend');
 Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->middleware(['auth', 'signed'])->name('verification.verify');
 
 Route::group(['middleware' => 'authed'], function () {
-    Route::get('profile', [ProfileController::class, 'show'])->name('profile');
-    Route::get('my', MyController::class)->name('my');
-    Route::get('support', SupportController::class)->name('support');
-    Route::get('support/tickets/{uuid}', [SupportController::class, 'ticket'])->name('support.ticket');
+
+    Route::view('profile', 'auth.profile')->name('profile');
+    Route::view('my', 'my')->name('my');
+
+    Route::get('support', TicketsIndex::class)->name('support');
+    Route::get('support/tickets/{uuid}', TicketShow::class)->name('support.ticket');
 
     Route::get('mention-search', MentionSearchController::class)->name('mention-search');
     Route::get('user/{username}', PublicUserController::class)->name('public-user');

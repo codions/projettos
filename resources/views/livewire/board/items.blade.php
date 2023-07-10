@@ -1,7 +1,7 @@
 @if($items->count())
     <ul class="w-full divide-y pr-10">
         @foreach($items as $item)
-            <livewire:projects.item-card :item="$item"/>
+            <livewire:items.card :item="$item"/>
         @endforeach
     </ul>
 @else

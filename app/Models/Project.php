@@ -8,13 +8,19 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Spatie\Activitylog\ActivitylogServiceProvider;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\Support\MediaStream;
 
-class Project extends Model
+class Project extends Model implements HasMedia
 {
     use HasFactory;
     use Sluggable;
     use HasOgImage;
     use Traits\HasUser;
+    use InteractsWithMedia;
 
     public $fillable = [
         'title',
@@ -33,6 +39,18 @@ class Project extends Model
         'pinned' => 'boolean',
         'private' => 'boolean',
     ];
+
+    public function activities(): MorphMany
+    {
+        return $this->morphMany(ActivitylogServiceProvider::determineActivityModel(), 'subject');
+    }
+
+    public function lastUpdatedBy()
+    {
+        $activity = $this->activities()->latest()->first();
+
+        return $activity->causer;
+    }
 
     public function boards()
     {
@@ -67,5 +85,20 @@ class Project extends Model
         }
 
         return $query->where('private', false);
+    }
+
+    public function getAttachments()
+    {
+        return $this->getMedia('project_attachments');
+    }
+
+    public function downloadAttachments()
+    {
+        // Let's get some media.
+        $downloads = $this->getAttachments();
+
+        // Download the files associated with the media in a streamed way.
+        // No prob if your files are very large.
+        return MediaStream::create('attachments.zip')->addMedia($downloads);
     }
 }

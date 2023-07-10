@@ -15,6 +15,8 @@ class Index extends Component implements HasTable
 {
     use InteractsWithTable;
 
+    public $projectId;
+
     public $listeners = [
         'createdTicket' => '$refresh',
     ];
@@ -32,18 +34,12 @@ class Index extends Component implements HasTable
                 ->toggleable(isToggledHiddenByDefault: true)
                 ->sortable(),
 
-            Tables\Columns\TextColumn::make('project.title')->label(trans('table.project'))
-                ->url(function ($record) {
-                    if ($project = $record->project) {
-                        return route('projects.show', $project);
-                    }
-
-                    return null;
-                }),
+            Tables\Columns\TextColumn::make('project.title')
+                ->label(trans('table.project'))
+                ->toggleable(isToggledHiddenByDefault: ! empty($this->projectId)),
 
             Tables\Columns\TextColumn::make('subject')
                 ->label(__('Subject'))
-                ->toggleable()
                 ->searchable()
                 ->sortable(),
 
@@ -81,6 +77,12 @@ class Index extends Component implements HasTable
         return Ticket::query()
             ->owner()
             ->root()
+            ->when(
+                ! empty($this->projectId),
+                function (Builder $query): Builder {
+                    return $query->where('project_id', $this->projectId);
+                },
+            )
             ->with(['project']);
     }
 
@@ -101,6 +103,11 @@ class Index extends Component implements HasTable
 
     public function render(): View
     {
-        return view('livewire.tickets.index');
+        return view('livewire.tickets.index')
+            ->layoutData([
+                'breadcrumbs' => [
+                    ['title' => trans('support.support'), 'url' => route('support')],
+                ],
+            ]);
     }
 }
