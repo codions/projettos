@@ -123,8 +123,8 @@
 
                 <li>
                     <a class="block p-2 transition rounded-lg focus:outline-none hover:bg-brand-500-400"
-                       href="{{ route('my') }}">
-                        {{ trans('items.my-items') }}
+                       href="{{ route('projects.index') }}">
+                        {{ trans('projects.projects') }}
                     </a>
                 </li>
 
@@ -137,8 +137,8 @@
 
                 <li>
                     <a class="block p-2 transition rounded-lg focus:outline-none hover:bg-brand-500-400"
-                       href="{{ route('projects.index') }}">
-                        {{ trans('projects.projects') }}
+                       href="{{ route('my') }}">
+                        {{ trans('items.my-items') }}
                     </a>
                 </li>
 
@@ -160,7 +160,7 @@
                 @foreach($pinnedProjects as $project)
                     <li>
                         <a class="block p-2 transition rounded-lg focus:outline-none hover:bg-brand-500-400"
-                           href="{{ route('projects.show', $project) }}">
+                           href="{{ route('projects.home', $project) }}">
                             {{ $project->title }}
                         </a>
                     </li>

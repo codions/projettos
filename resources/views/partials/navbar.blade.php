@@ -20,13 +20,13 @@
                     <a
                         @class([
                             'flex items-center h-10 px-2 space-x-2 transition rounded-lg ',
-                            'text-white bg-brand-500' => request()->is('my*'),
-                            'hover:bg-gray-500/5 focus:bg-brand-500/10 focus:text-brand-600 focus:outline-none' => !request()->is('my*')
+                            'text-white bg-brand-500' => request()->is('projects*'),
+                            'hover:bg-gray-500/5 focus:bg-brand-500/10 focus:text-brand-600 focus:outline-none' => !request()->is('projects*')
                         ])
-                        href="{{ route('my') }}">
+                        href="{{ route('projects.index') }}">
 
-                        <x-heroicon-o-view-boards class="w-5 h-5 {{ !request()->is('my*') ? 'text-gray-500' : ''  }}"/>
-                        <span class="font-medium">{{ trans('items.my-items') }}</span>
+                        <x-heroicon-o-folder class="w-5 h-5 {{ !request()->is('projects*') ? 'text-gray-500' : ''  }}"/>
+                        <span class="font-medium">{{ trans('projects.projects') }}</span>
                     </a>
                 </li>
 
@@ -48,13 +48,13 @@
                     <a
                         @class([
                             'flex items-center h-10 px-2 space-x-2 transition rounded-lg ',
-                            'text-white bg-brand-500' => request()->is('projects*'),
-                            'hover:bg-gray-500/5 focus:bg-brand-500/10 focus:text-brand-600 focus:outline-none' => !request()->is('projects*')
+                            'text-white bg-brand-500' => request()->is('my*'),
+                            'hover:bg-gray-500/5 focus:bg-brand-500/10 focus:text-brand-600 focus:outline-none' => !request()->is('my*')
                         ])
-                        href="{{ route('projects.index') }}">
+                        href="{{ route('my') }}">
 
-                        <x-heroicon-o-folder class="w-5 h-5 {{ !request()->is('projects*') ? 'text-gray-500' : ''  }}"/>
-                        <span class="font-medium">{{ trans('projects.projects') }}</span>
+                        <x-heroicon-o-view-boards class="w-5 h-5 {{ !request()->is('my*') ? 'text-gray-500' : ''  }}"/>
+                        <span class="font-medium">{{ trans('items.my-items') }}</span>
                     </a>
                 </li>
 
@@ -114,7 +114,7 @@
                                     'text-white bg-brand-500' => request()->segment(2) === $project->slug,
                                     'hover:bg-gray-500/5 focus:bg-brand-500/10 focus:text-brand-600 focus:outline-none' => request()->segment(2) !== $project->slug
                                 ])
-                                    href="{{ route('projects.show', $project) }}">
+                                    href="{{ route('projects.home', $project) }}">
                                     <x-dynamic-component :component="$project->icon ?? 'heroicon-o-hashtag'"
                                                             class="flex-shrink-0 w-5 h-5 {{ request()->segment(2) == $project->slug ? '' : 'text-gray-500'  }}"/>
 
