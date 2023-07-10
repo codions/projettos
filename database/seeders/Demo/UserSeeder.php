@@ -46,7 +46,7 @@ class UserSeeder extends Seeder
     private function userFactory($users)
     {
         collect($users)->each(function ($user) {
-            $user->projects()->saveMany(Project::factory()->count(3)->make());
+            $user->projects()->saveMany(Project::factory()->hasBoards(4)->count(3)->make());
             $user->tickets()->saveMany(Ticket::factory()->count(3)->make());
             $user->items()->saveMany(Item::factory()->count(3)->make());
         });

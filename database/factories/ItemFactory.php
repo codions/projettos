@@ -2,7 +2,10 @@
 
 namespace Database\Factories;
 
+use App\Models\Project;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Item>
@@ -16,12 +19,14 @@ class ItemFactory extends Factory
      */
     public function definition()
     {
+        $title = rtrim($this->faker->text(20), '.');
+
         return [
-            'project_id' => \App\Models\Project::inRandomOrder()->first()->id,
-            'user_id' => \App\Models\User::inRandomOrder()->first()->id,
-            'title' => ucfirst($this->faker->domainWord),
+            'user_id' => User::inRandomOrder()->first()->id,
+            'project_id' => Project::inRandomOrder()->first()->id,
+            'title' => $title,
             'content' => $this->faker->text(500),
-            'slug' => $this->faker->word,
+            'slug' => Str::slug($title),
             'private' => false,
         ];
     }
