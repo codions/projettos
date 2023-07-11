@@ -20,9 +20,8 @@ class AppServiceProvider extends ServiceProvider
 {
     public function boot(Kernel $kernel): void
     {
-       if ($this->app->environment('production')) {
-            $this->app['request']->server->set('HTTPS','on');
-            URL::forceSchema('https');
+        if (app()->environment('production')) {
+            URL::forceScheme('https');
         }
 
         View::composer('partials.meta', static function ($view) {
