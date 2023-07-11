@@ -45,6 +45,10 @@ class Edit extends ModalComponent implements HasForms
             $statuses[$key] = $status['label'];
         }
 
+        $customField = ($this->ticket->is_root)
+            ? FilamentCustomFieldsHelper::customFieldsForm(Ticket::class, $this->ticket->id)
+            : [];
+
         return [
             Grid::make(6)
                 ->schema([
@@ -85,7 +89,7 @@ class Edit extends ModalComponent implements HasForms
                         ->required()
                         ->columnSpan(6),
 
-                    ...FilamentCustomFieldsHelper::customFieldsForm(Ticket::class, $this->ticket->id),
+                    ...$customField,
                 ]),
         ];
     }
