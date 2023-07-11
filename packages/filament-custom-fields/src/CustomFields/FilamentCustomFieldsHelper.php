@@ -4,7 +4,6 @@ namespace Codions\FilamentCustomFields\CustomFields;
 
 use Codions\FilamentCustomFields\Models\CustomField;
 use Codions\FilamentCustomFields\Models\CustomFieldResponse;
-use Filament\Forms;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -15,7 +14,7 @@ use Illuminate\Support\Str;
 
 class FilamentCustomFieldsHelper
 {
-    public static function getTypes()
+    public static function getTypes(): array
     {
         return [
             'number' => 'number',
@@ -27,17 +26,17 @@ class FilamentCustomFieldsHelper
         ];
     }
 
-    public static function handle_custom_fields_request($data, $model, $id = null)
+    public static function handleCustomFieldsRequest($data, $model, $id = null): void
     {
-        $custom_fields_data = [];
-        foreach ($data as $key => $val) {
+        $customFieldsData = [];
+        foreach ($data as $key => $value) {
             if (Str::startsWith($key, 'customField_')) {
-                $custom_fields_data[$key] = $val;
+                $customFieldsData[$key] = $value;
             }
         }
 
-        foreach ($custom_fields_data as $custom_fields_datum => $value) {
-            $keys = explode('_', $custom_fields_datum);
+        foreach ($customFieldsData as $customFieldDatum => $value) {
+            $keys = explode('_', $customFieldDatum);
 
             $response = CustomFieldResponse::firstOrCreate(
                 [
@@ -54,35 +53,43 @@ class FilamentCustomFieldsHelper
             );
             $response->update(['value' => $value]);
         }
-
     }
 
-    public static function custom_fields_column()
+    public static function customFieldsColumn(): TextColumn
     {
-        return TextColumn::make('responses')->formatStateUsing(function ($record) {
-            $customFieldResponses = CustomFieldResponse::with('field')->where('model_type', get_class($record))->where('model_id', $record->id)->get();
-            $dat = '';
-            foreach ($customFieldResponses as $respons) {
-                if ($respons->field->show_in_columns) {
-                    $dat = $dat . $respons->field->title . '<br>' . $respons->value . '<br>';
+        return TextColumn::make('responses')->formatUsing(function ($record) {
+            $customFieldResponses = CustomFieldResponse::with('field')
+                ->where('model_type', get_class($record))
+                ->where('model_id', $record->id)
+                ->get();
+
+            $htmlString = '';
+            foreach ($customFieldResponses as $response) {
+                if ($response->field->show_in_columns) {
+                    $htmlString .= $response->field->title . '<br>' . $response->value . '<br>';
                 }
             }
 
-            return new \Illuminate\Support\HtmlString($dat);
+            return new \Illuminate\Support\HtmlString($htmlString);
         });
     }
 
-    public static function custom_fields_form($model, $id = null): array
+    public static function customFieldsForm($model, $id = null): array
     {
         if ($id) {
-            $fields = CustomField::with(['responses' => function ($q) use ($id) {
-                return $q->where('model_id', $id);
-            }])->orderByDesc('order')->where('model_type', $model)->get();
+            $fields = CustomField::with(['responses' => function ($query) use ($id) {
+                $query->where('model_id', $id);
+            }])
+                ->orderByDesc('order')
+                ->where('model_type', $model)
+                ->get();
         } else {
-            $fields = CustomField::where('model_type', $model)->orderByDesc('order')->get();
+            $fields = CustomField::where('model_type', $model)
+                ->orderByDesc('order')
+                ->get();
         }
 
-        if (! count($fields)) {
+        if ($fields->isEmpty()) {
             return [];
         }
 
@@ -94,90 +101,86 @@ class FilamentCustomFieldsHelper
                 foreach ($field->responses as $response) {
                     if ($response->model_id == $id) {
                         $default = $response->value;
+
+                        break;
                     }
                 }
             }
+
             $columnSpan = $field->column_span;
 
-            if ($field->type == 'select') {
+            $input = null;
+            switch ($field->type) {
+                case 'select':
+                    $input = Select::make('customField_' . $field->id)
+                        ->label($field->title)
+                        ->hint($field->hint)
+                        ->options($field->options)
+                        ->columnSpan($columnSpan)
+                        ->required($field->required == 1)
+                        ->afterStateHydrated(fn ($component) => $component->state($default))
+                        ->default($default);
 
-                $input = Select::make('customField_' . $field->id)
-                    ->label($field->title)
-                    ->hint($field->hint)
-                    ->options($field->options)
-                    ->columnSpan($columnSpan)
-                    ->required($field->required == 1)
-                    ->afterStateHydrated(fn ($component) => $component->state($default))
-                    ->default($default);
+                    break;
 
-                if ($field->rules) {
-                    $input->rules($field->rules);
-                }
+                case 'textarea':
+                    $input = Textarea::make('customField_' . $field->id)
+                        ->label($field->title)
+                        ->hint($field->hint)
+                        ->columnSpan($columnSpan)
+                        ->required($field->required == 1)
+                        ->afterStateHydrated(fn ($component) => $component->state($default))
+                        ->default($default);
 
-            } elseif ($field->type == 'textarea') {
+                    break;
 
-                $input = Textarea::make('customField_' . $field->id)
-                    ->label($field->title)
-                    ->hint($field->hint)
-                    ->columnSpan($columnSpan)
-                    ->required($field->required == 1)
-                    ->afterStateHydrated(fn ($component) => $component->state($default))
-                    ->default($default);
+                case 'toggle':
+                    $input = Toggle::make('customField_' . $field->id)
+                        ->label($field->title)
+                        ->hint($field->hint)
+                        ->columnSpan($columnSpan)
+                        ->required($field->required == 1)
+                        ->afterStateHydrated(fn ($component) => $component->state($default))
+                        ->default($default);
 
-                if ($field->rules) {
-                    $input->rules($field->rules);
-                }
+                    break;
 
-            } elseif ($field->type == 'toggle') {
+                case 'rich_editor':
+                    $input = RichEditor::make('customField_' . $field->id)
+                        ->label($field->title)
+                        ->hint($field->hint)
+                        ->columnSpan($columnSpan)
+                        ->required($field->required == 1)
+                        ->afterStateHydrated(fn ($component) => $component->state($default))
+                        ->default($default);
 
-                $input = Toggle::make('customField_' . $field->id)
-                    ->label($field->title)
-                    ->hint($field->hint)
-                    ->columnSpan($columnSpan)
-                    ->required($field->required == 1)
-                    ->afterStateHydrated(fn ($component) => $component->state($default))
-                    ->default($default);
+                    break;
 
-            } elseif ($field->type == 'rich_editor') {
+                default:
+                    $input = TextInput::make('customField_' . $field->id)
+                        ->label($field->title)
+                        ->hint($field->hint)
+                        ->columnSpan($columnSpan)
+                        ->required($field->required == 1)
+                        ->afterStateHydrated(fn ($component) => $component->state($default))
+                        ->default($default);
 
-                $input = RichEditor::make('customField_' . $field->id)
-                    ->label($field->title)
-                    ->hint($field->hint)
-                    ->columnSpan($columnSpan)
-                    ->required($field->required == 1)
-                    ->afterStateHydrated(fn ($component) => $component->state($default))
-                    ->default($default);
+                    if ($field->type == 'number') {
+                        $input->numeric();
+                    }
 
-                if ($field->rules) {
-                    $input->rules($field->rules);
-                }
+                    break;
+            }
 
-            } else {
-
-                $input = TextInput::make('customField_' . $field->id)
-                    ->label($field->title)
-                    ->hint($field->hint)
-                    ->columnSpan($columnSpan)
-                    ->required($field->required == 1)
-                    ->afterStateHydrated(fn ($component) => $component->state($default))
-                    ->default($default);
-
-                if ($field->rules) {
-                    $input->rules($field->rules);
-                }
-                if ($field->type == 'number') {
-                    $input->numeric();
-                }
+            if ($field->rules) {
+                $input->rules($field->rules);
             }
 
             $form[] = $input;
         }
-        if (count($form)) {
-            return [
-                Forms\Components\Card::make()->schema([
-                    Forms\Components\Grid::make()->schema($form),
-                ]),
-            ];
+
+        if (! empty($form)) {
+            return $form;
         }
 
         return [];

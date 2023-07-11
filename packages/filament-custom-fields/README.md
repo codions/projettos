@@ -47,12 +47,12 @@ return [
 
 ### CreateRecord Page
 <div align="center">
-    <img src="https://github.com/codions/filament-custom-fields/blob/main/images/6.png" >
+    <img src="./images/6.png" >
 </div>
 <br/>
 
 <div align="center">
-    <img src="https://github.com/codions/filament-custom-fields/blob/main/images/4.png" >
+    <img src="./images/4.png" >
 </div>
 <br/>
 
@@ -62,14 +62,14 @@ use Codions\FilamentCustomFields\CustomFields\FilamentCustomFieldsHelper;
 
     protected function afterCreate()
     {
-        FilamentCustomFieldsHelper::handle_custom_fields_request($this->data, $this->getModel(), $this->record->id);
+        FilamentCustomFieldsHelper::handleCustomFieldsRequest($this->data, $this->getModel(), $this->record->id);
     }
 
     protected function getFormSchema(): array
     {
         return [
             ...parent::getFormSchema(),
-            ...FilamentCustomFieldsHelper::custom_fields_form($this->getModel(), data_get($this->record,"id"))
+            ...FilamentCustomFieldsHelper::customFieldsForm($this->getModel(), data_get($this->record,"id"))
         ];
     }
 
@@ -78,7 +78,7 @@ use Codions\FilamentCustomFields\CustomFields\FilamentCustomFieldsHelper;
 
 ### EditRecord Page
 <div align="center">
-    <img src="https://github.com/codions/filament-custom-fields/blob/main/images/7.png" >
+    <img src="./images/7.png" >
 </div>
 <br/>
 
@@ -87,15 +87,15 @@ use Codions\FilamentCustomFields\CustomFields\FilamentCustomFieldsHelper;
 
     public function afterSave()
     {
-    //this will handle_custom_fields_request
-        FilamentCustomFieldsHelper::handle_custom_fields_request($this->data, $this->getModel(), $this->record->id);
+    //this will handleCustomFieldsRequest
+        FilamentCustomFieldsHelper::handleCustomFieldsRequest($this->data, $this->getModel(), $this->record->id);
     }
 
     protected function getFormSchema(): array
     {
         return [
             ...parent::getFormSchema(),
-            ...FilamentCustomFieldsHelper::custom_fields_form($this->getModel(), data_get($this->record,"id"))
+            ...FilamentCustomFieldsHelper::customFieldsForm($this->getModel(), data_get($this->record,"id"))
         ];
     }
 ```
@@ -103,7 +103,7 @@ use Codions\FilamentCustomFields\CustomFields\FilamentCustomFieldsHelper;
 ### Then add Column to see values
 
 <div align="center">
-    <img src="https://github.com/codions/filament-custom-fields/blob/main/images/8.png" >
+    <img src="./images/8.png" >
 </div>
 <br/>
 
@@ -116,30 +116,30 @@ use Codions\FilamentCustomFields\CustomFields\FilamentCustomFieldsHelper;
     {
         return $table
             ->columns([
-                FilamentCustomFieldsHelper::custom_fields_column()
+                FilamentCustomFieldsHelper::customFieldsColumn()
             ]);
     }
 ```
 ## Images
 
 <div align="center">
-    <img src="https://github.com/codions/filament-custom-fields/blob/main/images/1.png" >
+    <img src="./images/1.png" >
 </div>
 <br/>
 <div align="center">
-    <img src="https://github.com/codions/filament-custom-fields/blob/main/images/2.png" >
+    <img src="./images/2.png" >
 </div>
 <br/>
 <div align="center">
-    <img src="https://github.com/codions/filament-custom-fields/blob/main/images/3.png" >
+    <img src="./images/3.png" >
 </div>
 <br/>
 <div align="center">
-    <img src="https://github.com/codions/filament-custom-fields/blob/main/images/4.png" >
+    <img src="./images/4.png" >
 </div>
 <br/>
 <div align="center">
-    <img src="https://github.com/codions/filament-custom-fields/blob/main/images/5.png" >
+    <img src="./images/5.png" >
 </div>
 <br/>
 
