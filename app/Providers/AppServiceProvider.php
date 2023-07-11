@@ -14,11 +14,17 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Socialite\Contracts\Factory as SocialiteFactory;
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
     public function boot(Kernel $kernel): void
     {
+       if ($this->app->environment('production')) {
+            $this->app['request']->server->set('HTTPS','on');
+            URL::forceSchema('https');
+        }
+
         View::composer('partials.meta', static function ($view) {
             $view->with(
                 'defaultImage',
@@ -70,9 +76,9 @@ class AppServiceProvider extends ServiceProvider
         $this->bootSsoSocialite();
         $this->bootCollectionMacros();
 
-        //        if (app(GeneralSettings::class)->users_must_verify_email) {
-        //            $this->addVerificationMiddleware($kernel);
-        //        }
+        // if (app(GeneralSettings::class)->users_must_verify_email) {
+        //  $this->addVerificationMiddleware($kernel);
+        // }
     }
 
     private function bootSsoSocialite(): void
