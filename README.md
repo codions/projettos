@@ -101,6 +101,14 @@ The Application will be running on `localhost:8080`
 ## Docs
 See advanced installation and setup options in the [Docs](docs/README.md)
 
+## Contributing
+Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
+
+## Inspiration
+This project is inspired by the [ploi/roadmap](https://github.com/ploi/roadmap) repository. Parts of the original code are still present in this project, but significant modifications have been made to meet Codions' objectives.
+
+We acknowledge and thank the creators of the [ploi/roadmap](https://github.com/ploi/roadmap) for their valuable contributions to the open-source community.
+
 ## License
 
 The MIT License (MIT). Please see [License](LICENSE) for more information.
