@@ -6,7 +6,6 @@ use function app;
 use App\Enums\UserRole;
 use App\Filament\Resources\ItemResource;
 use App\Filament\Resources\UserResource;
-use App\Models\Board;
 use App\Models\Item;
 use App\Models\Project;
 use App\Models\User;
@@ -45,10 +44,10 @@ class Create extends ModalComponent implements HasForms
 
     public function mount()
     {
-        if (!is_null($this->project)) {
+        if (! is_null($this->project)) {
             $this->project = Project::query()->visibleForCurrentUser()->findOrFail($this->project);
 
-            if (!is_null($this->board)) {
+            if (! is_null($this->board)) {
                 $this->board = $this->project->boards()->findOrFail($this->board);
             }
         }

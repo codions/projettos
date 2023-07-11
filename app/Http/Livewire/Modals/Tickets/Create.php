@@ -42,7 +42,7 @@ class Create extends ModalComponent implements HasForms
 
     public function mount()
     {
-        if (!is_null($this->project)) {
+        if (! is_null($this->project)) {
             $this->project = Project::query()->visibleForCurrentUser()->findOrFail($this->project);
         }
 

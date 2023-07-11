@@ -96,7 +96,7 @@ class Edit extends ModalComponent implements HasForms
 
     public function submit()
     {
-        if (!$this->ticket->canBeEdited()) {
+        if (! $this->ticket->canBeEdited()) {
             $this->notify('danger', 'You can only edit your own tickets');
         }
 
