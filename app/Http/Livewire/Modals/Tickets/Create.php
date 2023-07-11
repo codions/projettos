@@ -34,7 +34,7 @@ class Create extends ModalComponent implements HasForms
     use InteractsWithForms;
     use CanNotify;
 
-    public ?Project $project = null;
+    public $project;
 
     public $state = [
         'attachments' => [],
@@ -42,6 +42,10 @@ class Create extends ModalComponent implements HasForms
 
     public function mount()
     {
+        if (!is_null($this->project)) {
+            $this->project = Project::query()->visibleForCurrentUser()->findOrFail($this->project);
+        }
+
         $this->form->fill([]);
     }
 
