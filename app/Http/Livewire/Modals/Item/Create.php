@@ -81,6 +81,7 @@ class Create extends ModalComponent implements HasForms
         }
 
         $inputs[] = TextInput::make('state.title')
+            ->helperText('Quick summary about your suggestion')
             ->autofocus()
             ->rules([
                 new ProfanityCheck(),
@@ -95,6 +96,7 @@ class Create extends ModalComponent implements HasForms
 
         $inputs[] = Group::make([
             MarkdownEditor::make('state.content')
+                ->helperText('Go into more detail about the feature you want added or the improvement you want made')
                 ->label(trans('table.content'))
                 ->rules([
                     new ProfanityCheck(),

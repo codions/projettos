@@ -9,6 +9,9 @@ use Filament\Resources\Pages\Page;
 
 class ViewTicket extends Page
 {
+    // Empty string to disable default header
+    protected ?string $heading = '';
+
     protected static string $resource = TicketResource::class;
 
     protected static string $view = 'filament.resources.ticket.pages.view';

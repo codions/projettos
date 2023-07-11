@@ -55,8 +55,8 @@ git clone https://github.com/codions/projettos.git
 composer install
 php -r "file_exists('.env') || copy('.env.example', '.env');"
 php artisan key:generate
-npm ci
-npm run production
+npm install
+npm run build
 ```
 
 Now edit your `.env` file and set up the database credentials, including the app name you want.

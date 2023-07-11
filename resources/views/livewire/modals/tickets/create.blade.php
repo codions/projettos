@@ -2,7 +2,7 @@
     <x-slot name="title">
         <div class="flex justify-between items-center">
             <div>
-                {{ trans('tickets.create') }}
+                {{ trans('tickets.new-ticket') }}
                 @if ($project?->title)
                 <div class="flex flex-row items-center space-x-1">
                     <h5 class="text-sm font-medium text-gray-900 dark:text-white">{{ $project->title }}</h5>
