@@ -2,7 +2,17 @@
     <x-slot name="title">
         <div class="flex justify-between items-center">
             <div>
-                {{ trans('items.create') }}
+                {{ trans('items.add_suggestion') }}
+
+                @if ($project?->title)
+                <div class="flex flex-row items-center space-x-1">
+                    <h5 class="text-sm font-medium text-gray-900 dark:text-white">{{ $project->title }}</h5>
+
+                    @if($board?->title)
+                    <span class="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">{{ $board->title }}</span>
+                    @endif
+                </div>
+                @endif
             </div>
             <div class="text-medium">
                 <button wire:click="$emit('closeModal')">
@@ -17,17 +27,6 @@
     </x-slot>
 
     <x-slot name="content">
-
-        @if ($project?->title)
-        <div class="border rounded-lg p-3 bg-gray-50">
-            <h5 class="text-xl font-medium text-gray-900 dark:text-white">{{ $project->title }}</h5>
-
-            @if($board?->title)
-            <span class="text-sm text-gray-500 dark:text-gray-400">{{ $board->title }}</span>
-            @endif
-        </div>
-        @endif
-
         @auth
             @if(! auth()->user()->needsToVerifyEmail())
                 <div @class(['hidden' => !$similarItems->count()])>

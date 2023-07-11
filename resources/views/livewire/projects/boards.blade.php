@@ -19,7 +19,7 @@
       <div class="mt-5 flex lg:mt-0 lg:ml-4">
         @if ($board)
             <x-filament::button color="primary" onclick="Livewire.emit('openModal', 'modals.item.create', {{ json_encode($params) }})">
-                {{ trans('items.create') }}
+                {{ trans('items.add_suggestion') }}
             </x-filament::button>
         @endif
       </div>

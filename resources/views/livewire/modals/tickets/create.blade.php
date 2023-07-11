@@ -2,7 +2,12 @@
     <x-slot name="title">
         <div class="flex justify-between items-center">
             <div>
-                {{ trans('tickets.create') }}
+                {{ trans('tickets.new-ticket') }}
+                @if ($project?->title)
+                <div class="flex flex-row items-center space-x-1">
+                    <h5 class="text-sm font-medium text-gray-900 dark:text-white">{{ $project->title }}</h5>
+                </div>
+                @endif
             </div>
             <div class="text-medium">
                 <button wire:click="$emit('closeModal')">
@@ -17,12 +22,6 @@
     </x-slot>
 
     <x-slot name="content">
-        @if ($project?->title)
-        <div class="border rounded-lg p-3 bg-gray-50">
-            <h5 class="text-lg font-medium text-gray-900 dark:text-white">{{ $project->title }}</h5>
-        </div>
-        @endif
-
         {{ $this->form }}
     </x-slot>
 

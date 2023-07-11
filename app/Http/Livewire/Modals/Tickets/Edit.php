@@ -6,6 +6,7 @@ use function app;
 use App\Models\Project;
 use App\Models\Ticket;
 use App\Settings\GeneralSettings;
+use Codions\FilamentCustomFields\CustomFields\FilamentCustomFieldsHelper;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
@@ -79,26 +80,32 @@ class Edit extends ModalComponent implements HasForms
                             'italic',
                             'link',
                             'orderedList',
-                            'redo',
                             'strike',
-                            'undo',
                         ])
                         ->required()
                         ->columnSpan(6),
+
+                    ...FilamentCustomFieldsHelper::customFieldsForm(Ticket::class, $this->ticket->id),
                 ]),
         ];
     }
 
     public function submit()
     {
-        $data = $this->form->getState()['state'];
+        if (!$this->ticket->canBeEdited()) {
+            $this->notify('danger', 'You can only edit your own tickets');
+        }
+
+        $data = $this->form->getState();
 
         $this->ticket->update([
-            'project_id' => $data['project_id'] ?? $this->ticket->project_id,
-            'status' => $data['status'] ?? $this->ticket->status,
-            'subject' => $data['subject'] ?? $this->ticket->subject,
-            'message' => $data['message'],
+            'project_id' => $data['state']['project_id'] ?? $this->ticket->project_id,
+            'status' => $data['state']['status'] ?? $this->ticket->status,
+            'subject' => $data['state']['subject'] ?? $this->ticket->subject,
+            'message' => $data['state']['message'],
         ]);
+
+        FilamentCustomFieldsHelper::handleCustomFieldsRequest($data, Ticket::class, $this->ticket->id);
 
         $this->closeModal();
         $this->emit('updatedTicket');

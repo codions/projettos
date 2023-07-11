@@ -29,6 +29,11 @@ class Settings extends SettingsPage
 {
     protected static ?string $navigationIcon = 'heroicon-o-cog';
 
+    protected static function getNavigationGroup(): ?string
+    {
+        return 'Settings';
+    }
+
     protected static string $settings = GeneralSettings::class;
 
     public Collection $ogImages;

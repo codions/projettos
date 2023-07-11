@@ -37,7 +37,7 @@ Route::get('projects/{project}', fn ($project) => redirect()->route('projects.ho
 Route::get('projects/{project}/home', ProjectHome::class)->name('projects.home');
 Route::get('projects/{project}/boards', ProjectBoards::class)->name('projects.boards');
 Route::get('projects/{project}/boards/{board}', ProjectBoard::class)->name('projects.boards.show');
-Route::get('projects/{project}/support', ProjectSupport::class)->name('projects.support');
+Route::get('projects/{project}/support', ProjectSupport::class)->name('projects.support')->middleware(['middleware' => 'authed']);
 Route::get('projects/{project}/docs', ProjectDocs::class)->name('projects.docs');
 Route::get('projects/{project}/faqs', ProjectFaqs::class)->name('projects.faqs');
 Route::get('projects/{project}/changelog', ChangelogIndex::class)->name('projects.changelog');

@@ -1,3 +1,3 @@
 <x-filament::page>
-    <livewire:tickets.show :ticket="$ticket" />
+    <livewire:tickets.ticket :ticket="$ticket" />
 </x-filament::page>

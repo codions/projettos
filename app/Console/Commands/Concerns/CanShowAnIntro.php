@@ -11,7 +11,7 @@ trait CanShowAnIntro
         $this->line('Laravel version: ' . app()->version());
         $this->line('PHP version: ' . trim(phpversion()));
         $this->line(' ');
-        $this->line('Github: https://github.com/codions/roadmap');
+        $this->line('Github: https://github.com/codions/projettos');
         $this->writeSeparationLine();
         $this->line('');
     }

@@ -2,7 +2,7 @@
 @section('image', App\Services\OgImageGenerator::make('Login')->withSubject('Roadmap')->withFilename('login.jpg')->generate()->getPublicUrl())
 
 <x-layouts.app>
-    <div class=" relative overflow-hidden flex justify-center">
+    <div class="flex flex-col items-center justify-center max-w-md p-6 mx-auto space-y-6 text-center border rounded-2xl">
         <div class="z-10 flex-1 w-full max-w-lg py-8 md:py-16">
             <div class="w-full max-w-md px-4 mx-auto sm:px-6 md:px-8">
                 <h1 class="text-xl font-semibold tracking-tight md:text-2xl">

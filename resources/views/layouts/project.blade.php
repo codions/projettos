@@ -4,7 +4,7 @@
   <div class="mx-auto py-3 px-2 sm:px-6 md:px-8 max-w-[1500px]">
     <div class="lg:flex lg:items-center lg:justify-between">
       <div class="space-y-1">
-        <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">{{ $project->title }}</h2>
+        <h2 class="text-lg font-bold text-gray-900 sm:text-xl sm:truncate">{{ $project->title }}</h2>
         <p class="text-gray-500 dark:text-gray-300 text-sm">{{ str_limit($project->description, 150) }}</p>
       </div>
       <div class="mt-5 flex lg:mt-0 lg:ml-4 space-x-2">

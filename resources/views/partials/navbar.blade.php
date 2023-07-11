@@ -118,12 +118,10 @@
             </div>
             @endif
 
-            <div id="dropdown-cta" class="p-4 mt-6 bg-gray-100 rounded-lg dark:bg-gray-700" role="alert">
-                <p class="text-sm text-gray-500 dark:text-gray-300">
-                    <a href="https://github.com/codions/roadmap" target="_blank"
-                       class="font-semibold border-b border-dotted">Open-source</a>
-                    roadmapping software by
-                    <a href="https://codions.com/?ref=roadmap" target="_blank" class="font-semibold border-b border-dotted">codions.com</a>
+            <div class="p-4 mt-6 rounded-lg bg-blue-50 dark:bg-blue-900" role="alert">
+                <p class="mb-3 text-sm text-blue-800 dark:text-blue-400">
+                    <a href="https://github.com/codions/projettos" target="_blank" class="font-semibold border-b border-dotted border-blue-800">Open-source</a>
+                 roadmapping software by <a href="https://codions.com/?ref=projettos" target="_blank" class="font-semibold border-b border-dotted border-blue-800">Codions Tech</a>
                 </p>
             </div>
         </div>

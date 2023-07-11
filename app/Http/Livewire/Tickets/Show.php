@@ -9,6 +9,8 @@ use App\Models\Ticket;
 use App\Models\User;
 use App\Notifications\Ticket\TicketAnswered;
 use Filament\Forms;
+use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Http\Livewire\Concerns\CanNotify;
@@ -36,13 +38,19 @@ class Show extends Component implements Forms\Contracts\HasForms
 
     public $replies;
 
-    public function mount($uuid): void
-    {
-        $this->ticket = Ticket::owner()
-            ->uuid($uuid)
-            ->firstOrFail();
+    public $uuid;
 
-        $this->replies = $this->ticket->replies()->get();
+    public function mount($uuid = null): void
+    {
+        if (is_null($this->ticket) && ! is_null($uuid)) {
+            $this->ticket = Ticket::owner()
+                ->uuid($uuid)
+                ->firstOrFail();
+        }
+
+        if (! is_null($this->ticket)) {
+            $this->replies = $this->ticket->replies()->get();
+        }
     }
 
     public function render(): \Illuminate\Contracts\View\View
@@ -59,38 +67,50 @@ class Show extends Component implements Forms\Contracts\HasForms
     protected function getFormSchema(): array
     {
         return [
-            RichEditor::make('state.message')
-                ->label(__('Your Reply'))
-                ->toolbarButtons([
-                    'blockquote',
-                    'bold',
-                    'bulletList',
-                    'codeBlock',
-                    'h2',
-                    'h3',
-                    'italic',
-                    'link',
-                    'orderedList',
-                    'redo',
-                    'strike',
-                    'undo',
-                ])
-                ->required(),
+            Grid::make(6)
+                ->schema([
+                    RichEditor::make('state.message')
+                        ->label(__('Your Reply'))
+                        ->toolbarButtons([
+                            'blockquote',
+                            'bold',
+                            'bulletList',
+                            'codeBlock',
+                            'h2',
+                            'h3',
+                            'italic',
+                            'link',
+                            'orderedList',
+                            'strike',
+                        ])
+                        ->required()
+                        ->columnSpan(6),
 
-            SpatieMediaLibraryFileUpload::make('state.attachments')
-                ->label(__('Attachments'))
-                ->collection('ticket_attachments')
-                ->preserveFilenames()
-                ->multiple()
-                ->maxFiles(10)
-                ->acceptedFileTypes(Ticket::ACCEPTED_FILE_TYPES),
+                    Checkbox::make('state.has_attachments')
+                        ->label('Do you want to attach files?')
+                        ->reactive()
+                        ->inline()
+                        ->columnSpan(6),
+
+                    SpatieMediaLibraryFileUpload::make('state.attachments')
+                        ->label(__('Attachments'))
+                        ->visible(fn ($get) => $get('state.has_attachments'))
+                        ->collection('ticket_attachments')
+                        ->preserveFilenames()
+                        ->multiple()
+                        ->maxFiles(10)
+                        ->acceptedFileTypes(Ticket::ACCEPTED_FILE_TYPES)
+                        ->columnSpan(6),
+                ]),
         ];
     }
 
     public function delete()
     {
-        $this->ticket->delete();
-        $this->emit('ticketDeleted');
+        if ($this->ticket->canBeDeleted()) {
+            $this->ticket->delete();
+            $this->emit('ticketDeleted');
+        }
     }
 
     public function markAsUnread()
@@ -120,7 +140,8 @@ class Show extends Component implements Forms\Contracts\HasForms
 
         $users = collect([$ticket->parent->user]);
 
-        // Move to settings (TODO: corrijir isso, o fluxo de notificação não está correto)
+        // TODO: 1 Notification flow is not correct
+        // TODO: 2 Move to settings
         if (auth()->user()->id === $ticket->user_id) {
             $users = User::whereIn('role', [UserRole::Admin->value, UserRole::Employee->value])->get();
         }
