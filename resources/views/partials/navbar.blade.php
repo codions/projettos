@@ -120,7 +120,7 @@
 
             <div id="dropdown-cta" class="p-4 mt-6 bg-gray-100 rounded-lg dark:bg-gray-700" role="alert">
                 <p class="text-sm text-gray-500 dark:text-gray-300">
-                    <a href="https://github.com/codions/roadmap" target="_blank"
+                    <a href="https://github.com/codions/projettos" target="_blank"
                        class="font-semibold border-b border-dotted">Open-source</a>
                     roadmapping software by
                     <a href="https://codions.com/?ref=roadmap" target="_blank" class="font-semibold border-b border-dotted">codions.com</a>

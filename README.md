@@ -51,7 +51,7 @@ Optimize the efficiency of your projects with our project management tool. Centr
 First set up a database, and remember the credentials.
 
 ```
-git clone https://github.com/codions/roadmap.git
+git clone https://github.com/codions/projettos.git
 composer install
 php -r "file_exists('.env') || copy('.env.example', '.env');"
 php artisan key:generate
