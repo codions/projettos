@@ -95,30 +95,10 @@
 </div>
 
 <div class="grid 2xl:grid-cols-3 xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-5">
-
     @foreach ($projects as $project)
         <livewire:projects.card :project="$project" wire:key="project-{{ $project->id }}" />
     @endforeach
-
 </div>
-@else
-<div class="flex flex-col w-full bg-white rounded-3xl border border-gray-150 dark:bg-gray-800 dark:border-gray-700 mt-3">
-    <div class="flex justify-center items-center mx-6 mt-5 mb-6">
-        <div class="text-center">
-
-            <img src="/images/svg/searching.svg" class="mx-auto h-48 text-gray-200 dark:text-gray-700">
-
-            <div class="flex text-sm text-gray-600 mt-3">
-                <p class="mr-1 dark:text-gray-300">{{ __('No results found for your search.') }}</p>
-
-                <button wire:click="resetFilters" class="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-300">
-                    {{ __('Clear search.') }}
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-@endif
 
 <div class="mt-6">
     <x-tables::pagination
@@ -126,4 +106,15 @@
         :records-per-page-select-options="[16, 32, 48, 64]"
     />
 </div>
+
+@else
+<div class="flex flex-col w-full bg-white rounded-3xl border border-gray-150 dark:bg-gray-800 dark:border-gray-700 mt-3">
+    <div class="flex flex-col justify-center items-center mx-6 mt-5 mb-6">
+        <img src="/images/svg/searching.svg" class="mx-auto h-48 text-gray-200 dark:text-gray-700">
+
+        <p class="text-sm text-gray-600 mt-3 dark:text-gray-300">{{ __('No records found.') }}</p>
+    </div>
+</div>
+@endif
+
 </div>

@@ -24,7 +24,7 @@ class CreateGeneralSettings extends SettingsMigration
         $this->migrator->add('general.show_projects_sidebar_without_boards', true);
         $this->migrator->add('general.allow_general_creation_of_item', true);
         $this->migrator->add('general.dashboard_items', []);
-        $this->migrator->add('general.welcome_text', 'Welcome to our roadmap!');
+        $this->migrator->add('general.welcome_text', 'Welcome to our Projettos!');
         $this->migrator->add('general.send_notifications_to', []);
         $this->migrator->add('general.enable_item_age', false);
         $this->migrator->add('general.select_board_when_creating_item', false);
