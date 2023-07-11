@@ -4,6 +4,8 @@ Optimize the efficiency of your projects with our project management tool. Centr
 
 ![Roadmap screenshot](/public/screenshots/screenshot.png)
 
+[![Docker Build/Publish CI](https://github.com/codions/projettos/actions/workflows/docker-publish.yaml/badge.svg?branch=main)](https://github.com/codions/projettos/actions/workflows/docker-publish.yaml)
+
 ## Features
 **Suggestions**: Collect suggestions and ideas from your customers to help you iterate and improve faster.
 
