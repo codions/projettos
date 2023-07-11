@@ -12,8 +12,15 @@
             <h2 class="text-lg font-bold text-gray-800 dark:text-white">{{ __('Explore Projects') }}</h2>
             <span class="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-blue-400">{{ $projects->total() }}</span>
         </div>
-
         <p class="mt-1 text-sm text-gray-500 dark:text-gray-300">{{ __('Submit suggestions, track boards, create tickets and consult documentation.') }}</p>
+    </div>
+    
+    <div class="mt-5 flex lg:mt-0 lg:ml-4">
+        @if(auth()->check() && auth()->user()->hasAdminAccess())
+        <a href="/admin/projects/create" class="ml-2 px-5 py-2 text-sm text-white bg-blue-500 rounded-lg sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600">
+            <span>{{ __('Create') }}</span>
+        </a>
+        @endif
     </div>
 </div>
 
@@ -74,12 +81,6 @@
                 <option value="alphabetical">{{ __('Alphabetical') }}</option>
             </select>
         </div>
-
-        @if(auth()->check() && auth()->user()->hasAdminAccess())
-        <a href="/admin/projects/create" class="ml-2 px-5 py-2 text-sm text-white bg-blue-500 rounded-lg sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600">
-            <span>{{ __('Create') }}</span>
-        </a>
-        @endif
     </div>
 </div>
 @endif
@@ -95,30 +96,10 @@
 </div>
 
 <div class="grid 2xl:grid-cols-3 xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-5">
-
     @foreach ($projects as $project)
         <livewire:projects.card :project="$project" wire:key="project-{{ $project->id }}" />
     @endforeach
-
 </div>
-@else
-<div class="flex flex-col w-full bg-white rounded-3xl border border-gray-150 dark:bg-gray-800 dark:border-gray-700 mt-3">
-    <div class="flex justify-center items-center mx-6 mt-5 mb-6">
-        <div class="text-center">
-
-            <img src="/images/svg/searching.svg" class="mx-auto h-48 text-gray-200 dark:text-gray-700">
-
-            <div class="flex text-sm text-gray-600 mt-3">
-                <p class="mr-1 dark:text-gray-300">{{ __('No results found for your search.') }}</p>
-
-                <button wire:click="resetFilters" class="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-300">
-                    {{ __('Clear search.') }}
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-@endif
 
 <div class="mt-6">
     <x-tables::pagination
@@ -126,4 +107,15 @@
         :records-per-page-select-options="[16, 32, 48, 64]"
     />
 </div>
+
+@else
+<div class="flex flex-col w-full bg-white rounded-3xl border border-gray-150 dark:bg-gray-800 dark:border-gray-700 mt-3">
+    <div class="flex flex-col justify-center items-center mx-6 mt-5 mb-6">
+        <img src="/images/svg/searching.svg" class="mx-auto h-48 text-gray-200 dark:text-gray-700">
+
+        <p class="text-sm text-gray-600 mt-3 dark:text-gray-300">{{ __('No records found.') }}</p>
+    </div>
+</div>
+@endif
+
 </div>

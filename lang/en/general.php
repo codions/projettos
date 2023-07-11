@@ -7,6 +7,7 @@ return [
     'recent-items' => 'Recent items',
     'recent-comments' => 'Recent comments',
 
+    'create' => 'Create',
     'edit' => 'Edit',
     'close' => 'Close',
     'save' => 'Save',

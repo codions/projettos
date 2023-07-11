@@ -81,7 +81,7 @@ class Ticket extends Model implements HasMedia
     public function isRoot(): Attribute
     {
         return Attribute::make(
-            get: fn($value) => is_null($this->attributes['parent_id'])
+            get: fn ($value) => is_null($this->attributes['parent_id'])
         );
     }
 
@@ -90,21 +90,21 @@ class Ticket extends Model implements HasMedia
         $statuses = app(GeneralSettings::class)->ticket_statuses;
 
         return Attribute::make(
-            get: fn($value) => !is_null($this->attributes['status']) ? $statuses[$this->attributes['status']]['label'] : null
+            get: fn ($value) => ! is_null($this->attributes['status']) ? $statuses[$this->attributes['status']]['label'] : null
         );
     }
 
     public function isClosed(): Attribute
     {
         return Attribute::make(
-            get: fn($value) => $this->attributes['status'] === 'closed'
+            get: fn ($value) => $this->attributes['status'] === 'closed'
         );
     }
 
     public function code(): Attribute
     {
         return Attribute::make(
-            get: fn($value) => str_pad($this->attributes['id'], 6, '0', STR_PAD_LEFT)
+            get: fn ($value) => str_pad($this->attributes['id'], 6, '0', STR_PAD_LEFT)
         );
     }
 
