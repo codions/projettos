@@ -12,6 +12,9 @@ use App\Models\User;
 use App\Notifications\Ticket\TicketCreated;
 use App\Settings\GeneralSettings;
 use function auth;
+use Codions\FilamentCustomFields\CustomFields\FilamentCustomFieldsHelper;
+use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
@@ -56,11 +59,13 @@ class Create extends ModalComponent implements HasForms
 
         $inputs[] = TextInput::make('state.subject')
             ->label(__('Subject'))
+            ->helperText('Quick summary about your ticket')
             ->required()
             ->columnSpan(6);
 
         $inputs[] = RichEditor::make('state.message')
             ->label(__('Your Message'))
+            ->helperText('Go into more detail about what you want resolved')
             ->toolbarButtons([
                 'blockquote',
                 'bold',
@@ -71,15 +76,20 @@ class Create extends ModalComponent implements HasForms
                 'italic',
                 'link',
                 'orderedList',
-                'redo',
                 'strike',
-                'undo',
             ])
             ->required()
             ->columnSpan(6);
 
+        $inputs[] = Checkbox::make('has_attachments')
+            ->label('Do you want to attach files?')
+            ->reactive()
+            ->inline()
+            ->columnSpan(6);
+
         $inputs[] = SpatieMediaLibraryFileUpload::make('state.attachments')
             ->label(__('Attachments'))
+            ->visible(fn ($get) => $get('has_attachments'))
             ->collection('ticket_attachments')
             ->preserveFilenames()
             ->multiple()
@@ -87,7 +97,13 @@ class Create extends ModalComponent implements HasForms
             ->acceptedFileTypes(Ticket::ACCEPTED_FILE_TYPES)
             ->columnSpan(6);
 
-        return $inputs;
+        return [
+            Grid::make(6)
+                ->schema([
+                    ...$inputs,
+                    ...FilamentCustomFieldsHelper::customFieldsForm(Ticket::class),
+                ]),
+        ];
     }
 
     public function submit()
@@ -98,16 +114,18 @@ class Create extends ModalComponent implements HasForms
             return redirect()->route('verification.notice');
         }
 
-        $data = $this->form->getState()['state'];
+        $data = $this->form->getState();
 
         $ticket = Ticket::create([
-            'project_id' => $data['project_id'] ?? null,
-            'subject' => $data['subject'],
-            'message' => $data['message'],
+            'project_id' => $this->project?->id ?? $data['state']['project_id'],
+            'subject' => $data['state']['subject'],
+            'message' => $data['state']['message'],
         ]);
 
         $ticket->user()->associate(auth()->user())->save();
         $this->form->model($ticket)->saveRelationships();
+
+        FilamentCustomFieldsHelper::handleCustomFieldsRequest($data, Ticket::class, $ticket->id);
 
         $this->closeModal();
 
