@@ -11,7 +11,12 @@ use function view;
 
 class Activities extends ModalComponent
 {
-    public Project $project;
+    public $project;
+
+    public function mount()
+    {
+        $this->project = Project::query()->visibleForCurrentUser()->findOrFail($this->project);
+    }
 
     public function render()
     {
