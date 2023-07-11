@@ -1,19 +1,43 @@
-# Roadmap
+# Projettos
 
-Welcome to Roadmap, the open-source software for your roadmapping needs
+Optimize the efficiency of your projects with our project management tool. Centralize the collection of resource requests, stimulate creative ideas, and provide straightforward and uncomplicated support.
 
 ![Roadmap screenshot](/public/screenshots/screenshot.png)
 
 ## Features
+**Suggestions**: Collect suggestions and ideas from your customers to help you iterate and improve faster.
 
-- Completely customisable roadmapping software
-- Mention users in comments
-- Upvote items to see which has more priority
-- Automatic slug generation
-- Filament admin panel
-- Simplified role system (administrator, employee & user)
-- OAuth 2 single sign-on with your own application
-- Automatic OG image generation including branding color you've setup (saves in your storage, around 70kb per image), if title is too long it will strip automatically as well, example:
+**Feature Upvotes**: Quickly see which ideas have traction as your users upvote the ideas they’d love to see.
+
+**Discord and Slack Integration**: Get notified of new suggestions and comments directly to your team's Discord or Slack account.
+
+**Product Roadmap**: Generate a roadmap from your suggestions, showing planned, in progress, and completed features.
+
+**Support Ticket Management**: Efficiently manage and track customer support tickets.
+
+**Project Changelog Management**: Keep track of changes made to your project, ensuring transparency and accountability.
+
+**Project Docs Management (Coming soon)**: Easily manage project documentation to ensure all necessary information is organized and accessible.
+
+**Project FAQs Management (Coming soon)**: Create and manage frequently asked questions for your project, providing helpful information to users.
+
+**Mention Users in Comments**: Mention specific users in comments to notify them or draw their attention to a particular discussion or topic.
+
+**Upvote Items to See Which Has More Priority**: Allow users to upvote items to indicate their priority, helping you prioritize feature development.
+
+**Automatic Slug Generation**: Automatically generate slugs (URL-friendly strings) for items or content, simplifying their identification and access.
+
+**Filament Admin Panel**: Access a comprehensive admin panel for easy management and control of your project's settings and configurations.
+
+**Simplified Role System (Administrator, Employee & User)**: Establish a simplified role system with predefined roles such as administrator, employee, and user, to manage user access and permissions.
+
+**OAuth 2 Single Sign-On with Your Own Application**: Enable single sign-on (SSO) functionality using OAuth 2 with your own application, providing users with a seamless authentication experience.
+
+**GitHub Integration**: Integrate with GitHub to facilitate version control and collaboration on software development projects.
+
+**Docker Support**: Benefit from Docker support, allowing for easier deployment and management of your application in containerized environments.
+
+**Automatic OG Image Generation**: Automatically generate Open Graph (OG) images, which are used as thumbnail previews when sharing links on social media platforms, enhancing the visual representation of your content.
 
 ## Requirements
 
@@ -191,14 +215,13 @@ public function boot()
 Now head over to the login page in your roadmap software and view the log in button in action. The title of the button can be set with the `.env` variable: `SSO_LOGIN_TITLE=`
 
 
-## Docker Support
+## Docker
 
-### Getting up and running...
+### Getting up and running
 
-Run:
 `docker-compose up -d --build`
 
-Set your database .env variables:
+Set your database .env.docker variables:
 ```
 DB_CONNECTION=mysql
 DB_HOST=mysql
@@ -217,12 +240,6 @@ Running artisan commands:
 `docker exec -it app php artisan <command>`
 
 The Application will be running on `localhost:8080`
-
-## Testing
-
-```bash
-composer test
-```
 
 
 ## License
