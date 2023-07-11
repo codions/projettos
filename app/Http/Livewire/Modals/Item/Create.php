@@ -34,9 +34,9 @@ class Create extends ModalComponent implements HasForms
 
     public $similarItems;
 
-    public ?Project $project = null;
+    public $project;
 
-    public ?Board $board = null;
+    public $board;
 
     public array $state = [
         'project_id' => null,
@@ -45,6 +45,14 @@ class Create extends ModalComponent implements HasForms
 
     public function mount()
     {
+        if (!is_null($this->project)) {
+            $this->project = Project::query()->visibleForCurrentUser()->findOrFail($this->project);
+
+            if (!is_null($this->board)) {
+                $this->board = $this->project->boards()->findOrFail($this->board);
+            }
+        }
+
         $this->form->fill([]);
         $this->similarItems = collect([]);
     }
