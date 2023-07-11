@@ -103,4 +103,4 @@ See advanced installation and setup options in the [Docs](docs/README.md)
 
 ## License
 
-The MIT License (MIT). Please see [License](LICENSE.md) for more information.
+The MIT License (MIT). Please see [License](LICENSE) for more information.

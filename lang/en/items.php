@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'add_suggestion' => 'Add a suggestion',
     'create' => 'Submit item',
     'update' => 'Update item',
     'edit' => 'Edit item',
