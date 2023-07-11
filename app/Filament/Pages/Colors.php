@@ -20,6 +20,11 @@ class Colors extends SettingsPage
 
     protected static ?string $navigationLabel = 'Theme';
 
+    protected static function getNavigationGroup(): ?string
+    {
+        return 'Settings';
+    }
+
     protected static function shouldRegisterNavigation(): bool
     {
         return auth()->user()->hasRole(UserRole::Admin);
