@@ -78,25 +78,34 @@ class Ticket extends Model implements HasMedia
         return $query->whereNull('parent_id');
     }
 
-    public function getIsRootAttribute()
+    public function isRoot(): Attribute
     {
-        return is_null($this->parent_id);
+        return Attribute::make(
+            get: fn($value) => is_null($this->attributes['parent_id'])
+        );
     }
 
-    public function getStatusLabelAttribute()
+    public function statusLabel(): Attribute
     {
         $statuses = app(GeneralSettings::class)->ticket_statuses;
-        return ! is_null($this->status) ? $statuses[$this->status]['label'] : null;
+
+        return Attribute::make(
+            get: fn($value) => !is_null($this->attributes['status']) ? $statuses[$this->attributes['status']]['label'] : null
+        );
     }
 
-    public function getIsClosedAttribute()
+    public function isClosed(): Attribute
     {
-        return $this->status === 'closed';
+        return Attribute::make(
+            get: fn($value) => $this->attributes['status'] === 'closed'
+        );
     }
 
-    public function getCodeAttribute()
+    public function code(): Attribute
     {
-        return str_pad($this->id, 6, '0', STR_PAD_LEFT);
+        return Attribute::make(
+            get: fn($value) => str_pad($this->attributes['id'], 6, '0', STR_PAD_LEFT)
+        );
     }
 
     public function getAttachments()
@@ -137,7 +146,7 @@ class Ticket extends Model implements HasMedia
         }
 
         if ($this->isOwner()) {
-            return ! ($this->is_root) ? $this?->is_closed : $this->parent?->is_closed;
+            return ! (($this->is_root) ? $this->is_closed : $this->parent->is_closed);
         }
 
         return false;
