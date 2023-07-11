@@ -84,7 +84,21 @@
                            <span class="font-medium">{{ trans('support.support') }}</span>
                        </a>
                    </li>
+                   @if(app(App\Settings\GeneralSettings::class)->enable_changelog)
+                   <li>
+                       <a
+                           @class([
+                               'flex items-center h-10 px-2 space-x-2 transition rounded-lg ',
+                               'text-white bg-brand-500' => request()->is('projects/*/changelog'),
+                               'hover:bg-gray-500/5 focus:bg-brand-500/10 focus:text-brand-600 focus:outline-none' => !request()->is('projects/*/changelog')
+                           ])
+                           href="{{ route('projects.changelog', $project) }}">
 
+                           <x-heroicon-o-rss class="w-5 h-5 {{ !request()->is('projects/*/changelog') ? 'text-gray-500' : ''  }}"/>
+                           <span class="font-medium">{{ trans('projects.changelog.changelog') }}</span>
+                       </a>
+                   </li>
+                   @endif
                    <li>
                        <a
                            @class([
@@ -112,22 +126,6 @@
                            <span class="font-medium">{{ trans('projects.faqs') }}</span>
                        </a>
                    </li>
-
-                   @if(app(App\Settings\GeneralSettings::class)->enable_changelog)
-                   <li>
-                       <a
-                           @class([
-                               'flex items-center h-10 px-2 space-x-2 transition rounded-lg ',
-                               'text-white bg-brand-500' => request()->is('projects/*/changelog'),
-                               'hover:bg-gray-500/5 focus:bg-brand-500/10 focus:text-brand-600 focus:outline-none' => !request()->is('projects/*/changelog')
-                           ])
-                           href="{{ route('projects.changelog', $project) }}">
-
-                           <x-heroicon-o-rss class="w-5 h-5 {{ !request()->is('projects/*/changelog') ? 'text-gray-500' : ''  }}"/>
-                           <span class="font-medium">{{ trans('projects.changelog.changelog') }}</span>
-                       </a>
-                   </li>
-                   @endif
                </ul>
            </div>
        </aside>

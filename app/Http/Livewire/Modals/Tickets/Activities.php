@@ -11,7 +11,12 @@ use function view;
 
 class Activities extends ModalComponent
 {
-    public Ticket $ticket;
+    public $ticket;
+
+    public function mount()
+    {
+        $this->ticket = Ticket::query()->findOrFail($this->ticket);
+    }
 
     public function render()
     {
