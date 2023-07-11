@@ -73,17 +73,6 @@ class Ticket extends Model implements HasMedia
         return $activity->causer;
     }
 
-    public function statusLabel(): Attribute
-    {
-        $statuses = app(GeneralSettings::class)->ticket_statuses;
-
-        return Attribute::make(
-            get: function () use ($statuses) {
-                return ! is_null($this->status) ? $statuses[$this->status]['label'] : null;
-            },
-        );
-    }
-
     public function scopeRoot($query)
     {
         return $query->whereNull('parent_id');
@@ -92,6 +81,17 @@ class Ticket extends Model implements HasMedia
     public function getIsRootAttribute()
     {
         return is_null($this->parent_id);
+    }
+
+    public function getStatusLabelAttribute()
+    {
+        $statuses = app(GeneralSettings::class)->ticket_statuses;
+        return ! is_null($this->status) ? $statuses[$this->status]['label'] : null;
+    }
+
+    public function getIsClosedAttribute()
+    {
+        return $this->status === 'closed';
     }
 
     public function getCodeAttribute()
@@ -128,5 +128,27 @@ class Ticket extends Model implements HasMedia
         return $query->where('private', 0)->where(function (Builder $query) {
             return $query->whereRelation('project', 'private', 0)->orWhereNull('items.project_id');
         });
+    }
+
+    public function canBeEdited()
+    {
+        if (auth()->user()?->hasAdminAccess()) {
+            return true;
+        }
+
+        if ($this->isOwner()) {
+            return ! ($this->is_root) ? $this?->is_closed : $this->parent?->is_closed;
+        }
+
+        return false;
+    }
+
+    public function canBeDeleted()
+    {
+        if (auth()->user()?->hasAdminAccess()) {
+            return true;
+        }
+
+        return $this->isOwner();
     }
 }

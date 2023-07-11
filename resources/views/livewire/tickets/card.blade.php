@@ -10,7 +10,7 @@
             </div>
             <div class="flex items-center space-x-2">
                 <time class="text-sm text-gray-500 dark:text-gray-300" datetime="{{ $ticket->created_at->toIso8601String() }}">{{ $ticket->created_at->diffForHumans() }}</time>
-                @if($ticket->parent)
+                @if(!$ticket->is_root && $ticket->canBeEdited())
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="flex items-center text-gray-500 bg-white hover:bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-200">
