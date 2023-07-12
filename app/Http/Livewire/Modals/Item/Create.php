@@ -161,7 +161,7 @@ class Create extends ModalComponent implements HasForms
             });
         }
 
-        return redirect()->route('items.show', $item->slug);
+        return $this->redirectRoute('items.show', $item->slug);
     }
 
     public function setSimilarItems($state): void

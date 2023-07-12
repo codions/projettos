@@ -46,7 +46,7 @@
             <ul class="p-2 space-y-2 overflow-y-scroll flex-1">
                 @forelse($board->items as $item)
                     <li>
-                        <a href="{{ route('projects.items.show', [$project, $item]) }}"
+                        <a href="{{ route('items.show', $item) }}"
                            class="block p-4 space-y-4 bg-white shadow rounded-xl hover:bg-gray-50">
                             <div class="flex justify-between">
                                 <p>

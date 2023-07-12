@@ -29,7 +29,7 @@ test('A user can submit a new item via the board page', function () {
 
     $item = $user->items()->first();
 
-    $livewire->assertRedirect(route('projects.items.show', [$item->project, $item]));
+    $livewire->assertRedirect(route('items.show', $item));
 
     assertDatabaseHas(Item::class, [
         'title' => 'An example title',
