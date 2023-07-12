@@ -1,12 +1,23 @@
 <x-layouts.base>
 
-<div class="bg-white shadow-sm">
+<div class="bg-white shadow-sm dark:bg-gray-800 dark:border-gray-700">
   <div class="mx-auto py-3 px-2 sm:px-6 md:px-8 max-w-[1500px]">
     <div class="lg:flex lg:items-center lg:justify-between">
-      <div class="space-y-1">
-        <h2 class="text-lg font-bold text-gray-900 sm:text-xl sm:truncate">{{ $project->title }}</h2>
-        <p class="text-gray-500 dark:text-gray-300 text-sm">{{ str_limit($project->description, 150) }}</p>
-      </div>
+
+        <div class="flex items-center space-x-2">
+            <div>
+                <x-dynamic-component :component="$project->icon ?? 'heroicon-o-hashtag'"
+                    class="w-10 h-10 text-gray-500 dark:text-gray-400"/>
+            </div>
+            <div class="space-y-1">
+                <h2 class="text-lg font-bold text-gray-900 sm:text-xl sm:truncate dark:text-gray-400">
+                    <a href="{{ route('projects.home', $project) }}">{{ $project->title }}</a>
+                </h2>
+                <p class="text-gray-500 dark:text-gray-200 text-sm">{{ str_limit($project->description, 150) }}</p>
+            </div>
+        </div>
+
+
       <div class="mt-5 flex lg:mt-0 lg:ml-4 space-x-2">
         <a href="{{ route('projects.index') }}" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
           <svg viewBox="0 0 256 512" class="h-4 mr-2 text-gray-700">
