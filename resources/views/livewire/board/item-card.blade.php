@@ -8,7 +8,7 @@
             <span class="">{{ $item->total_votes }}</span>
         </div>
 
-        <a href="{{ route('projects.items.show', [$project, $item]) }}" class="flex-1">
+        <a href="{{ route('items.show', $item) }}" class="flex-1">
             <p class="font-bold text-lg group-hover:text-brand-500">{{ $item->title }}</p>
             <p>{{ $item->excerpt }}</p>
         </a>

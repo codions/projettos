@@ -63,10 +63,6 @@ class Comments extends Component implements HasForms
         $this->private_content = '';
         $this->reply = null;
 
-        if ($this->item->project) {
-            $this->redirectRoute('projects.items.show', [$this->item->project, $this->item]);
-        }
-
         $this->redirectRoute('items.show', [$this->item]);
     }
 

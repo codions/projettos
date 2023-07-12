@@ -67,7 +67,7 @@ class Create extends Component implements HasForms
 
         $this->notify('success', trans('items.item_created'));
 
-        $this->redirectRoute('projects.items.show', [$this->project, $item]);
+        $this->redirectRoute('items.show', $item);
     }
 
     public function render()

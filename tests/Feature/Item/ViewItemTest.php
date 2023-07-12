@@ -42,9 +42,8 @@ test('A user can render their own public item page that has an associated projec
     $item = Item::first();
 
     $this->actingAs($user)
-        ->get(route('projects.items.show', [
+        ->get(route('items.show', [
             'item' => $item->getAttributeValue('slug'),
-            'project' => $project->getAttributeValue('slug'),
         ]))
         ->assertStatus(200)
         ->assertViewIs('item');
@@ -67,9 +66,8 @@ test('A guest can render a public item page that has an associated project', fun
     $project = Project::first();
     $item = Item::first();
 
-    $this->get(route('projects.items.show', [
+    $this->get(route('items.show', [
         'item' => $item->getAttributeValue('slug'),
-        'project' => $project->getAttributeValue('slug'),
     ]))
         ->assertStatus(200)
         ->assertViewIs('item');
@@ -95,9 +93,8 @@ test('Another user can render a own public item page that has an associated proj
     $item = Item::first();
 
     $this->actingAs($userTwo)
-        ->get(route('projects.items.show', [
+        ->get(route('items.show', [
             'item' => $item->getAttributeValue('slug'),
-            'project' => $project->getAttributeValue('slug'),
         ]))
         ->assertStatus(200)
         ->assertViewIs('item');
@@ -131,9 +128,8 @@ test('A user cant render their own private item page that has an associated proj
     ]);
 
     $this->actingAs($user)
-        ->get(route('projects.items.show', [
+        ->get(route('items.show', [
             'item' => $item->getAttributeValue('slug'),
-            'project' => $project->getAttributeValue('slug'),
         ]))
         ->assertStatus(404);
 
@@ -160,9 +156,8 @@ test('A guest cant render a private item page that has an associated project', f
     $project = Project::skip(1)->first();
     $item = Item::skip(1)->first();
 
-    $this->get(route('projects.items.show', [
+    $this->get(route('items.show', [
         'item' => $item->getAttributeValue('slug'),
-        'project' => $project->getAttributeValue('slug'),
     ]))
         ->assertStatus(404);
 
@@ -195,9 +190,8 @@ test('A user with admin access can render their a private item page that has an 
     $item = Item::skip(1)->first();
 
     $this->actingAs($user)
-        ->get(route('projects.items.show', [
+        ->get(route('items.show', [
             'item' => $item->getAttributeValue('slug'),
-            'project' => $project->getAttributeValue('slug'),
         ]))
         ->assertStatus(200)
         ->assertViewIs('item');

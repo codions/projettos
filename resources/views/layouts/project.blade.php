@@ -72,12 +72,12 @@
                        <a
                            @class([
                                'flex items-center h-10 px-2 space-x-2 transition rounded-lg ',
-                               'text-white bg-brand-500' => request()->is('projects/*/boards*'),
-                               'hover:bg-gray-500/5 focus:bg-brand-500/10 focus:text-brand-600 focus:outline-none' => !request()->is('projects/*/boards*')
+                               'text-white bg-brand-500' => (request()->is('projects/*/boards*') || request()->is('items*')),
+                               'hover:bg-gray-500/5 focus:bg-brand-500/10 focus:text-brand-600 focus:outline-none' => (!request()->is('projects/*/boards*') && !request()->is('items*'))
                            ])
                            href="{{ route('projects.boards', $project) }}">
 
-                           <x-heroicon-o-view-boards class="w-5 h-5 {{ !request()->is('projects/*/boards*') ? 'text-gray-500' : ''  }}"/>
+                           <x-heroicon-o-view-boards class="w-5 h-5 {{ (!request()->is('projects/*/boards*') && !request()->is('items*')) ? 'text-gray-500' : ''  }}"/>
                            <span class="font-medium">{{ trans('projects.roadmap') }}</span>
                        </a>
                    </li>

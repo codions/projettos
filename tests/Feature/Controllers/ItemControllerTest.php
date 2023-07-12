@@ -21,7 +21,7 @@ it('renders the items page with a project', function () {
     $board = Board::factory()->for($project)->create();
     $item = Item::factory()->for($project)->for($board)->create();
 
-    get(route('projects.items.show', [$project, $item]))->assertOk();
+    get(route('items.show', $item))->assertOk();
 });
 
 test('view has breadcrumbs without project', function () {
@@ -96,7 +96,7 @@ test('user cannot change board of an item', function (UserRole $userRole, bool $
 
     createAndLoginUser(['role' => $userRole]);
 
-    get(route('projects.items.show', [$item->project, $item]))
+    get(route('items.show', $item))
         ->{$shouldBeVisible ? 'assertSee' : 'assertDontSee'}('<select name="board_id"', false);
 
     $newBoard = $boards->skip(1)->first();

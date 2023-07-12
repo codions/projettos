@@ -7,6 +7,7 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ItemEmailUnsubscribeController;
 use App\Http\Controllers\MentionSearchController;
 use App\Http\Controllers\PublicUserController;
+use App\Http\Livewire\Items\Show as ItemsShow;
 use App\Http\Livewire\Projects\Board as ProjectBoard;
 use App\Http\Livewire\Projects\Boards as ProjectBoards;
 use App\Http\Livewire\Projects\Changelog\Index as ChangelogIndex;
@@ -43,9 +44,8 @@ Route::get('projects/{project}/faqs', ProjectFaqs::class)->name('projects.faqs')
 Route::get('projects/{project}/changelog', ChangelogIndex::class)->name('projects.changelog');
 Route::get('projects/{project}/changelog/{changelog}', ChangelogShow::class)->name('projects.changelog.show');
 
-Route::get('items/{item}', [ItemController::class, 'show'])->name('items.show');
+Route::get('items/{item}', ItemsShow::class)->name('items.show');
 Route::get('items/{item}/edit', [ItemController::class, 'edit'])->name('items.edit');
-Route::get('projects/{project}/items/{item}', [ItemController::class, 'show'])->name('projects.items.show');
 Route::post('projects/{project}/items/{item}/vote', [ItemController::class, 'vote'])->middleware('authed')->name('projects.items.vote');
 Route::post('projects/{project}/items/{item}/update-board', [ItemController::class, 'updateBoard'])->middleware('authed')->name('projects.items.update-board');
 
