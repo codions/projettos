@@ -30,10 +30,6 @@
         <div class="w-full bg-gray-100 rounded-lg p-5">
             <div class="space-y-5">
                 @php
-                    $tags = \App\Models\Tag::query()
-                        ->forChangelog($changelog)
-                        ->get();
-
                     $items = $changelog->items()
                         ->noChangelogTag()
                         ->get();
@@ -55,29 +51,6 @@
                         @endforeach
                     </ul>
                 </div>
-
-                @foreach($tags as $tag)
-                    <div>
-                        <div class="border-b pb-1 mb-1">
-                            <h3 class="uppercase font-bold">{{ $tag->name }}</h3>
-                        </div>
-
-                        <ul class="list-disc ml-5">
-                            @foreach($tag->items as $item)
-                                <li>
-                                    <div>
-                                        <a
-                                            href="{{ route('items.show', $item) }}"
-                                            class="cursor-pointer hover:underline"
-                                        >
-                                            {{ $item->title }}
-                                        </a>
-                                    </div>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endforeach
             </div>
         </div>
     @endif
