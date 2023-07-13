@@ -77,6 +77,11 @@ class Project extends Model implements HasMedia
         return $this->hasManyThrough(Item::class, Board::class);
     }
 
+    public function faqs()
+    {
+        return $this->hasMany(Faq::class);
+    }
+
     public function scopeVisibleForCurrentUser($query)
     {
         if (auth()->user()?->hasAdminAccess()) {
