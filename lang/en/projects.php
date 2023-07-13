@@ -8,6 +8,9 @@ return [
     'boards' => 'Boards',
     'docs' => 'Docs',
     'faqs' => 'FAQs',
+    'faqs-description' => 'View all Project FAQs here',
+    'no-faqs-created' => 'No FAQ created for the project',
+
     'feature-requests' => 'Feature Requests',
     'feature-requests-hint' => 'Join other users in helping make :project better',
     'roadmap' => 'Roadmap',
@@ -15,7 +18,6 @@ return [
     'changelog' => [
         'related_items' => 'Related items',
         'changelog' => 'Changelog',
-        'all-caught-up-title' => 'Nothing here yet',
         'all-caught-up-description' => 'There aren\'t any changes added to this changelog',
         'included-items' => 'Included items',
     ],
