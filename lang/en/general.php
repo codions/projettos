@@ -6,6 +6,7 @@ return [
 
     'recent-items' => 'Recent items',
     'recent-comments' => 'Recent comments',
+    'all-caught-up-title' => 'Nothing here yet',
 
     'create' => 'Create',
     'edit' => 'Edit',

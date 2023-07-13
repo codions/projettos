@@ -57,15 +57,7 @@ class My extends Component implements HasTable
     protected function getTableRecordUrlUsing(): ?Closure
     {
         return function ($record) {
-            if (! $record->board) {
-                return route('items.show', $record);
-            }
-
-            if (! $record->project) {
-                return route('items.show', $record);
-            }
-
-            return route('projects.items.show', [$record->project, $record]);
+            return route('items.show', $record);
         };
     }
 
