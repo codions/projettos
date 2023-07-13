@@ -7,11 +7,7 @@
         </h6>
 
         <p class="mb-8 text-center text-gray-500 md:text-lg">
-            @if(isset($exception) && $exception->getMessage())
-                {{ $exception?->getMessage() }}
-            @else
-                {{ __('You don\'t have permission to access this resource.') }}
-            @endif
+            {{ __('You don\'t have permission to access this resource.') }}
         </p>
 
         <a href="/" class="outline-none inline-flex justify-center items-center group transition-all ease-in duration-150 focus:ring-2 focus:ring-offset-2 hover:shadow-sm disabled:opacity-80 disabled:cursor-not-allowed rounded gap-x-2 text-base px-4 py-2     ring-primary-500 text-white bg-primary-500 hover:bg-primary-600 hover:ring-primary-600
