@@ -26,11 +26,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install dependencies and build
-        run: |
-          npm install
-          npm run build
-
       - name: Build image
         run: docker build . --file Dockerfile --tag $IMAGE_NAME
 
