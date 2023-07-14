@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "72c002bcf0d0eb9871bf5ccbdd611b82",
+    "content-hash": "bdf5d3f4828929ee885c74999aeb7f4f",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -344,7 +344,7 @@
         },
         {
             "name": "codions/filament-custom-fields",
-            "version": "dev-main",
+            "version": "dev-features",
             "dist": {
                 "type": "path",
                 "url": "./packages/filament-custom-fields",
@@ -11878,7 +11878,7 @@
         },
         {
             "name": "xetaio/xetaravel-mentions",
-            "version": "dev-main",
+            "version": "dev-features",
             "dist": {
                 "type": "path",
                 "url": "./packages/xetaravel-mentions",

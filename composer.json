@@ -12,7 +12,7 @@
         "filament/spatie-laravel-media-library-plugin": "^2.17",
         "filament/spatie-laravel-settings-plugin": "^2.17.0",
         "filament/spatie-laravel-tags-plugin": "^2.17",
-        "filament/spatie-laravel-translatable-plugin": "^2.17",
+        "filament/spatie-laravel-translatable-plugin": "^2.0",
         "flowframe/laravel-trend": "^0.1.3",
         "graham-campbell/github": "^12.2",
         "guzzlehttp/guzzle": "^7.2",
