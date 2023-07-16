@@ -1,1 +1,15 @@
-<a {{ $attributes->merge(['class' => 'cursor-pointer block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-800 transition duration-150 ease-in-out']) }}>{{ $slot }}</a>
+@if ($separator)
+    <div class="w-full my-1 border-t border-secondary-200 dark:border-secondary-600"></div>
+@endif
+
+<a {{ $attributes->merge(['class' => $getClasses()]) }}>
+    @if ($icon)
+        <x-dynamic-component
+            component="icon-svg"
+            :name="$icon"
+            class="w-5 h-5 mr-2"
+        />
+    @endif
+
+    {{ $label ?? $slot }}
+</a>
