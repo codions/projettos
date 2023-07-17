@@ -29,7 +29,7 @@ enum TicketActivity: string
         return self::tryFrom($ticketActivity);
     }
 
-    public function getTranslation(array $attributes = [], ?string $locale = null): string
+    public function getTranslation(array $attributes = [], string $locale = null): string
     {
         return match ($this) {
             self::Created => trans('tickets.activity.created', [], $locale),

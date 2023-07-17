@@ -21,11 +21,11 @@ class GeneralSettings extends Settings
 
     public array $send_notifications_to;
 
-    public string | null $welcome_text;
+    public ?string $welcome_text;
 
-    public string | null $custom_scripts;
+    public ?string $custom_scripts;
 
-    public string | null $password;
+    public ?string $password;
 
     public bool $enable_item_age;
 

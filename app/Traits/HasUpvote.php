@@ -50,7 +50,7 @@ trait HasUpvote
         return $vote;
     }
 
-    public function getUserVote(User $user = null): Vote | null
+    public function getUserVote(User $user = null): ?Vote
     {
         $user = $user ?? auth()->user();
 

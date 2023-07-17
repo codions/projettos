@@ -12,7 +12,7 @@ class VoteButton extends Component
 {
     public Model $model;
 
-    public Vote | null $vote;
+    public ?Vote $vote;
 
     public Collection $recentVoters;
 

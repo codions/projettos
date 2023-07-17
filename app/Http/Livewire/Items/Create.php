@@ -20,9 +20,9 @@ class Create extends Component implements HasForms
     use InteractsWithForms;
     use CanNotify;
 
-    public Project | null $project = null;
+    public ?Project $project = null;
 
-    public Board | null $board = null;
+    public ?Board $board = null;
 
     public function mount()
     {

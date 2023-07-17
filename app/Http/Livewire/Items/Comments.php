@@ -123,7 +123,7 @@ class Comments extends Component implements HasForms
         return view('livewire.item.comments');
     }
 
-    public function reply(?int $id = null)
+    public function reply(int $id = null)
     {
         $this->reply = $id;
     }

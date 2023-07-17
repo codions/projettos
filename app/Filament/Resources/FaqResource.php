@@ -26,8 +26,8 @@ class FaqResource extends Resource
                 Forms\Components\Select::make('project_id')
                     ->label('Project')
                     ->options(Project::query()->pluck('title', 'id'))
-                    ->reactive()
-                    ->required(),
+                    ->required()
+                    ->columnSpan(6),
 
                 Forms\Components\TextInput::make('question')
                     ->label(__('Question'))

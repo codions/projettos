@@ -32,7 +32,7 @@ enum ProjectActivity: string
         return self::tryFrom($projectActivity);
     }
 
-    public function getTranslation(array $attributes = [], ?string $locale = null): string
+    public function getTranslation(array $attributes = [], string $locale = null): string
     {
         return match ($this) {
             self::Created => trans('projects.activity.created', [], $locale),

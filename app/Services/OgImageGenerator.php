@@ -10,7 +10,7 @@ class OgImageGenerator
 {
     private const DEFAULT_POLYGON_POINTS = [1200, 200, 1200, 630, 825, 630];
 
-    private string  $title;
+    private string $title;
 
     private ?string $subject = null;
 
@@ -20,7 +20,7 @@ class OgImageGenerator
 
     private ?string $templateFile = null;
 
-    private bool   $polygonEnabled = false;
+    private bool $polygonEnabled = false;
 
     private ?array $polygonPoints = null;
 
@@ -34,14 +34,14 @@ class OgImageGenerator
         $this->title = $title;
     }
 
-    public function withSubject(string | null $subject): self
+    public function withSubject(?string $subject): self
     {
         $this->subject = $subject;
 
         return $this;
     }
 
-    public function withDescription(string | null $description): self
+    public function withDescription(?string $description): self
     {
         $this->description = $description;
 
@@ -62,7 +62,7 @@ class OgImageGenerator
         return $this;
     }
 
-    public function withPolygonDecoration(?array $points = null): static
+    public function withPolygonDecoration(array $points = null): static
     {
         $this->polygonEnabled = true;
         $this->polygonPoints = $points;

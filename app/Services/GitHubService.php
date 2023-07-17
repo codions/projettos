@@ -9,7 +9,7 @@ use Throwable;
 
 class GitHubService
 {
-    public function getRepositories(?string $searchQuery = null): Collection
+    public function getRepositories(string $searchQuery = null): Collection
     {
         if (! $this->isEnabled()) {
             return collect();
@@ -34,7 +34,7 @@ class GitHubService
         return config('github.enabled');
     }
 
-    public function getIssuesForRepository(?string $repository, ?string $searchQuery = null): Collection
+    public function getIssuesForRepository(?string $repository, string $searchQuery = null): Collection
     {
         if (! $this->isEnabled() || $repository === null) {
             return collect();

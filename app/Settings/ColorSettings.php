@@ -8,11 +8,11 @@ class ColorSettings extends Settings
 {
     public string $primary;
 
-    public string | null $favicon;
+    public ?string $favicon;
 
-    public string | null $logo;
+    public ?string $logo;
 
-    public string | null $fontFamily;
+    public ?string $fontFamily;
 
     public static function group(): string
     {
