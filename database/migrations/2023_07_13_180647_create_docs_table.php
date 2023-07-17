@@ -11,13 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('book_chapters', function (Blueprint $table) {
+        Schema::create('docs', function (Blueprint $table) {
             $table->id();
             $table->string('slug')->indexed();
             $table->string('name');
             $table->text('description')->nullable();
+            $table->enum('visibility', ['private', 'unlisted', 'public'])->default('public');
             $table->integer('sort_order')->nullable();
-            $table->foreignId('book_id')->constrained();
+            $table->foreignId('project_id')->nullable()->constrained();
             $table->foreignId('user_id')->nullable()->constrained();
             $table->timestamps();
         });
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('book_chapters');
+        Schema::dropIfExists('docs');
     }
 };
