@@ -7,6 +7,7 @@
     "require": {
         "php": "^8.1.0",
         "codions/filament-custom-fields": "*",
+        "camya/filament-title-with-slug": "*",
         "doctrine/dbal": "^3.3",
         "filament/filament": "^2.17.0",
         "filament/spatie-laravel-media-library-plugin": "^2.17",
@@ -109,6 +110,13 @@
         {
             "type": "path",
             "url": "./packages/filament-custom-fields",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "./packages/filament-title-with-slug",
             "options": {
                 "symlink": true
             }
