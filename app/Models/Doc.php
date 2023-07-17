@@ -7,11 +7,12 @@ use App\Traits\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Spatie\Activitylog\ActivitylogServiceProvider;
 use Spatie\Translatable\HasTranslations;
 
-class BookPage extends Model
+class Doc extends Model
 {
     use HasFactory;
     use Sluggable;
@@ -22,20 +23,14 @@ class BookPage extends Model
     public $fillable = [
         'slug',
         'name',
-        'content',
-        'content_type',
+        'description',
+        'visibility',
         'sort_order',
-        'book_id',
-        'chapter_id',
+        'project_id',
         'user_id',
-        'is_draft',
     ];
 
-    protected $casts = [
-        'is_draft' => 'boolean',
-    ];
-
-    public $translatable = ['name', 'content'];
+    public $translatable = ['name', 'description'];
 
     public function activities(): MorphMany
     {
@@ -47,8 +42,31 @@ class BookPage extends Model
         return $this->belongsTo(Project::class);
     }
 
-    public function chapter(): BelongsTo
+    public function chapters(): HasMany
     {
-        return $this->belongsTo(BookChapter::class);
+        return $this->hasMany(DocChapter::class);
+    }
+
+    public function pages(): HasMany
+    {
+        return $this->hasMany(DocPage::class);
+    }
+
+    public function canBeEdited()
+    {
+        if (auth()->user()?->hasAdminAccess()) {
+            return true;
+        }
+
+        return $this->isOwner();
+    }
+
+    public function canBeDeleted()
+    {
+        if (auth()->user()?->hasAdminAccess()) {
+            return true;
+        }
+
+        return $this->isOwner();
     }
 }

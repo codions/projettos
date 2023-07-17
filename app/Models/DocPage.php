@@ -7,12 +7,11 @@ use App\Traits\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Spatie\Activitylog\ActivitylogServiceProvider;
 use Spatie\Translatable\HasTranslations;
 
-class Book extends Model
+class DocPage extends Model
 {
     use HasFactory;
     use Sluggable;
@@ -23,13 +22,20 @@ class Book extends Model
     public $fillable = [
         'slug',
         'name',
-        'description',
+        'content',
+        'content_type',
         'sort_order',
-        'project_id',
+        'doc_id',
+        'chapter_id',
         'user_id',
+        'is_draft',
     ];
 
-    public $translatable = ['name', 'description'];
+    protected $casts = [
+        'is_draft' => 'boolean',
+    ];
+
+    public $translatable = ['name', 'content'];
 
     public function activities(): MorphMany
     {
@@ -41,13 +47,13 @@ class Book extends Model
         return $this->belongsTo(Project::class);
     }
 
-    public function chapters(): HasMany
+    public function doc(): BelongsTo
     {
-        return $this->hasMany(BookChapter::class);
+        return $this->belongsTo(Doc::class);
     }
 
-    public function pages(): HasMany
+    public function chapter(): BelongsTo
     {
-        return $this->hasMany(BookPage::class);
+        return $this->belongsTo(DocChapter::class);
     }
 }

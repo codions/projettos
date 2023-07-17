@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Spatie\Activitylog\ActivitylogServiceProvider;
 use Spatie\Translatable\HasTranslations;
 
-class BookChapter extends Model
+class DocChapter extends Model
 {
     use HasFactory;
     use Sluggable;
@@ -25,7 +25,7 @@ class BookChapter extends Model
         'name',
         'description',
         'sort_order',
-        'book_id',
+        'doc_id',
         'user_id',
     ];
 
@@ -36,13 +36,13 @@ class BookChapter extends Model
         return $this->morphMany(ActivitylogServiceProvider::determineActivityModel(), 'subject');
     }
 
-    public function book(): BelongsTo
+    public function doc(): BelongsTo
     {
-        return $this->belongsTo(Book::class);
+        return $this->belongsTo(Doc::class);
     }
 
     public function pages(): HasMany
     {
-        return $this->hasMany(BookPage::class);
+        return $this->hasMany(DocPage::class);
     }
 }
