@@ -20,16 +20,9 @@
                         </button>
                     </x-slot>
 
-                    <x-slot name="content">
-                        <x-dropdown.item wire:click="$emit('openModal', 'modals.tickets.edit', {{ json_encode(['ticket' => $ticket->id]) }})">
-                            {{ trans('tickets.edit') }}
-                        </x-dropdown.item>
+                    <x-dropdown.item :label="trans('tickets.edit')" wire:click="$emit('openModal', 'modals.tickets.edit', {{ json_encode(['ticket' => $ticket->id]) }})" />
 
-                        <x-dropdown.item wire:click="delete">
-                            {{ trans('tickets.delete') }}
-                        </x-dropdown.item>
-
-                    </x-slot>
+                    <x-dropdown.item :label="trans('tickets.delete')" wire:click="delete" />
                 </x-dropdown>
                 @endif
             </div>

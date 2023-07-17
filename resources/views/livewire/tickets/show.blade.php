@@ -48,26 +48,19 @@
                     </button>
                 </x-slot>
 
-                <x-slot name="content">
-                    @if(auth()->user()->hasAdminAccess())
-                        <x-dropdown.item wire:click="markAsUnread">
-                            {{ trans('tickets.mark-as-unread') }}
-                        </x-dropdown.item>
-                    @endif
-
-                    @if($ticket->canBeEdited())
-                    <x-dropdown.item wire:click="$emit('openModal', 'modals.tickets.edit', {{ json_encode(['ticket' => $ticket->id]) }})">
-                        {{ trans('tickets.edit') }}
+                @if(auth()->user()->hasAdminAccess())
+                    <x-dropdown.item wire:click="markAsUnread">
+                        {{ trans('tickets.mark-as-unread') }}
                     </x-dropdown.item>
-                    @endif
+                @endif
 
-                    @if ($ticket->canBeDeleted())
-                    <x-dropdown.item wire:click="delete">
-                        {{ trans('tickets.delete') }}
-                    </x-dropdown.item>
-                    @endif
+                @if($ticket->canBeEdited())
+                <x-dropdown.item :label="trans('tickets.edit')" wire:click="$emit('openModal', 'modals.tickets.edit', {{ json_encode(['ticket' => $ticket->id]) }})" />
+                @endif
 
-                </x-slot>
+                @if ($ticket->canBeDeleted())
+                <x-dropdown.item :label="trans('tickets.delete')" wire:click="delete" />
+                @endif
             </x-dropdown>
 
         </div>

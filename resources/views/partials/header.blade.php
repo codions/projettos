@@ -45,7 +45,7 @@
 
                 @auth
                 <li>
-                    <x-dropdown align="right" width="48">
+                    <x-dropdown style="z-index: 2">
                         <x-slot name="trigger">
                             <div class="flex items-center space-x-4 cursor-pointer">
                                 <div class="flex-shrink-0">
@@ -62,28 +62,21 @@
                             </div>
                         </x-slot>
 
-                        <x-slot name="content">
-                            <x-dropdown.item :href="route('profile')">
-                                {{ trans('profile.profile') }}
-                            </x-dropdown.item>
+                        <x-dropdown.item icon="user-circle" :label="trans('profile.profile')" :href="route('profile')" />
 
-                            @if(auth()->user()->hasAdminAccess())
-                            <x-dropdown.item :href="route('filament.pages.dashboard')">
-                                {{ trans('profile.admin') }}
-                            </x-dropdown.item>
-                            @endif
+                        @if(auth()->user()->hasAdminAccess())
+                        <x-dropdown.item icon="puzzle" :label="trans('profile.admin')" :href="route('filament.pages.dashboard')" />
+                        @endif
 
-                            <!-- Authentication -->
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
 
-                                <x-dropdown.item :href="route('logout')"
-                                        onclick="event.preventDefault();
-                                                    this.closest('form').submit();">
-                                    {{ trans('profile.logout') }}
-                                </x-dropdown.item>
-                            </form>
-                        </x-slot>
+                        <x-dropdown.item icon="logout">
+                            <x-slot name="slot">
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button type="submit">{{ trans('profile.logout') }}</button>
+                                </form>
+                            </x-slot>
+                        </x-dropdown.item>
                     </x-dropdown>
                 </li>
                 @endauth
