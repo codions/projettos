@@ -12,11 +12,11 @@ class Header extends Component
 
     public ?string $label;
 
-    public function __construct(bool $separator = false, ?string $label = null)
+    public function __construct(bool $separator = false, string $label = null)
     {
         $this->separator = $separator;
-        $this->label     = $label;
-        $this->classes   = $this->getClasses();
+        $this->label = $label;
+        $this->classes = $this->getClasses();
     }
 
     public function render()
