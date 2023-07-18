@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('boards', function (Blueprint $table) {
             $table->id();
-            $table->string('slug')->index()->nullable();
+            $table->string('slug')->index();
             $table->string('title')->nullable();
             $table->text('description')->nullable();
             $table->string('sort_items_by')
@@ -27,7 +27,7 @@ return new class extends Migration
             $table->boolean('block_votes')->default(false);
             $table->boolean('visible')->default(true);
             $table->foreignId('project_id')->nullable()->constrained();
-            $table->integer('sort_order')->nullable();
+            $table->integer('order')->default(0)->index();
 
             $table->timestamps();
         });

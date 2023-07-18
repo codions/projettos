@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
-            $table->string('slug')->index()->nullable();
+            $table->string('slug')->index();
             $table->string('icon')->nullable();
             $table->string('group')->nullable();
             $table->string('title')->nullable();
@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('repo')->nullable();
             $table->boolean('private')->default(false);
             $table->boolean('pinned')->default(false);
-            $table->integer('sort_order')->nullable();
+            $table->integer('order')->default(0)->index();
             $table->foreignId('user_id')->nullable()->constrained();
             $table->timestamps();
         });

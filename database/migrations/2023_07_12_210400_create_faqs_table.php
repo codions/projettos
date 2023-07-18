@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('question');
             $table->text('answer');
-            $table->integer('sort_order')->nullable();
+            $table->integer('order')->default(0)->index();
             $table->foreignId('project_id')->nullable()->constrained();
             $table->foreignId('user_id')->nullable()->constrained();
 

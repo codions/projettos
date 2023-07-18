@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('items', function (Blueprint $table) {
             $table->id();
-            $table->string('slug')->index()->nullable();
+            $table->string('slug')->index();
             $table->string('title')->nullable();
             $table->text('content')->nullable();
             $table->unsignedInteger('total_votes')->nullable()->default(0);
