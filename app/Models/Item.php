@@ -4,9 +4,6 @@ namespace App\Models;
 
 use App\Enums\InboxWorkflow;
 use App\Settings\GeneralSettings;
-use App\Traits\HasOgImage;
-use App\Traits\HasUpvote;
-use App\Traits\Sluggable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -23,11 +20,13 @@ use Spatie\Tags\HasTags;
 class Item extends Model
 {
     use HasFactory;
-    use Sluggable;
-    use HasOgImage;
-    use HasUpvote;
     use HasTags;
+    use Traits\Sluggable;
+    use \Spatie\Sluggable\HasSlug;
+    use Traits\HasOgImage;
+    use Traits\HasUpvote;
     use Traits\HasUser;
+    use Traits\CanBeHandled;
 
     public $fillable = [
         'slug',

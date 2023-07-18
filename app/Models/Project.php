@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Traits\HasOgImage;
-use App\Traits\Sluggable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,10 +15,12 @@ use Spatie\MediaLibrary\Support\MediaStream;
 class Project extends Model implements HasMedia
 {
     use HasFactory;
-    use Sluggable;
-    use HasOgImage;
-    use Traits\HasUser;
     use InteractsWithMedia;
+    use Traits\Sluggable;
+    use \Spatie\Sluggable\HasSlug;
+    use Traits\HasOgImage;
+    use Traits\HasUser;
+    use Traits\CanBeHandled;
 
     public $fillable = [
         'title',
@@ -32,7 +32,7 @@ class Project extends Model implements HasMedia
         'repo',
         'pinned',
         'private',
-        'sort_order',
+        'order',
     ];
 
     protected $casts = [
@@ -52,9 +52,14 @@ class Project extends Model implements HasMedia
         return $activity->causer;
     }
 
+    public function docs()
+    {
+        return $this->hasMany(Doc::class);
+    }
+
     public function boards()
     {
-        return $this->hasMany(Board::class)->orderBy('sort_order');
+        return $this->hasMany(Board::class)->orderBy('order');
     }
 
     public function tickets()

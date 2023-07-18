@@ -2,16 +2,15 @@
 
 namespace App\Models;
 
-use App\Traits\HasOgImage;
-use App\Traits\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Board extends Model
 {
     use HasFactory;
-    use Sluggable;
-    use HasOgImage;
+    use Traits\Sluggable;
+    use \Spatie\Sluggable\HasSlug;
+    use Traits\HasOgImage;
 
     const SORT_ITEMS_BY_POPULAR = 'popular';
 
@@ -21,7 +20,7 @@ class Board extends Model
         'slug',
         'title',
         'visible',
-        'sort_order',
+        'order',
         'description',
         'block_votes',
         'sort_items_by',

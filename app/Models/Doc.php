@@ -2,8 +2,7 @@
 
 namespace App\Models;
 
-use App\Traits\HasOgImage;
-use App\Traits\Sluggable;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,22 +14,25 @@ use Spatie\Translatable\HasTranslations;
 class Doc extends Model
 {
     use HasFactory;
-    use Sluggable;
-    use HasOgImage;
-    use Traits\HasUser;
     use HasTranslations;
+    use Traits\Sluggable;
+    use \Spatie\Sluggable\HasSlug;
+    use Traits\HasOgImage;
+    use Traits\HasUser;
+    use Traits\CanBeHandled;
+    use Traits\LoadTranslation;
 
     public $fillable = [
         'slug',
-        'name',
+        'title',
         'description',
         'visibility',
-        'sort_order',
+        'order',
         'project_id',
         'user_id',
     ];
 
-    public $translatable = ['name', 'description'];
+    public $translatable = ['title', 'description'];
 
     public function activities(): MorphMany
     {
@@ -42,9 +44,9 @@ class Doc extends Model
         return $this->belongsTo(Project::class);
     }
 
-    public function chapters(): HasMany
+    public function versions(): HasMany
     {
-        return $this->hasMany(DocChapter::class);
+        return $this->hasMany(DocVersion::class);
     }
 
     public function pages(): HasMany
@@ -52,21 +54,22 @@ class Doc extends Model
         return $this->hasMany(DocPage::class);
     }
 
-    public function canBeEdited()
+    public function publicUrl(): Attribute
     {
-        if (auth()->user()?->hasAdminAccess()) {
-            return true;
-        }
-
-        return $this->isOwner();
+        return Attribute::make(fn () => route('docs.show', ['docSlug' => $this->slug]));
     }
 
-    public function canBeDeleted()
+    public function editUrl(): Attribute
+    {
+        return Attribute::make(fn () => route('docs.builder', ['docSlug' => $this->slug]));
+    }
+
+    public function scopeVisibleForCurrentUser($query)
     {
         if (auth()->user()?->hasAdminAccess()) {
-            return true;
+            return $query;
         }
 
-        return $this->isOwner();
+        return $query->whereNot('visibility', 'private');
     }
 }

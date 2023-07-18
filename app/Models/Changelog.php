@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Traits\HasOgImage;
-use App\Traits\Sluggable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,8 +10,9 @@ use Illuminate\Support\Collection;
 class Changelog extends Model
 {
     use HasFactory;
-    use Sluggable;
-    use HasOgImage;
+    use Traits\Sluggable;
+    use \Spatie\Sluggable\HasSlug;
+    use Traits\HasOgImage;
     use Traits\HasUser;
     use Traits\AdditionalData;
 

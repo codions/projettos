@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Traits\HasOgImage;
-use App\Traits\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,24 +10,28 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Spatie\Activitylog\ActivitylogServiceProvider;
 use Spatie\Translatable\HasTranslations;
 
-class DocChapter extends Model
+class DocVersion extends Model
 {
     use HasFactory;
-    use Sluggable;
-    use HasOgImage;
-    use Traits\HasUser;
     use HasTranslations;
+    use Traits\HasOgImage;
+    use Traits\Sluggable;
+    use \Spatie\Sluggable\HasSlug;
+    use Traits\HasUser;
+    use Traits\CanBeHandled;
+    use Traits\LoadTranslation;
 
     public $fillable = [
         'slug',
-        'name',
+        'title',
         'description',
-        'sort_order',
+        'visibility',
+        'project_id',
         'doc_id',
         'user_id',
     ];
 
-    public $translatable = ['name', 'description'];
+    public $translatable = ['title', 'description'];
 
     public function activities(): MorphMany
     {
@@ -39,6 +41,11 @@ class DocChapter extends Model
     public function doc(): BelongsTo
     {
         return $this->belongsTo(Doc::class);
+    }
+
+    public function chapters(): HasMany
+    {
+        return $this->hasMany(DocChapter::class);
     }
 
     public function pages(): HasMany

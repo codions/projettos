@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Traits\HasUpvote;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\LogOptions;
@@ -15,7 +14,7 @@ class Comment extends Model
     use HasFactory;
     use HasMentionsTrait;
     use LogsActivity;
-    use HasUpvote;
+    use Traits\HasUpvote;
     use Traits\HasUser;
 
     public $fillable = [

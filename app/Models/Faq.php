@@ -16,7 +16,7 @@ class Faq extends Model
     public $fillable = [
         'question',
         'answer',
-        'sort_order',
+        'order',
         'project_id',
         'user_id',
     ];
