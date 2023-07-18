@@ -6,8 +6,8 @@
     "license": "MIT",
     "require": {
         "php": "^8.1.0",
-        "codions/filament-custom-fields": "*",
         "camya/filament-title-with-slug": "*",
+        "codions/filament-custom-fields": "*",
         "doctrine/dbal": "^3.3",
         "filament/filament": "^2.17.0",
         "filament/spatie-laravel-media-library-plugin": "^2.17",
@@ -30,6 +30,7 @@
         "spatie/laravel-honeypot": "^4.3.2",
         "spatie/laravel-medialibrary": "^10.10",
         "spatie/laravel-ray": "^1.32.2",
+        "spatie/laravel-sluggable": "^3.5",
         "spiral/roadrunner": "^2.12.2",
         "symfony/http-client": "^6.0",
         "symfony/mailgun-mailer": "^6.0",
