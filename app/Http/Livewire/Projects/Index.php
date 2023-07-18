@@ -22,11 +22,6 @@ class Index extends Component
         'type' => null,
     ];
 
-    protected $listeners = [
-        'loadApp' => 'loadApp',
-        'appDeleted' => '$refresh',
-    ];
-
     protected $queryString = [
         'search' => ['except' => '', 'as' => 's'],
         'sort',
@@ -81,7 +76,7 @@ class Index extends Component
                 },
             )
             ->when($this->sort === 'recent', fn (Builder $query): Builder => $query->latest())
-            ->when($this->sort === 'order', fn (Builder $query): Builder => $query->orderBy('sort_order'))
+            ->when($this->sort === 'order', fn (Builder $query): Builder => $query->orderBy('order'))
             ->when($this->sort === 'group', fn (Builder $query): Builder => $query->orderBy('group'))
             ->when($this->sort === 'alphabetical', fn (Builder $query): Builder => $query->orderBy('title'))
             ->paginate($this->tableRecordsPerPage);

@@ -31,7 +31,7 @@ class Faqs extends Component
     public function getFaqs()
     {
         return $this->project->faqs()
-            ->orderBy('sort_order')
+            ->orderBy('order')
             ->paginate($this->tableRecordsPerPage);
     }
 

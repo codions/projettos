@@ -84,7 +84,7 @@ class ProjectResource extends Resource
                         ->collapsible()
                         //->collapsed() // We can enable this when Filament has a way to set header titles
                         ->relationship('boards')
-                        ->orderable('sort_order')
+                        ->orderable('order')
                         ->default(app(GeneralSettings::class)->default_boards)
                         ->columnSpan(2)
                         ->schema([
@@ -144,7 +144,7 @@ class ProjectResource extends Resource
                     }),
 
             ])
-            ->defaultSort('sort_order');
+            ->defaultSort('order');
     }
 
     public static function getRelations(): array

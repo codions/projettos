@@ -11,6 +11,6 @@ class ListProjects extends ListRecords
 
     protected function getTableReorderColumn(): ?string
     {
-        return 'sort_order';
+        return 'order';
     }
 }

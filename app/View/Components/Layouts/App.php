@@ -19,7 +19,7 @@ class App extends Component
                 return $query->has('boards');
             })
             ->where('pinned', true)
-            ->orderBy('sort_order')
+            ->orderBy('order')
             ->orderBy('group')
             ->orderBy('title')
             ->get();

@@ -12,7 +12,7 @@ class ListFaqs extends ListRecords
 
     protected function getTableReorderColumn(): ?string
     {
-        return 'sort_order';
+        return 'order';
     }
 
     protected function getActions(): array
