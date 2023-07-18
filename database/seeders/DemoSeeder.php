@@ -19,6 +19,7 @@ class DemoSeeder extends Seeder
             Demo\TicketSeeder::class,
             Demo\ItemSeeder::class,
             Demo\CommentSeeder::class,
+            Demo\DocSeeder::class,
         ]);
     }
 }
