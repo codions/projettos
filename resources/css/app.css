@@ -31,3 +31,22 @@
 .bg-success-50\/50 {
     background-color: rgb(240 253 244 / 1);
 }
+
+.editor-panel .filament-forms-field-wrapper-label {
+    display: none;
+}
+
+.editor-panel trix-editor {
+    border: none;
+    min-height: calc(100vh - 250px) !important;
+    box-shadow: none;
+}
+
+.editor-panel trix-editor:focus {
+    box-shadow: none;
+}
+
+
+.page-item:hover .actions {
+    display: block;
+  }

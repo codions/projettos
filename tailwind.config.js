@@ -4,6 +4,7 @@ module.exports = {
     content: [
         './resources/**/*.blade.php',
         './vendor/filament/**/*.blade.php',
+        './app/View/Components'
     ],
     safelist: [
         "sm:max-w-sm",
