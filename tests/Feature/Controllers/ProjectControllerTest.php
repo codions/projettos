@@ -10,13 +10,13 @@ use function Pest\Laravel\get;
 it('renders the page', function () {
     $project = Project::factory()->create();
 
-    get(route('projects.home', $project))->assertOk();
+    get(route('projects.home', $project->slug))->assertOk();
 });
 
 it('includes the boards', function () {
     $project = Project::factory()->has(Board::factory(5))->create();
 
-    get(route('projects.home', $project))
+    get(route('projects.home', $project->slug))
         ->assertSeeInOrder(Board::all()->pluck('title')->toArray())
         ->assertDontSee('There are no boards in this project');
 });
@@ -29,7 +29,7 @@ it('includes the items', function () {
         )
         ->create();
 
-    get(route('projects.home', $project))->assertSeeInOrder(Item::all()->pluck('title')->toArray());
+    get(route('projects.home', $project->slug))->assertSeeInOrder(Item::all()->pluck('title')->toArray());
 });
 
 it('includes votes for items', function () {
@@ -40,19 +40,19 @@ it('includes votes for items', function () {
         )
         ->create();
 
-    get(route('projects.home', $project))->assertSeeInOrder(Item::withCount('votes')->get()->pluck('total_votes')->toArray());
+    get(route('projects.home', $project->slug))->assertSeeInOrder(Item::withCount('votes')->get()->pluck('total_votes')->toArray());
 });
 
 it('shows note if project has no boards', function () {
     $project = Project::factory()->create();
 
-    get(route('projects.home', $project))->assertSee('There are no boards in this project');
+    get(route('projects.home', $project->slug))->assertSee('There are no boards in this project');
 });
 
 test('view has breadcrumbs', function () {
     $project = Project::factory()->create();
 
-    get(route('projects.home', $project))->assertSeeInOrder(['Dashboard', $project->title]);
+    get(route('projects.home', $project->slug))->assertSeeInOrder(['Dashboard', $project->title]);
 });
 
 test('pinned items are at the top', function () {
@@ -67,7 +67,7 @@ test('pinned items are at the top', function () {
                 )
         )->create();
 
-    get(route('projects.home', $project))->assertSeeInOrder(['item 2', 'item 1']);
+    get(route('projects.home', $project->slug))->assertSeeInOrder(['item 2', 'item 1']);
 });
 
 test('items are sorted by vote count', function () {
@@ -82,7 +82,7 @@ test('items are sorted by vote count', function () {
                 )
         )->create();
 
-    get(route('projects.home', $project))->assertSeeInOrder(['item 2', 'item 1']);
+    get(route('projects.home', $project->slug))->assertSeeInOrder(['item 2', 'item 1']);
 });
 
 test('private items are not visible for users', function (UserRole $userRole, bool $shouldBeVisible) {
@@ -99,7 +99,7 @@ test('private items are not visible for users', function (UserRole $userRole, bo
 
     createAndLoginUser(['role' => $userRole]);
 
-    get(route('projects.home', $project))
+    get(route('projects.home', $project->slug))
         ->assertSeeText('item 1')
         ->{$shouldBeVisible ? 'assertSeeText' : 'assertDontSeeText'}('item 2');
 })->with([
@@ -113,7 +113,7 @@ test('user can not view private project', function (?UserRole $userRole, int $ex
 
     createAndLoginUser(['role' => $userRole]);
 
-    get(route('projects.home', $project))->assertStatus($expectedStatusCode);
+    get(route('projects.home', $project->slug))->assertStatus($expectedStatusCode);
 })->with([
     [UserRole::User, 404],
     [UserRole::Employee, 200],
