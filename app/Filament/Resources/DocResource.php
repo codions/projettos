@@ -82,16 +82,52 @@ class DocResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')->searchable()->toggleable()->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('slug')->searchable()->toggleable()->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('project.title'),
-                Tables\Columns\TextColumn::make('user.name')->toggleable(),
-                Tables\Columns\TextColumn::make('title')->searchable()->wrap(),
-                Tables\Columns\TextColumn::make('description')->searchable()->wrap(),
+                Tables\Columns\TextColumn::make('id')
+                    ->searchable()
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
+
+                Tables\Columns\TextColumn::make('slug')
+                    ->searchable()
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
+
+                Tables\Columns\TextColumn::make('project.title')
+                    ->toggleable(),
+
+                Tables\Columns\TextColumn::make('user.name')
+                    ->toggleable(),
+
+                Tables\Columns\TextColumn::make('title')
+                    ->toggleable()
+                    ->searchable()
+                    ->wrap(),
+
+                Tables\Columns\TextColumn::make('chapters')
+                    ->getStateUsing(function (Doc $record): float {
+                        return $record->pages()->root()->count();
+                    }),
+
+                Tables\Columns\TextColumn::make('pages')
+                    ->getStateUsing(function (Doc $record): float {
+                        return $record->pages()->whereNotNull('parent_id')->count();
+                    }),
+
+                Tables\Columns\TextColumn::make('description')
+                    ->wrap()
+                    ->searchable()
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
+
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime(),
+                    ->dateTime()
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
+
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime(),
+                    ->dateTime()
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
             ])
             ->filters([
                 //
