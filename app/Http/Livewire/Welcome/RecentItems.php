@@ -56,7 +56,7 @@ class RecentItems extends Component implements HasTable
             Tables\Columns\TextColumn::make('project.title')->label(trans('table.project'))
                 ->url(function ($record) {
                     if ($project = $record->project) {
-                        return route('projects.home', $project);
+                        return route('projects.home', $project->slug);
                     }
 
                     return null;

@@ -4,7 +4,7 @@
 
     <div class="flex flex-row">
         <div class="flex items-center w-full">
-        <a href="{{ route('projects.home', $project) }}">
+        <a href="{{ route('projects.home', $project->slug) }}">
             <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">{{ $project->title }}</h5>
         </a>
         </div>

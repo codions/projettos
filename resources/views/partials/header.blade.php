@@ -153,7 +153,7 @@
                 @foreach($pinnedProjects as $project)
                     <li>
                         <a class="block p-2 transition rounded-lg focus:outline-none hover:bg-brand-500-400"
-                           href="{{ route('projects.home', $project) }}">
+                           href="{{ route('projects.home', $project->slug) }}">
                             {{ $project->title }}
                         </a>
                     </li>

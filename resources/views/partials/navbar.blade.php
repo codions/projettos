@@ -98,7 +98,7 @@
                                     'text-white bg-brand-500' => request()->segment(2) === $project->slug,
                                     'hover:bg-gray-500/5 focus:bg-brand-500/10 focus:text-brand-600 focus:outline-none' => request()->segment(2) !== $project->slug
                                 ])
-                                    href="{{ route('projects.home', $project) }}">
+                                    href="{{ route('projects.home', $project->slug) }}">
                                     <x-dynamic-component :component="$project->icon ?? 'heroicon-o-hashtag'"
                                                             class="flex-shrink-0 w-5 h-5 {{ request()->segment(2) == $project->slug ? '' : 'text-gray-500'  }}"/>
 

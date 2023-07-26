@@ -11,7 +11,7 @@
             </div>
             <div class="space-y-1">
                 <h2 class="text-lg font-bold text-gray-900 sm:text-xl sm:truncate dark:text-gray-400">
-                    <a href="{{ route('projects.home', $project) }}">{{ $project->title }}</a>
+                    <a href="{{ route('projects.home', $project->slug) }}">{{ $project->title }}</a>
                 </h2>
                 <p class="text-gray-500 dark:text-gray-200 text-sm">{{ str_limit($project->description, 150) }}</p>
             </div>
@@ -61,7 +61,7 @@
                                    'text-white bg-brand-500' => request()->is('projects/*/home'),
                                    'hover:bg-gray-500/5 focus:bg-brand-500/10 focus:text-brand-600 focus:outline-none' => !request()->is('projects/*/home')
                                ])
-                           href="{{ route('projects.home', $project) }}">
+                           href="{{ route('projects.home', $project->slug) }}">
 
                            <x-heroicon-o-home class="w-5 h-5 {{ !request()->is('projects/*/home') ? 'text-gray-500' : ''  }}"/>
                            <span class="font-normal">{{ trans('general.home') }}</span>
@@ -75,7 +75,7 @@
                                'text-white bg-brand-500' => (request()->is('projects/*/boards*') || request()->is('items*')),
                                'hover:bg-gray-500/5 focus:bg-brand-500/10 focus:text-brand-600 focus:outline-none' => (!request()->is('projects/*/boards*') && !request()->is('items*'))
                            ])
-                           href="{{ route('projects.boards', $project) }}">
+                           href="{{ route('projects.boards', $project->slug) }}">
 
                            <x-heroicon-o-view-boards class="w-5 h-5 {{ (!request()->is('projects/*/boards*') && !request()->is('items*')) ? 'text-gray-500' : ''  }}"/>
                            <span class="font-medium">{{ trans('projects.roadmap') }}</span>
@@ -89,7 +89,7 @@
                                'text-white bg-brand-500' => request()->is('projects/*/support'),
                                'hover:bg-gray-500/5 focus:bg-brand-500/10 focus:text-brand-600 focus:outline-none' => !request()->is('projects/*/support')
                            ])
-                           href="{{ route('projects.support', $project) }}">
+                           href="{{ route('projects.support', $project->slug) }}">
 
                            <x-heroicon-o-support class="w-5 h-5 {{ !request()->is('projects/*/support') ? 'text-gray-500' : ''  }}"/>
                            <span class="font-medium">{{ trans('support.support') }}</span>
@@ -103,7 +103,7 @@
                                'text-white bg-brand-500' => request()->is('projects/*/changelog'),
                                'hover:bg-gray-500/5 focus:bg-brand-500/10 focus:text-brand-600 focus:outline-none' => !request()->is('projects/*/changelog')
                            ])
-                           href="{{ route('projects.changelog', $project) }}">
+                           href="{{ route('projects.changelog', $project->slug) }}">
 
                            <x-heroicon-o-rss class="w-5 h-5 {{ !request()->is('projects/*/changelog') ? 'text-gray-500' : ''  }}"/>
                            <span class="font-medium">{{ trans('projects.changelog.changelog') }}</span>
@@ -117,7 +117,7 @@
                                'text-white bg-brand-500' => request()->is('projects/*/docs'),
                                'hover:bg-gray-500/5 focus:bg-brand-500/10 focus:text-brand-600 focus:outline-none' => !request()->is('projects/*/docs')
                            ])
-                           href="{{ route('projects.docs', $project) }}">
+                           href="{{ route('projects.docs', $project->slug) }}">
 
                            <x-heroicon-o-document-text class="w-5 h-5 {{ !request()->is('projects/*/docs') ? 'text-gray-500' : ''  }}"/>
                            <span class="font-medium">{{ trans('projects.docs') }}</span>
@@ -131,7 +131,7 @@
                                'text-white bg-brand-500' => request()->is('projects/*/faqs'),
                                'hover:bg-gray-500/5 focus:bg-brand-500/10 focus:text-brand-600 focus:outline-none' => !request()->is('projects/*/faqs')
                            ])
-                           href="{{ route('projects.faqs', $project) }}">
+                           href="{{ route('projects.faqs', $project->slug) }}">
 
                            <x-heroicon-o-question-mark-circle class="w-5 h-5 {{ !request()->is('projects/*/faqs') ? 'text-gray-500' : ''  }}"/>
                            <span class="font-medium">{{ trans('projects.faqs') }}</span>
