@@ -3,10 +3,13 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\PasswordProtectionController;
 use App\Http\Controllers\Auth\VerificationController;
+use App\Http\Controllers\DocumentationController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ItemEmailUnsubscribeController;
 use App\Http\Controllers\MentionSearchController;
 use App\Http\Controllers\PublicUserController;
+use App\Http\Livewire\Docs\Builder as DocsBuilder;
+use App\Http\Livewire\Docs\Index as DocsIndex;
 use App\Http\Livewire\Items\Show as ItemsShow;
 use App\Http\Livewire\Projects\Board as ProjectBoard;
 use App\Http\Livewire\Projects\Boards as ProjectBoards;
@@ -31,29 +34,9 @@ Route::get('oauth/callback', [LoginController::class, 'handleProviderCallback'])
 Route::get('password-protection', PasswordProtectionController::class)->name('password.protection');
 Route::post('password-protection', [PasswordProtectionController::class, 'login'])->name('password.protection.login');
 
-Route::view('/', 'welcome')->name('home');
-
-Route::get('projects', ProjectsIndex::class)->name('projects.index');
-Route::get('projects/{project}', fn ($project) => redirect()->route('projects.home', $project));
-Route::get('projects/{project}/home', ProjectHome::class)->name('projects.home');
-Route::get('projects/{project}/boards', ProjectBoards::class)->name('projects.boards');
-Route::get('projects/{project}/boards/{board}', ProjectBoard::class)->name('projects.boards.show');
-Route::get('projects/{project}/support', ProjectSupport::class)->name('projects.support')->middleware(['middleware' => 'authed']);
-Route::get('projects/{project}/docs', ProjectDocs::class)->name('projects.docs');
-Route::get('projects/{project}/faqs', ProjectFaqs::class)->name('projects.faqs');
-Route::get('projects/{project}/changelog', ChangelogIndex::class)->name('projects.changelog');
-Route::get('projects/{project}/changelog/{changelog}', ChangelogShow::class)->name('projects.changelog.show');
-
-Route::get('items/{item}', ItemsShow::class)->name('items.show');
-Route::get('items/{item}/edit', [ItemController::class, 'edit'])->name('items.edit');
-Route::post('projects/{project}/items/{item}/vote', [ItemController::class, 'vote'])->middleware('authed')->name('projects.items.vote');
-Route::post('projects/{project}/items/{item}/update-board', [ItemController::class, 'updateBoard'])->middleware('authed')->name('projects.items.update-board');
-
-Route::get('/email/verify', [VerificationController::class, 'show'])->middleware('auth')->name('verification.notice');
-Route::post('/email/verification-notification', [VerificationController::class, 'resend'])->middleware(['auth', 'throttle:6,1'])->name('verification.resend');
-Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->middleware(['auth', 'signed'])->name('verification.verify');
-
 Route::group(['middleware' => 'authed'], function () {
+
+    Route::get('docs/{docSlug}/builder', DocsBuilder::class)->name('docs.builder');
 
     Route::view('profile', 'auth.profile')->name('profile');
     Route::view('my', 'my')->name('my');
@@ -65,6 +48,37 @@ Route::group(['middleware' => 'authed'], function () {
     Route::get('user/{username}', PublicUserController::class)->name('public-user');
 });
 
+Route::group(['prefix' => '/projects', 'as' => 'projects.'], function () {
+    Route::get('/', ProjectsIndex::class)->name('index');
+    Route::get('/{project}', fn ($project) => redirect()->route('projects.home', $project->slug));
+    Route::get('/{project}/home', ProjectHome::class)->name('home');
+    Route::get('/{project}/boards', ProjectBoards::class)->name('boards');
+    Route::get('/{project}/boards/{board}', ProjectBoard::class)->name('boards.show');
+    Route::get('/{project}/support', ProjectSupport::class)->name('support')->middleware(['middleware' => 'authed']);
+    Route::get('/{project}/docs', ProjectDocs::class)->name('docs');
+    Route::get('/{project}/faqs', ProjectFaqs::class)->name('faqs');
+    Route::get('/{project}/changelog', ChangelogIndex::class)->name('changelog');
+    Route::get('/{project}/changelog/{changelog}', ChangelogShow::class)->name('changelog.show');
+    Route::post('/{project}/items/{item}/vote', [ItemController::class, 'vote'])->middleware('authed')->name('items.vote');
+    Route::post('/{project}/items/{item}/update-board', [ItemController::class, 'updateBoard'])->middleware('authed')->name('items.update-board');
+});
+
+Route::group(['prefix' => '/docs', 'as' => 'docs.'], function () {
+    Route::get('/', DocsIndex::class)->name('index');
+    Route::get('/{docSlug}/{versionSlug?}/{chapterSlug?}/{pageSlug?}', DocumentationController::class)
+        ->where('slug', '.*')
+        ->name('show');
+});
+
+Route::get('items/{item}', ItemsShow::class)->name('items.show');
+Route::get('items/{item}/edit', [ItemController::class, 'edit'])->name('items.edit');
+
+Route::get('/email/verify', [VerificationController::class, 'show'])->middleware('auth')->name('verification.notice');
+Route::post('/email/verification-notification', [VerificationController::class, 'resend'])->middleware(['auth', 'throttle:6,1'])->name('verification.resend');
+Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->middleware(['auth', 'signed'])->name('verification.verify');
+
 Route::get('/unsubscribe/{item}/{user}', [ItemEmailUnsubscribeController::class, '__invoke'])
     ->name('items.email-unsubscribe')
     ->middleware('signed');
+
+Route::view('/', 'welcome')->name('home');
