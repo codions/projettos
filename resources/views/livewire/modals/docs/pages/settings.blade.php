@@ -22,13 +22,9 @@
     </x-slot>
 
     <x-slot name="buttons">
-        @auth
-            @if(!auth()->user()->needsToVerifyEmail())
-                <x-filament::button wire:click="save">
-                    {{ trans('general.save') }}
-                </x-filament::button>
-            @endif()
-        @endauth
+        <x-filament::button wire:click="save">
+            {{ trans('general.save') }}
+        </x-filament::button>
 
         <x-filament::button color="secondary" wire:click="$emit('closeModal')">
             {{ trans('general.close') }}

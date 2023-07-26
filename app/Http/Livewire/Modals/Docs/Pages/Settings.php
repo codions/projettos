@@ -8,8 +8,8 @@ use App\Models\DocVersion;
 use App\Models\Project;
 use DB;
 use Filament\Forms;
-use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Section;
 use LivewireUI\Modal\ModalComponent;
 
 class Settings extends ModalComponent implements Forms\Contracts\HasForms
@@ -17,6 +17,8 @@ class Settings extends ModalComponent implements Forms\Contracts\HasForms
     use Forms\Concerns\InteractsWithForms;
 
     public DocPage $page;
+
+    public $title;
 
     public $slug;
 
@@ -33,6 +35,7 @@ class Settings extends ModalComponent implements Forms\Contracts\HasForms
     public function mount()
     {
         $this->fill([
+            'title' => $this->page->title,
             'slug' => $this->page->slug,
             'doc_id' => $this->page->doc_id,
             'parent_id' => $this->page->parent_id,
@@ -47,13 +50,18 @@ class Settings extends ModalComponent implements Forms\Contracts\HasForms
         return [
             Grid::make(6)
                 ->schema([
+                    Forms\Components\TextInput::make('title')
+                        ->label(trans('Title'))
+                        ->required()
+                        ->columnSpanFull(),
+
                     Forms\Components\TextInput::make('slug')
-                        ->label('Slug')
+                        ->label(trans('Slug'))
                         ->required()
                         ->columnSpanFull()
                         ->helperText($this->page->public_url),
 
-                    Fieldset::make(trans('Visibility'))
+                    Section::make(trans('Visibility'))
                         ->schema([
                             Forms\Components\Radio::make('visibility')
                                 ->label('')
@@ -70,9 +78,10 @@ class Settings extends ModalComponent implements Forms\Contracts\HasForms
                                 ->default('public')
                                 ->columnSpanFull(),
                         ])
+                        ->collapsed()
                         ->columns(6),
 
-                    Fieldset::make(trans('Positioning'))
+                    Section::make(trans('Positioning'))
                         ->schema([
                             Forms\Components\Select::make('project_id')
                                 ->label('Project')
@@ -112,7 +121,8 @@ class Settings extends ModalComponent implements Forms\Contracts\HasForms
                                 })
                                 ->reactive()
                                 ->columnSpanFull(),
-                        ]),
+                        ])
+                        ->collapsed(),
 
                     Forms\Components\Placeholder::make('created_at')
                         ->label('Created at')
@@ -140,6 +150,7 @@ class Settings extends ModalComponent implements Forms\Contracts\HasForms
 
         try {
             $this->page->update([
+                'title' => $data['title'],
                 'slug' => $data['slug'],
                 'doc_id' => $data['doc_id'],
                 'parent_id' => $data['parent_id'],

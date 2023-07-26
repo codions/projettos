@@ -18,6 +18,8 @@ class Builder extends Component
 
     public $versionId;
 
+    public $version;
+
     public $versions;
 
     public $chapters;
@@ -31,8 +33,11 @@ class Builder extends Component
     public $project;
 
     protected $listeners = [
+        'refresh' => '$refresh',
         'updatedDoc' => '$refresh',
+        'version:deleted' => 'deletedVersion',
         'loadPage',
+        'loadVersion',
     ];
 
     protected $queryString = [
@@ -47,11 +52,7 @@ class Builder extends Component
 
         $this->getVersions($this->doc, $this->locale);
 
-        $version = $this->versions?->first();
-
-        if ($version) {
-            $this->versionId = $version->id;
-        }
+        $this->loadVersion($this->versionId, $this->locale);
 
         $this->getPages($this->versionId, $this->locale);
 
@@ -97,6 +98,30 @@ class Builder extends Component
             ->get();
     }
 
+    public function loadVersion($id = null, $locale = null)
+    {
+        $locale = (is_null($locale)) ? $this->locale : $locale;
+
+        if (is_null($id)) {
+            $this->version = $this->versions?->first();
+
+            if ($this->version) {
+                $this->versionId = $this->version->id;
+            }
+        } else {
+            $this->versionId = $id;
+
+            $this->version = DocVersion::loadTranslation($locale)
+                ->canBeHandledForCurrentUser()
+                ->findOrFail($id);
+        }
+
+        $this->getPages($this->versionId);
+
+        $this->emit('version:loaded');
+        $this->emit('refresh');
+    }
+
     public function loadPage($id, $locale = null)
     {
         $this->pageId = $id;
@@ -107,6 +132,8 @@ class Builder extends Component
             ->canBeHandledForCurrentUser()
             ->where('id', $id)
             ->firstOrFail();
+
+        $this->emit('page:loaded');
     }
 
     public function updatedVersionId($value)
@@ -115,6 +142,27 @@ class Builder extends Component
         $this->page = null;
 
         $this->getPages($value, $this->locale);
+    }
+
+    public function newPage($parentId = null)
+    {
+        $page = DocPage::create([
+            'title' => 'New Page',
+            // 'order',
+            'parent_id' => $parentId,
+            'version_id' => $this->versionId,
+            'project_id' => $this->doc->project_id,
+            'doc_id' => $this->doc->id,
+        ]);
+
+        return redirect()->to($page->edit_url);
+    }
+
+    public function deletedVersion($deletedId)
+    {
+        // if ($this->versionId === $deletedId) {
+        //     return redirect()->to($this->doc->edit_url);
+        // }
     }
 
     public function render(): \Illuminate\Contracts\View\View

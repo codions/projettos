@@ -18,6 +18,7 @@
             component="icon-svg"
             :name="$icon"
             class="{{ $iconSize }} shrink-0"
+            :wire:loading.remove="(bool) $spinner"
         />
     @endif
 

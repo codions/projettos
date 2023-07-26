@@ -1,4 +1,4 @@
-<div class="relative inline-block text-left"
+<div {{ $attributes->merge(['class' => 'relative inline-block text-left']) }}
     x-data="{ open: false }" @click.outside="open = false" @close.stop="open = false"
     {{ $attributes->only('wire:key') }}>
     <div class="cursor-pointer focus:outline-none" x-on:click="open = !open">

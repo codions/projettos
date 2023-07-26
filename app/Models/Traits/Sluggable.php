@@ -25,4 +25,22 @@ trait Sluggable
     {
         return $this->slugFieldName ?? 'slug';
     }
+
+    private function generateUniqueSlug($slug)
+    {
+        $count = 1;
+        $uniqueSlug = $slug;
+
+        while ($this->slugExistsInRelationshipScope($uniqueSlug)) {
+            $uniqueSlug = $slug . '-' . $count;
+            $count++;
+        }
+
+        return $uniqueSlug;
+    }
+
+    private function slugExistsInRelationshipScope($slug)
+    {
+        return self::where('slug', $slug)->exists();
+    }
 }
