@@ -164,6 +164,9 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'state.title' => 'Title',
+        'state.slug' => 'Slug',
+    ],
 
 ];
