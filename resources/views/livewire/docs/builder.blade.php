@@ -18,7 +18,7 @@
                 </select>
 
                 <button wire:click="$emit('openModal', 'modals.docs.versions.manage', {{ json_encode(['doc' => $doc->id]) }})" class="block w-full py-1 items-center text-gray-800 border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 text-sm rounded-lg shadow-sm">
-                    <span>{{ $version->title }}</span>
+                    <span>{{ $version?->title ?? trans('No version created') }}</span>
                 </button>
             </div>
             <ul class="space-y-4 -mx-3">
@@ -29,7 +29,10 @@
                             <x-icon-svg name="hashtag" class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
                             <span wire:click="$emit('loadPage', {{ $chapter->id }})" class="cursor-pointer hover:underline font-bold">{{ $chapter->title }}</span>
                         </div>
-                        <x-dropdown class="actions hidden">
+                        <x-dropdown>
+                            <x-slot name="trigger">
+                                <x-icon-svg class="trigger w-4 h-4 text-secondary-500 hover:text-secondary-700 dark:hover:text-secondary-600 transition duration-150 ease-in-out" name="dots-vertical" />
+                            </x-slot>
                             <x-dropdown.item wire:click="newPage({{ $chapter->id }})" icon="document-add" :label="__('New page')" />
                             <x-dropdown.item icon="cog" :label="__('Settings')" wire:click="$emit('openModal', 'modals.docs.pages.settings', {{ json_encode(['page' => $chapter->id]) }})" />
                         </x-dropdown>
@@ -41,7 +44,10 @@
                                 <x-icon-svg name="hashtag" class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
                                 <span wire:click="$emit('loadPage', {{ $item->id }})" class="cursor-pointer hover:underline">{{ $item->title }}</span>
                             </div>
-                            <x-dropdown class="actions hidden">
+                            <x-dropdown>
+                                <x-slot name="trigger">
+                                    <x-icon-svg class="trigger w-4 h-4 text-secondary-500 hover:text-secondary-700 dark:hover:text-secondary-600 transition duration-150 ease-in-out" name="dots-vertical" />
+                                </x-slot>
                                 <x-dropdown.item icon="cog" :label="__('Settings')" wire:click="$emit('openModal', 'modals.docs.pages.settings', {{ json_encode(['page' => $item->id]) }})" />
                             </x-dropdown>
                         </li>
@@ -50,17 +56,18 @@
                 </li>
                 @endforeach
             </ul>
+            @if (filled($version))
             <div class="mb-1 flex flex-row -mx-3">
                 <button wire:click="newPage" class="flex flex-grow py-2 px-4 items-center gap-3 text-gray-800 border-2 border-gray-300 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 text-sm rounded-md border">
                   <x-icon-svg name="document-add" class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
                   <span>{{ __('New page') }}</span>
                 </button>
             </div>
+            @endif
         </div>
     </div>
 
     <main class="flex-1 h-full col-span-6 lg:col-span-5 lg:border-l lg:pl-5 dark:border-gray-700">
-
         @if(empty($pageId))
             <livewire:docs.edit :doc="$doc" :locale="$locale" :wire:key="'doc-'.$doc->id" />
         @else

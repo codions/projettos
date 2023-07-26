@@ -47,6 +47,10 @@
 }
 
 
-.page-item:hover .actions {
-    display: block;
-  }
+.page-item .trigger {
+    opacity: 0;
+}
+
+.page-item:hover .trigger {
+    opacity: 1;
+}

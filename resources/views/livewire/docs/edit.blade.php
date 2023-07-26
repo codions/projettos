@@ -36,9 +36,9 @@
 
         <div class="flex items-center py-2">
             <x-icon-svg name="external-link" solid class="h-4 w-4 text-gray-500 dark:text-gray-300 mr-1" />
-            <a href="#" wire:click="$emit('openModal', 'modals.docs.settings', {{ json_encode(['doc' => $doc->id]) }})" class="text-gray-400 dark:text-gray-500 hover:underline">
+            <button wire:click="$emit('openModal', 'modals.docs.settings', {{ json_encode(['doc' => $doc->id]) }})" class="text-gray-400 dark:text-gray-500 hover:underline">
                 {{ $doc->public_url }}
-            </a>
+            </button>
         </div>
 
         {{ $this->form }}

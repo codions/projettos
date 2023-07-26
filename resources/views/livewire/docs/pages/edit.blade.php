@@ -38,9 +38,9 @@
             <a href="{{ $page->public_url }}" target="_blank">
                 <x-icon-svg name="external-link" solid class="h-4 w-4 text-gray-500 dark:text-gray-300 mr-1" />
             </a>
-            <a href="#" wire:click="$emit('openModal', 'modals.docs.pages.settings', {{ json_encode(['page' => $page->id]) }})" class="text-gray-400 dark:text-gray-500 hover:underline">
+            <button wire:click="$emit('openModal', 'modals.docs.pages.settings', {{ json_encode(['page' => $page->id]) }})" class="text-gray-400 dark:text-gray-500 hover:underline">
                 {{ $page->public_url }}
-            </a>
+            </button>
         </div>
 
         {{ $this->form }}

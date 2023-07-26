@@ -1,7 +1,11 @@
 <div {{ $attributes->merge(['class' => 'relative inline-block text-left']) }}
-    x-data="{ open: false }" @click.outside="open = false" @close.stop="open = false"
+    x-data="{ open: false }"
+    @close.stop="open = false"
+    @click.outside="open = false"
+    @keydown.escape.window="open = false"
     {{ $attributes->only('wire:key') }}>
-    <div class="cursor-pointer focus:outline-none" x-on:click="open = !open">
+
+    <div class="cursor-pointer focus:outline-none" @click="open = !open">
         @if (isset($trigger))
             {{ $trigger }}
         @else
@@ -27,7 +31,7 @@
             'z-30 absolute mt-2 whitespace-nowrap'
         ]) }}
         style="display: none;"
-        @unless($persistent) x-on:click="close" @endunless>
+        @unless($persistent) @click="open = !open" @endunless>
         <div class="relative {{ $height }} soft-scrollbar overflow-auto border border-secondary-200
                     rounded-lg shadow-lg p-1 bg-white dark:bg-secondary-800 dark:border-secondary-600">
             {{ $slot }}
