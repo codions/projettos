@@ -72,4 +72,22 @@ class Doc extends Model
 
         return $query->whereNot('visibility', 'private');
     }
+
+    public function duplicateWithVersions(?string $suffix = ' (copy)')
+    {
+        $duplicateDoc = $this->replicate();
+
+        if (is_string($suffix)) {
+            $duplicateDoc->title = $this->title . $suffix;
+        }
+
+        $duplicateDoc->slug = $this->generateUniqueSlug($this->slug);
+        $duplicateDoc->save();
+
+        $this->versions->each(function (DocVersion $version) use ($duplicateDoc) {
+            $version->duplicateWithPages($duplicateDoc, null);
+        });
+
+        return $duplicateDoc;
+    }
 }

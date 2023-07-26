@@ -31,7 +31,6 @@ class DocPage extends Model
         'visibility',
         'project_id',
         'doc_id',
-        'chapter_id',
         'parent_id',
         'version_id',
         'user_id',
@@ -105,9 +104,36 @@ class DocPage extends Model
     public function editUrl(): Attribute
     {
         return Attribute::make(fn () => route('docs.builder', [
-            'slug' => $this->doc->slug,
+            'docSlug' => $this->doc->slug,
             'versionId' => $this->version_id,
             'pageId' => $this->id,
         ]));
+    }
+
+    public function duplicateWithSubpages(DocVersion $version = null, DocPage $parent = null, ?string $suffix = ' (copy)'): self
+    {
+        $duplicatePage = $this->replicate();
+
+        if (is_string($suffix)) {
+            $duplicatePage->title = $this->title . $suffix;
+        }
+
+        $duplicatePage->slug = $this->generateUniqueSlug($this->slug);
+        $duplicatePage->parent_id = $parent ? $parent->id : null;
+
+        if ($version instanceof DocVersion) {
+            $duplicatePage->doc_id = $version->doc_id;
+            $duplicatePage->version_id = $version->id;
+        }
+
+        $duplicatePage->save();
+
+        if ($this->pages->isNotEmpty()) {
+            $this->pages->each(function ($subpage) use ($version, $duplicatePage) {
+                $subpage->duplicateWithSubpages($version, $duplicatePage, null);
+            });
+        }
+
+        return $duplicatePage;
     }
 }
