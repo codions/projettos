@@ -16,17 +16,7 @@
                     <x-dropdown.item icon="cog" :label="__('Settings')" wire:click="$emit('openModal', 'modals.docs.pages.settings', {{ json_encode(['page' => $page->id]) }})" />
                     <x-dropdown.item separator icon="link" :label="__('URL')" target="_blank" :href="$page->public_url" />
                     <x-dropdown.item separator icon="document-duplicate" :label="__('Duplicate')" wire:click="duplicate" />
-                    <x-dropdown.item separator icon="trash" :label="__('Delete')" x-on:confirm="{
-                        title: '{{ __('Are you sure you want to delete this doc?') }}',
-                        icon: 'warning',
-                        accept: {
-                            label: 'Yes, delete it!',
-                            method: 'delete',
-                        },
-                        reject: {
-                            label: 'No, cancel',
-                        }
-                    }" />
+                    <x-dropdown.item separator icon="trash" :label="__('Delete')" wire:click="$emit('openModal', 'modals.docs.pages.delete', {{ json_encode(['page' => $page->id]) }})" />
                 </x-dropdown>
             </div>
         </div>
