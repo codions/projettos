@@ -35,7 +35,7 @@ class Builder extends Component
     protected $listeners = [
         'refresh' => '$refresh',
         'updatedDoc' => '$refresh',
-        'version:deleted' => 'deletedVersion',
+        'page:deleted' => '$refresh',
         'loadPage',
         'loadVersion',
     ];
@@ -131,7 +131,7 @@ class Builder extends Component
         $this->page = DocPage::loadTranslation($locale)
             ->canBeHandledForCurrentUser()
             ->where('id', $id)
-            ->firstOrFail();
+            ->first();
 
         $this->emit('page:loaded');
     }
@@ -158,11 +158,15 @@ class Builder extends Component
         return redirect()->to($page->edit_url);
     }
 
-    public function deletedVersion($deletedId)
+    public function duplicate($pageId)
     {
-        // if ($this->versionId === $deletedId) {
-        //     return redirect()->to($this->doc->edit_url);
-        // }
+        $page = DocPage::canBeHandledForCurrentUser()
+            ->where('id', $pageId)
+            ->firstOrFail();
+
+        $new = $page->duplicateWithSubpages();
+
+        return redirect()->to($new->edit_url);
     }
 
     public function render(): \Illuminate\Contracts\View\View

@@ -101,9 +101,14 @@
                         </thead>
                         <tbody>
                             @foreach($versions as $version)
-                            <tr class="border-t dark:bg-gray-900 dark:border-gray-700 {{ ($version->id === $versionId) ? 'bg-red-100' : 'bg-white' }}">
+                            @php $isCurrent = ($version->id === $currentVersionId) @endphp
+
+                            <tr class="border-t dark:bg-gray-900 dark:border-gray-700 bg-white">
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     <button type="button" wire:click="$emit('loadVersion', {{ $version->id }})" class="text-sm text-gray-500 hover:underline">{{ $version->title }}</button>
+                                    @if($isCurrent)
+                                        <span class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{{ trans('Current') }}</span>
+                                    @endif
                                 </th>
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     <button type="button" wire:click="$emit('loadVersion', {{ $version->id }})" class="text-sm text-gray-500 hover:underline">{{ $version->slug }}</button>
@@ -119,9 +124,11 @@
                                     <button wire:click="editVersion({{ $version->id }})" class="font-medium hover:text-blue-600 dark:text-blue-500">
                                         <x-icon-svg name="pencil-alt" class="w-4 h-4" />
                                     </button>
-                                    <button wire:click="$set('idForDeletion', {{ $version->id }})" class="font-medium hover:text-red-600 dark:text-red-500">
-                                        <x-icon-svg name="trash" class="w-4 h-4" />
-                                    </button>
+                                    @if(!$isCurrent)
+                                        <button wire:click="$set('idForDeletion', {{ $version->id }})" class="font-medium hover:text-red-600 dark:text-red-500">
+                                            <x-icon-svg name="trash" class="w-4 h-4" />
+                                        </button>
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach
