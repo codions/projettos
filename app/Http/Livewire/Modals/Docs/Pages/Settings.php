@@ -170,14 +170,4 @@ class Settings extends ModalComponent implements Forms\Contracts\HasForms
 
         $this->closeModal();
     }
-
-    public static function closeModalOnClickAway(): bool
-    {
-        return false;
-    }
-
-    public static function closeModalOnEscape(): bool
-    {
-        return false;
-    }
 }

@@ -134,14 +134,4 @@ class Manage extends ModalComponent
         $this->reset('state');
         $this->displayForm = ! $this->displayForm;
     }
-
-    public static function closeModalOnClickAway(): bool
-    {
-        return false;
-    }
-
-    public static function closeModalOnEscape(): bool
-    {
-        return false;
-    }
 }
