@@ -3,13 +3,13 @@
 namespace App\Http\Livewire\Docs;
 
 use App\Models\Doc;
-use Carbon\Carbon;
+use App\Models\Project;
 use DB;
 use Filament\Forms;
+use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\RichEditor;
 use Filament\Notifications\Notification;
-use Illuminate\Support\Str;
 use Livewire\Component;
 
 class Edit extends Component implements Forms\Contracts\HasForms
@@ -22,7 +22,15 @@ class Edit extends Component implements Forms\Contracts\HasForms
 
     public ?string $title;
 
+    public ?string $slug;
+
     public ?string $description;
+
+    public ?int $project_id;
+
+    public ?string $visibility;
+
+    public bool $editSlug = false;
 
     protected $listeners = ['save'];
 
@@ -30,7 +38,10 @@ class Edit extends Component implements Forms\Contracts\HasForms
     {
         $this->fill([
             'title' => $this->doc->title,
+            'slug' => $this->doc->slug,
             'description' => $this->doc->description,
+            'project_id' => $this->doc->project_id,
+            'visibility' => $this->doc->visibility,
         ]);
     }
 
@@ -39,8 +50,48 @@ class Edit extends Component implements Forms\Contracts\HasForms
         return [
             Grid::make(6)
                 ->schema([
+                    Forms\Components\TextInput::make('slug')
+                        ->label('Slug')
+                        ->required()
+                        ->hidden(! $this->editSlug)
+                        ->columnSpanFull(),
+
                     RichEditor::make('description')
                         ->columnSpanFull(),
+
+                    Forms\Components\Select::make('project_id')
+                        ->label('Project')
+                        ->options(Project::query()->pluck('title', 'id'))
+                        ->columnSpanFull(),
+
+                    Fieldset::make(trans('Visibility'))
+                        ->schema([
+                            Forms\Components\Radio::make('visibility')
+                                ->label('')
+                                ->options([
+                                    'public' => 'Public',
+                                    'unlisted' => 'Unlisted',
+                                    'private' => 'Private',
+                                ])
+                                ->descriptions([
+                                    'public' => 'Visible on project page to anyone',
+                                    'unlisted' => 'Only for whoever has the link',
+                                    'private' => 'Visible only to owner',
+                                ])
+                                ->default('public')
+                                ->columnSpanFull(),
+                        ])
+                        ->columns(6),
+
+                    Forms\Components\Placeholder::make('created_at')
+                        ->label('Created at')
+                        ->content(fn () => $this->doc->created_at->format('d-m-Y H:i:s'))
+                        ->columnSpan(3),
+
+                    Forms\Components\Placeholder::make('updated_at')
+                        ->label('Updated at')
+                        ->content(fn () => $this->doc->updated_at->format('d-m-Y H:i:s'))
+                        ->columnSpan(3),
                 ]),
         ];
     }
@@ -54,13 +105,21 @@ class Edit extends Component implements Forms\Contracts\HasForms
     {
         DB::beginTransaction();
 
-        $data = $this->form->getState();
+        $state = $this->form->getState();
+
+        $data = [
+            'title' => $this->title,
+            'description' => $state['description'],
+            'project_id' => $state['project_id'],
+            'visibility' => $state['visibility'],
+        ];
+
+        if (isset($state['slug'])) {
+            $data['slug'] = $state['slug'];
+        }
 
         try {
-            $this->doc->update([
-                'title' => $this->title,
-                'description' => $data['description'],
-            ]);
+            $this->doc->update($data);
 
             DB::commit();
 
@@ -74,11 +133,7 @@ class Edit extends Component implements Forms\Contracts\HasForms
 
     public function duplicate()
     {
-        $new = $this->doc->replicate();
-        $new->title = $this->doc->title . ' (Copy)';
-        $new->slug = Str::slug($new->title . '-' . Str::random(5));
-        $new->created_at = Carbon::now();
-        $new->save();
+        $new = $this->doc->duplicateWithVersions();
 
         return redirect()->to($new->edit_url);
     }

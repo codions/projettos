@@ -13,8 +13,7 @@
             <div class='flex items-center justify-center'>
                 <x-button wire:click="save" md primary :label="__('Save')" class="mr-1" />
                 <x-dropdown>
-                    <x-dropdown.item icon="cog" :label="__('Settings')" wire:click="$emit('openModal', 'modals.docs.settings', {{ json_encode(['doc' => $doc->id]) }})" />
-                    <x-dropdown.item separator icon="link" :label="__('URL')" target="_blank" :href="$doc->public_url" />
+                    <x-dropdown.item icon="link" :label="__('URL')" target="_blank" :href="$doc->public_url" />
                     <x-dropdown.item separator icon="document-duplicate" :label="__('Duplicate')" wire:click="duplicate" />
                     <x-dropdown.item separator icon="trash" :label="__('Delete')" x-on:confirm="{
                         title: '{{ __('Are you sure you want to delete this doc?') }}',
@@ -32,11 +31,11 @@
         </div>
     </div>
 
-    <div class="px-2 pb-2 editor-panel">
+    <div class="px-2 pb-2">
 
         <div class="flex items-center py-2">
             <x-icon-svg name="external-link" solid class="h-4 w-4 text-gray-500 dark:text-gray-300 mr-1" />
-            <button wire:click="$emit('openModal', 'modals.docs.settings', {{ json_encode(['doc' => $doc->id]) }})" class="text-gray-400 dark:text-gray-500 hover:underline">
+            <button wire:click="$toggle('editSlug', true)" class="text-gray-400 dark:text-gray-500 hover:underline">
                 {{ $doc->public_url }}
             </button>
         </div>
