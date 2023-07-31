@@ -13,7 +13,8 @@ trait Sluggable
     {
         return SlugOptions::create()
             ->generateSlugsFrom($this->getSlugFromFieldName())
-            ->saveSlugsTo($this->getSlugFieldName());
+            ->saveSlugsTo($this->getSlugFieldName())
+            ->doNotGenerateSlugsOnUpdate();
     }
 
     private function getSlugFromFieldName()
