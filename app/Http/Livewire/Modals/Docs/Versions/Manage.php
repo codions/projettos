@@ -21,14 +21,10 @@ class Manage extends ModalComponent
         'slug' => null,
     ];
 
-    public $versionId;
+    public $currentVersionId;
 
     protected $listeners = [
         'version:loaded' => 'closeModal',
-    ];
-
-    protected $queryString = [
-        'versionId',
     ];
 
     public $idForDeletion = null;

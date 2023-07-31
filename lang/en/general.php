@@ -8,6 +8,7 @@ return [
     'recent-comments' => 'Recent comments',
     'all-caught-up-title' => 'Nothing here yet',
 
+    'delete' => 'Delete',
     'create' => 'Create',
     'edit' => 'Edit',
     'close' => 'Close',

@@ -2,7 +2,6 @@
 
 namespace App\View\Components\Dropdown;
 
-use Illuminate\Support\Str;
 use Illuminate\View\Component;
 
 class Item extends Component

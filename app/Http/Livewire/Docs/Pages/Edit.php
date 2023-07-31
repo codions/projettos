@@ -3,13 +3,11 @@
 namespace App\Http\Livewire\Docs\Pages;
 
 use App\Models\DocPage;
-use Carbon\Carbon;
 use DB;
 use Filament\Forms;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\RichEditor;
 use Filament\Notifications\Notification;
-use Illuminate\Support\Str;
 use Livewire\Component;
 
 class Edit extends Component implements Forms\Contracts\HasForms
@@ -62,11 +60,7 @@ class Edit extends Component implements Forms\Contracts\HasForms
 
     public function duplicate()
     {
-        $new = $this->page->replicate();
-        $new->title = $this->page->title . ' (Copy)';
-        $new->slug = Str::slug($new->title . '-' . Str::random(5));
-        $new->created_at = Carbon::now();
-        $new->save();
+        $new = $this->page->duplicateWithSubpages();
 
         return redirect()->to($new->edit_url);
     }

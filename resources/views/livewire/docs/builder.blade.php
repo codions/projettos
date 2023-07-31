@@ -17,14 +17,18 @@
                     @endforeach
                 </select>
 
-                <button wire:click="$emit('openModal', 'modals.docs.versions.manage', {{ json_encode(['doc' => $doc->id]) }})" class="block w-full py-1 items-center text-gray-800 border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 text-sm rounded-lg shadow-sm">
+                <button wire:click="$emit('openModal', 'modals.docs.versions.manage', {{ json_encode(['doc' => $doc->id, 'currentVersionId' => $version?->id]) }})" class="block w-full py-1 items-center text-gray-800 border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 text-sm rounded-lg shadow-sm">
                     <span>{{ $version?->title ?? trans('No version created') }}</span>
                 </button>
             </div>
             <ul class="space-y-4 -mx-3">
                 @foreach($chapters as $chapter)
-                <li class="space-y-1">
-                    <li class="flex items-center justify-between text-gray-900 rounded-md dark:text-white group page-item">
+                @php $isCurrentChapter = (boolean) ($chapter->id === $pageId) @endphp
+                <li class="">
+                    <li @class([
+                        'flex items-center justify-between px-2 py-1 text-gray-900 rounded-md dark:text-white hover:bg-gray-100 group page-item',
+                        'bg-gray-100' => $isCurrentChapter,
+                    ])>
                         <div class="flex items-center space-x-2">
                             <x-icon-svg name="hashtag" class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
                             <span wire:click="$emit('loadPage', {{ $chapter->id }})" class="cursor-pointer hover:underline font-bold">{{ $chapter->title }}</span>
@@ -33,13 +37,19 @@
                             <x-slot name="trigger">
                                 <x-icon-svg class="trigger w-4 h-4 text-secondary-500 hover:text-secondary-700 dark:hover:text-secondary-600 transition duration-150 ease-in-out" name="dots-vertical" />
                             </x-slot>
-                            <x-dropdown.item wire:click="newPage({{ $chapter->id }})" icon="document-add" :label="__('New page')" />
+                            <x-dropdown.item wire:click="newPage({{ $chapter->id }})" icon="document-add" :label="__('New subpage')" />
                             <x-dropdown.item icon="cog" :label="__('Settings')" wire:click="$emit('openModal', 'modals.docs.pages.settings', {{ json_encode(['page' => $chapter->id]) }})" />
+                            <x-dropdown.item icon="document-duplicate" :label="__('Duplicate')" wire:click="duplicate({{ $chapter->id }})" />
+                            <x-dropdown.item icon="trash" :label="__('Delete')" wire:click="$emit('openModal', 'modals.docs.pages.delete', {{ json_encode(['page' => $chapter->id]) }})" />
                         </x-dropdown>
                     </li>
                     <ul class="pl-1 border-l-2 dark:border-gray-600 space-y-2">
                         @foreach($chapter->pages as $item)
-                        <li class="flex items-center justify-between px-2 py-1 text-gray-900 rounded-md dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group page-item">
+                        @php $isCurrentPage = (boolean) ($item->id === $pageId) @endphp
+                        <li @class([
+                            'flex items-center justify-between px-2 py-1 text-gray-900 rounded-md dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group page-item',
+                            'bg-gray-100' => $isCurrentPage,
+                        ])>
                             <div class="flex items-center space-x-2">
                                 <x-icon-svg name="hashtag" class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
                                 <span wire:click="$emit('loadPage', {{ $item->id }})" class="cursor-pointer hover:underline">{{ $item->title }}</span>
@@ -49,6 +59,8 @@
                                     <x-icon-svg class="trigger w-4 h-4 text-secondary-500 hover:text-secondary-700 dark:hover:text-secondary-600 transition duration-150 ease-in-out" name="dots-vertical" />
                                 </x-slot>
                                 <x-dropdown.item icon="cog" :label="__('Settings')" wire:click="$emit('openModal', 'modals.docs.pages.settings', {{ json_encode(['page' => $item->id]) }})" />
+                                <x-dropdown.item icon="document-duplicate" :label="__('Duplicate')" wire:click="duplicate({{ $item->id }})" />
+                                <x-dropdown.item icon="trash" :label="__('Delete')" wire:click="$emit('openModal', 'modals.docs.pages.delete', {{ json_encode(['page' => $item->id]) }})" />
                             </x-dropdown>
                         </li>
                         @endforeach
@@ -71,7 +83,11 @@
         @if(empty($pageId))
             <livewire:docs.edit :doc="$doc" :locale="$locale" :wire:key="'doc-'.$doc->id" />
         @else
-            <livewire:docs.pages.edit :page="$page" :locale="$locale" :wire:key="'page-'.$page->id" />
+            @if(is_null($page))
+                {{ trans('The page you are trying to edit could not be found.') }}
+            @else
+                <livewire:docs.pages.edit :page="$page" :locale="$locale" :wire:key="'page-'.$page->id" />
+            @endif
         @endif
     </main>
 </div>
