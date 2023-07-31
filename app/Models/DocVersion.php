@@ -73,6 +73,15 @@ class DocVersion extends Model
         return $duplicateVersion;
     }
 
+    public function publicUrl(): Attribute
+    {
+        return Attribute::make(fn () => route('docs.show', [
+            'docSlug' => $this->doc->slug,
+            'locale' => 'en',
+            'versionSlug' => $this->slug,
+        ]));
+    }
+
     public function editUrl(): Attribute
     {
         return Attribute::make(fn () => route('docs.builder', [

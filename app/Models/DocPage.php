@@ -88,6 +88,7 @@ class DocPage extends Model
         if ($this->is_root) {
             return Attribute::make(fn () => route('docs.show', [
                 'docSlug' => $this->doc->slug,
+                'locale' => 'en',
                 'versionSlug' => $this->version->slug,
                 'chapterSlug' => $this->slug,
             ]));
@@ -95,6 +96,7 @@ class DocPage extends Model
 
         return Attribute::make(fn () => route('docs.show', [
             'docSlug' => $this->doc->slug,
+            'locale' => 'en',
             'versionSlug' => $this->version->slug,
             'chapterSlug' => $this->parent->slug,
             'pageSlug' => $this->slug,

@@ -56,7 +56,10 @@ class Doc extends Model
 
     public function publicUrl(): Attribute
     {
-        return Attribute::make(fn () => route('docs.show', ['docSlug' => $this->slug]));
+        return Attribute::make(fn () => route('docs.show', [
+            'docSlug' => $this->slug,
+            'locale' => 'en',
+        ]));
     }
 
     public function editUrl(): Attribute

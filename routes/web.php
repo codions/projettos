@@ -3,7 +3,7 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\PasswordProtectionController;
 use App\Http\Controllers\Auth\VerificationController;
-use App\Http\Controllers\DocumentationController;
+use App\Http\Controllers\DocsController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ItemEmailUnsubscribeController;
 use App\Http\Controllers\MentionSearchController;
@@ -65,7 +65,7 @@ Route::group(['prefix' => '/projects', 'as' => 'projects.'], function () {
 
 Route::group(['prefix' => '/docs', 'as' => 'docs.'], function () {
     Route::get('/', DocsIndex::class)->name('index');
-    Route::get('/{docSlug}/{versionSlug?}/{chapterSlug?}/{pageSlug?}', DocumentationController::class)
+    Route::get('/{docSlug}/{locale?}/{versionSlug?}/{chapterSlug?}/{pageSlug?}', DocsController::class)
         ->where('slug', '.*')
         ->name('show');
 });
